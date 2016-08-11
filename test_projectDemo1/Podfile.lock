@@ -1,0 +1,30 @@
+PODS:
+  - Alamofire (3.4.1)
+  - GPUImage (0.1.7)
+  - Kingfisher (2.4.2)
+  - MJRefresh (3.1.12)
+  - PKHUD (3.2.1)
+  - PullToRefreshKit (0.3.1)
+  - QKLockView (0.0.2)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.4)
+  - GPUImage
+  - Kingfisher
+  - MJRefresh
+  - PKHUD
+  - PullToRefreshKit
+  - QKLockView
+
+SPEC CHECKSUMS:
+  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
+  Kingfisher: 05bf8d04408aaa70fcd2c8c81b9f1d0f1ad313dd
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  PKHUD: 001c11518f125a273ddf026bcc64918423744ea2
+  PullToRefreshKit: c60ad73569b8c6791b1833e9b02631a676a6f944
+  QKLockView: ee5bf740efca5f6edfcc1aba7febb05204d7c78f
+
+PODFILE CHECKSUM: 4ed1b7b66ae9278d27bb5c5f86399cc70e976003
+
+COCOAPODS: 1.1.0.beta.1

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyQrCodeScanVC" customModule="test_projectDemo1" customModuleProvider="target">
+            <connections>
+                <outlet property="scanQrCodeView" destination="Q58-9S-HAc" id="TRq-33-NkU"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q58-9S-HAc" userLabel="顶部View" customClass="MyQrCodeScanView" customModule="test_projectDemo1" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4oA-04-vVA" userLabel="底部View">
+                    <rect key="frame" x="0.0" y="464" width="600" height="136"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IwD-2I-wit">
+                            <rect key="frame" x="554" y="106" width="46" height="30"/>
+                            <state key="normal" title="Button"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fbI-B4-mae">
+                            <rect key="frame" x="0.0" y="49" width="65" height="87"/>
+                            <state key="normal" image="album_normal"/>
+                            <state key="selected" image="album_select"/>
+                            <connections>
+                                <action selector="albumAction:" destination="-1" eventType="touchUpInside" id="BtX-cX-r5j"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oQ3-vL-sap">
+                            <rect key="frame" x="268" y="49" width="65" height="87"/>
+                            <state key="normal" image="openLight_normal"/>
+                            <state key="selected" image="openLight_select"/>
+                            <connections>
+                                <action selector="openLightAction:" destination="-1" eventType="touchUpInside" id="roW-n5-T6f"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xDJ-fk-Nm5">
+                            <rect key="frame" x="270" y="-4" width="60" height="30"/>
+                            <state key="normal" title="开始扫描"/>
+                            <connections>
+                                <action selector="beginScanAction:" destination="-1" eventType="touchUpInside" id="tmI-Cg-sbZ"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.96078431369999995" green="0.4431372549" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="oQ3-vL-sap" firstAttribute="centerX" secondItem="4oA-04-vVA" secondAttribute="centerX" id="9tD-V1-jT1"/>
+                        <constraint firstItem="xDJ-fk-Nm5" firstAttribute="centerX" secondItem="4oA-04-vVA" secondAttribute="centerX" id="Ivg-Le-M5D"/>
+                        <constraint firstItem="oQ3-vL-sap" firstAttribute="top" secondItem="xDJ-fk-Nm5" secondAttribute="bottom" constant="23" id="Jkl-iz-KBN"/>
+                        <constraint firstAttribute="height" constant="136" id="QNa-LK-ALH"/>
+                        <constraint firstAttribute="trailing" secondItem="IwD-2I-wit" secondAttribute="trailing" id="ZBe-1h-1gp"/>
+                        <constraint firstAttribute="bottom" secondItem="fbI-B4-mae" secondAttribute="bottom" id="cfG-1R-M7d"/>
+                        <constraint firstAttribute="bottom" secondItem="IwD-2I-wit" secondAttribute="bottom" id="dFs-8C-pmV"/>
+                        <constraint firstItem="fbI-B4-mae" firstAttribute="leading" secondItem="4oA-04-vVA" secondAttribute="leading" id="fPM-aD-Ul3"/>
+                        <constraint firstAttribute="bottom" secondItem="oQ3-vL-sap" secondAttribute="bottom" id="oje-FM-kFg"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="4oA-04-vVA" secondAttribute="trailing" id="EeV-ra-h8T"/>
+                <constraint firstAttribute="bottom" secondItem="Q58-9S-HAc" secondAttribute="bottom" id="FhE-NX-Eag"/>
+                <constraint firstItem="Q58-9S-HAc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="SMc-eE-OzJ"/>
+                <constraint firstAttribute="trailing" secondItem="Q58-9S-HAc" secondAttribute="trailing" id="VOt-PO-REr"/>
+                <constraint firstItem="Q58-9S-HAc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="bIc-9V-95e"/>
+                <constraint firstItem="4oA-04-vVA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="o0N-79-05k"/>
+                <constraint firstAttribute="bottom" secondItem="4oA-04-vVA" secondAttribute="bottom" id="oUh-Gk-pgJ"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="album_normal" width="65" height="87"/>
+        <image name="album_select" width="65" height="87"/>
+        <image name="openLight_normal" width="65" height="87"/>
+        <image name="openLight_select" width="65" height="87"/>
+    </resources>
+</document>

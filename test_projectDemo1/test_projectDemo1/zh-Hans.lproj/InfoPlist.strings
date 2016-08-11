@@ -1,0 +1,8 @@
+//  国际化
+//  导入语言后，LaunchXib、MainSB自动变化
+
+// 1. 设置App名称国际化
+
+// "CFBundleDisplayName" = "中文名字";
+
+// "CFBundleDisplayName" = "EnglishName";
