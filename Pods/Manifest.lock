@@ -5,7 +5,7 @@ PODS:
   - MJRefresh (3.1.12)
   - PKHUD (3.2.1)
   - PullToRefreshKit (0.3.1)
-  - QKLockView (0.0.2)
+  - QKLockView (0.0.4)
 
 DEPENDENCIES:
   - Alamofire (~> 3.4)
@@ -23,7 +23,7 @@ SPEC CHECKSUMS:
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   PKHUD: 001c11518f125a273ddf026bcc64918423744ea2
   PullToRefreshKit: c60ad73569b8c6791b1833e9b02631a676a6f944
-  QKLockView: ee5bf740efca5f6edfcc1aba7febb05204d7c78f
+  QKLockView: 9819d491c76369f88761781783aad6f1ad4e98a6
 
 PODFILE CHECKSUM: 4ed1b7b66ae9278d27bb5c5f86399cc70e976003
 

@@ -8,7 +8,7 @@
 
 import UIKit
 import Kingfisher
-
+import QKLockView
 
 class GuideVC: UIViewController,UIScrollViewDelegate {
     
@@ -106,6 +106,10 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
 //        gifWebView.scalesPageToFit = true
 //        gifWebView.loadData(gifData!, MIMEType: "image/gif", textEncodingName: "uft-8", baseURL: gifPath!)
         self.view.addSubview(gifWebView)
+        
+        // 10. 测试QKLockView
+//        let lv = QKLockView()
+        
         
     }
     
