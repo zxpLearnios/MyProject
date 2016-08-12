@@ -10,6 +10,7 @@ import UIKit
 import Kingfisher
 import QKLockView
 
+
 class GuideVC: UIViewController,UIScrollViewDelegate {
     
     private let im  = UIImageView(), scroller = UIScrollView(), timeBtn = UIButton(), downloadBtn = UIButton(), bgimageV = UIImageView(), useNowBtn = UIButton(), takePhotoBtn = UIButton(), scanBtn = UIButton()
@@ -25,10 +26,11 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
     
     var request:MyBaseNetWorkRequest!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
-        
+       
         let date0 = NSDate()
         let date1 = date0.dateByAddingTimeInterval(10)
         let date2 = date0.dateByAddingTimeInterval(20)
@@ -52,6 +54,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
             return value0 < value1
         }
         
+        
         // 0.1 测试Array的扩展
         var ary:[CGFloat] = [23, 30,35, 10, 30, -48, 38, 1.7]
 //        ary.binarySort(&ary, isAscending: false)
@@ -63,6 +66,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
 //        bgimageV.width = 10
         bgimageV.image = UIImage(named: "guide_bg0")
         self.view.addSubview(bgimageV)
+        
         
         
         // 3.
@@ -108,7 +112,11 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
         self.view.addSubview(gifWebView)
         
         // 10. 测试QKLockView
-//        let lv = QKLockView()
+        
+        let lv = QKLockView()
+        lv.frame = CGRectMake(10, 100, 300, 310)
+        lv.backgroundColor = UIColor.redColor()
+        self.view.addSubview(lv)
         
         
     }

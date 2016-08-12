@@ -931,6 +931,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5961C32E7DAFAD221F168102 /* Pods-test_projectDemo1.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -941,6 +942,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "test_projectDemo1/test_projectDemo1-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USER_HEADER_SEARCH_PATHS = "";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "";
 			};
 			name = Debug;
 		};
@@ -948,6 +951,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5FE4FD1EFFF96503DF3E9868 /* Pods-test_projectDemo1.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -957,6 +961,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quarkfinai.test-projectDemo1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "test_projectDemo1/test_projectDemo1-Bridging-Header.h";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};

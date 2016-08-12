@@ -18,6 +18,7 @@ Pod::Spec.new do |s|
   s.dependencies =	pod "PKHUD"
   s.dependencies =	pod "GPUImage"
   s.dependencies =	pod "PullToRefreshKit"
-  s.dependencies =	pod "Kingfisher"
+  s.dependencies =	pod "Kingfisher"        # SDWebImaged的swift版本
+  s.dependencies =	pod "QKLockView"
 
 end

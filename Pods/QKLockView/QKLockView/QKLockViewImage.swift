@@ -29,7 +29,6 @@ class QKLockViewImage: NSObject {
         if let image = image {
             return image
         }
-        
         return UIImage()
     }
 
