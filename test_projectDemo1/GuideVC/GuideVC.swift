@@ -71,6 +71,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
         
         // 3.
 //        self.addScrollerView()
+        
         self.addTimeButton()
         self.addDownloadBtn()
         
@@ -98,25 +99,28 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
         gifView.frame = fm
         gifView.showGifWithNoSuffixName(gifName: "test")
 //        self.view.addSubview(gifView)
+        
         let gv = MyGifView.shareInstance
-        
         let gifWebView = MyGifWebView.init(frame:CGRectMake(10, 100, 200, 200))
-        
-        gifWebView.loadGif(withGifName: "test")
+//        gifWebView.loadGif(withGifName: "test")
         
 //        let gifPath = NSBundle.mainBundle().URLForResource("test.gif", withExtension: nil)
 //        
 //        let gifData = NSData.init(contentsOfURL: gifPath!)
 //        gifWebView.scalesPageToFit = true
 //        gifWebView.loadData(gifData!, MIMEType: "image/gif", textEncodingName: "uft-8", baseURL: gifPath!)
-        self.view.addSubview(gifWebView)
+//        self.view.addSubview(gifWebView)
         
         // 10. 测试QKLockView
         
         let lv = QKLockView()
         lv.frame = CGRectMake(10, 100, 300, 310)
         lv.backgroundColor = UIColor.redColor()
-        self.view.addSubview(lv)
+//        self.view.addSubview(lv)
+        
+        // 11. 
+        let hStr = String.deleteBlankFromHeadAndTail(primordailStr: "   123   ")
+        
         
         
     }
@@ -221,13 +225,13 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
     func downloadBtnAction(btu: UIButton){
         
         // 7. 测试NetWorkTool
-        //        request = MyBaseNetWorkRequest() // http://www.hangge.com/upload.php
-        //        var path = ""
+                request = MyBaseNetWorkRequest() // http://www.hangge.com/upload.php
+                var path = ""
         
-        //        let fileUrl = NSBundle.mainBundle().URLForResource("upload", withExtension: "png")
-        //        path = "http://www.hangge.com/upload.php"
+                let fileUrl = NSBundle.mainBundle().URLForResource("背叛情歌", withExtension: "mp3") // upload
+                path = "http://www.hangge.com/upload.php"
         // 上传单个文件
-        //        request.uploadOneFile(withFileUrl: fileUrl!, andUploadPath: path, scriptName: "icon_png")
+                request.uploadOneFile(withFileUrl: fileUrl!, andUploadPath: path, scriptName: "icon_png")
         
         // 上传多个文件
         //        let test = "test".dataUsingEncoding(NSUTF8StringEncoding)
@@ -235,16 +239,16 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
         //
         //        let files = [test!, num!, fileUrl!]
         //        let names = ["name0", "name1", "name2"]
-        //        request.uploadMoreFileByMutiData(fileURLs: files, scriptNames: names, andUploadPath: path)
+//                request.uploadMoreFileByMutiData(fileURLs: files, scriptNames: names, andUploadPath: path)
         
         // 下载
         //        path =  "http://www.hangge.com/blog/images/logo.png"
         //        path = "https://c2.staticflickr.com/4/3345/5832660048_55f8b0935b.jpg" // 图片
-        //        path = "http://v1.mukewang.com/a45016f4-08d6-4277-abe6-bcfd5244c201/L.mp4" // 视频
+//                path = "http://v1.mukewang.com/a45016f4-08d6-4277-abe6-bcfd5244c201/L.mp4" // 视频
         //        path = "http://dldir1.qq.com/qqfile/qq/QQ7.9/16621/QQ7.9.exe" // 文件
         //        request.downloadWithResourcePath(path)
         //        request.downloadWithDefaultDownloadDestination(path)
-        //        request.downloadResource(path)
+//                request.downloadResource(path)
         //        request.downloadResourceByResumeData(resourcePath: path) // 断点续传 --> 下载
         
         //        request.downloadResource(withPath: path, savePath: "Files", saveName: "firstFile")
@@ -252,6 +256,12 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
         // 压缩图片
         //        let originImg = UIImage(named: "guide_bg2")!
         //        let newImg = request.compressImage(originImg, scale: 0.5)
+        
+        
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+        dispatch_after(time, dispatch_get_main_queue()) {
+            self.request.cancleAllRequest()
+        }
         
     }
 

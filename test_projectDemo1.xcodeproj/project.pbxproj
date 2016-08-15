@@ -71,6 +71,8 @@
 		546F7F471D51F9F200B9565C /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F7F411D51F9F100B9565C /* MyLabel.swift */; };
 		546F7F491D51FA2100B9565C /* MyDefaultCameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F7F481D51FA2100B9565C /* MyDefaultCameraVC.swift */; };
 		5486F7A31D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */; };
+		549488801D61A52700C1E3A8 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5494887F1D61A52700C1E3A8 /* String+extension.swift */; };
+		549488821D61AC8100C1E3A8 /* MySystemRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549488811D61AC8100C1E3A8 /* MySystemRequest.swift */; };
 		54B9CE2C1D41F655005D7EC2 /* MyImagePickerController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54B9CE2B1D41F655005D7EC2 /* MyImagePickerController.storyboard */; };
 		54B9CE2E1D421731005D7EC2 /* MyAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9CE2D1D421731005D7EC2 /* MyAlbumViewController.swift */; };
 		54B9CE311D42176F005D7EC2 /* MyAlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9CE2F1D42176F005D7EC2 /* MyAlbumTableViewCell.swift */; };
@@ -184,6 +186,8 @@
 		546F7F411D51F9F100B9565C /* MyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
 		546F7F481D51FA2100B9565C /* MyDefaultCameraVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyDefaultCameraVC.swift; sourceTree = "<group>"; };
 		5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBaseNetWorkRequest.swift; sourceTree = "<group>"; };
+		5494887F1D61A52700C1E3A8 /* String+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
+		549488811D61AC8100C1E3A8 /* MySystemRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySystemRequest.swift; sourceTree = "<group>"; };
 		54B9CE2B1D41F655005D7EC2 /* MyImagePickerController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MyImagePickerController.storyboard; sourceTree = "<group>"; };
 		54B9CE2D1D421731005D7EC2 /* MyAlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAlbumViewController.swift; sourceTree = "<group>"; };
 		54B9CE2F1D42176F005D7EC2 /* MyAlbumTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAlbumTableViewCell.swift; sourceTree = "<group>"; };
@@ -483,6 +487,7 @@
 			isa = PBXGroup;
 			children = (
 				5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */,
+				549488811D61AC8100C1E3A8 /* MySystemRequest.swift */,
 			);
 			path = NetWorkRequest;
 			sourceTree = "<group>";
@@ -506,6 +511,7 @@
 				5460F13D1D58366200F4E304 /* UIImage+extension.swift */,
 				5460F13F1D58631F00F4E304 /* UIImageView+extension.swift */,
 				5460F1411D58698A00F4E304 /* UIWebView+extension.swift */,
+				5494887F1D61A52700C1E3A8 /* String+extension.swift */,
 			);
 			path = "category&extension";
 			sourceTree = "<group>";
@@ -758,6 +764,7 @@
 				545CE14D1D4065DA007A3DE0 /* GuideVC.swift in Sources */,
 				5465395E1D01213900BD2F87 /* MySuperVC.swift in Sources */,
 				5460F1501D58855100F4E304 /* MyGifWebView.swift in Sources */,
+				549488821D61AC8100C1E3A8 /* MySystemRequest.swift in Sources */,
 				545CE1631D4065FD007A3DE0 /* Khowledge.swift in Sources */,
 				545CE1681D406BF9007A3DE0 /* UIViewController+extension.swift in Sources */,
 				545CE1621D4065FD007A3DE0 /* Const.swift in Sources */,
@@ -771,6 +778,7 @@
 				541CAFC71D41BAA000A8EC88 /* MyQrCodeScanView.swift in Sources */,
 				541CAFC31D41BAA000A8EC88 /* MyQrCodeScanResultVC.swift in Sources */,
 				5465D27C1CFC24760012A314 /* MyCustomNav.swift in Sources */,
+				549488801D61A52700C1E3A8 /* String+extension.swift in Sources */,
 				5486F7A31D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift in Sources */,
 				5465D2711CFBDD730012A314 /* secondChildVC.swift in Sources */,
 				545CE1661D406790007A3DE0 /* MyHUD.swift in Sources */,

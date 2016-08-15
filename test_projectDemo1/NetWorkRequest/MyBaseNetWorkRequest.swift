@@ -19,6 +19,8 @@
 //（7）TLS Certificate and Public Key Pinning
 //（8）Progress Closure & NSProgress】
 //  4. 可以用个属性request来 接收 每次请求时（调用request方法进行请求时）返回的Request实例，以便在合适的地方取消相应的请求；取消所有请求得用manage的方法了，如5.；
+//  5. upload download 此处不需要总的请求
+//  6. 对于取消请求： 需要令 mainRequest =  manager.request(...) / Alamofire.upload(..) / Alamofire.download(...), 之后才可以调用取消网络请求的方法，即须调用Request对象的cancle()才可以取消请求的
 
 import UIKit
 import Alamofire
@@ -37,7 +39,8 @@ class MyBaseNetWorkRequest: NSObject {
     private var cancelledData: NSData?
     /** 下载请求对象 */
     private var downloadRequest: Request?
-    
+    /** 主请求对象 */
+    private var mainRequest:Request?
     
     /** HTTP Headers */
     private let headers = Alamofire.Manager.defaultHTTPHeaders // 必须 是 [String: String]
@@ -52,6 +55,19 @@ class MyBaseNetWorkRequest: NSObject {
     private let config = NSURLSessionConfiguration.defaultSessionConfiguration()
     private let requestTimeOut = 30
     
+    
+    override init() {
+        super.init()
+        
+        // 1. 设置manager
+        // 1.1
+        //        manager = Alamofire.Manager.sharedInstance
+        // 1.2
+        config.timeoutIntervalForRequest = 30
+        config.timeoutIntervalForResource = 30
+        manager = Manager.init(configuration: config)
+    }
+    
     /**
       0. 总请求方法
      - parameter method:          请求方式
@@ -62,13 +78,7 @@ class MyBaseNetWorkRequest: NSObject {
      */
     private func request(method:Method, path:String, params:[String:AnyObject], paramsEncoding:ParameterEncoding, completeClosure:completeColsureType) { // paramsT... 一个可变参数可以接受零个或多个值。
         
-        // 1. 设置manager
-        // 1.1
-//        manager = Alamofire.Manager.sharedInstance
-        // 1.2
-        config.timeoutIntervalForRequest = 30
-        config.timeoutIntervalForResource = 30
-        manager = Manager.init(configuration: config)
+       
         
         // 2. 根据请求方式进行 相应的请求
         switch method {
@@ -91,7 +101,7 @@ class MyBaseNetWorkRequest: NSObject {
             
         case .GET:
             
-            manager.request(.GET, path, parameters: params, encoding: paramsEncoding, headers: headers).responseJSON(completionHandler: { response in
+           mainRequest = manager.request(.GET, path, parameters: params, encoding: paramsEncoding, headers: headers).responseJSON(completionHandler: { response in
                 
                 //                print(response.request)  // original URL request
                 //                print(response.response) // URL response
@@ -216,8 +226,8 @@ class MyBaseNetWorkRequest: NSObject {
      - parameter scriptName      服务器脚本字段名
      */
     func uploadOneFile(withFileUrl fileUrl: NSURL, andUploadPath path: String, scriptName name: String) {
-        
-        Alamofire.upload(.POST, path, file: fileUrl).progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
+        // Alamofire manager
+        manager.upload(.POST, path, file: fileUrl).progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
             
             // 此处显示进度
             dispatch_async(dispatch_get_main_queue()) {
@@ -243,7 +253,8 @@ class MyBaseNetWorkRequest: NSObject {
         }
 //        let header = ["x":"x"]
         
-        Alamofire.upload(.POST, path, multipartFormData: { multipartFormData in
+        // Alamofire manager
+        manager.upload(.POST, path, multipartFormData: { multipartFormData in
             
             let count = urls.count
             // 设置 上传文件
@@ -284,7 +295,8 @@ class MyBaseNetWorkRequest: NSObject {
     func uploadOneFileByStream(urlPath path: String, fileTotalName name: String) {
         
         let fileURL = NSBundle.mainBundle().URLForResource(name, withExtension: nil)
-        Alamofire.upload(.POST, path, file: fileURL!)
+        // Alamofire manager
+        manager.upload(.POST, path, file: fileURL!)
         
     }
     
@@ -298,7 +310,8 @@ class MyBaseNetWorkRequest: NSObject {
     func uploadMoreFile(withUrlString url: String, fileUrls: [NSURL], fileNames: [NSURL], name:String) {
         
         // 将需要上传的文件写入body中
-        Alamofire.upload(.POST, url, multipartFormData: { multipartFormData in
+        // Alamofire manager
+        manager.upload(.POST, url, multipartFormData: { multipartFormData in
             
             
             }, encodingCompletion: { encodingResult in
@@ -325,7 +338,8 @@ class MyBaseNetWorkRequest: NSObject {
         
         // 将需要上传的文件写入body中
         
-        Alamofire.upload(.POST, path, multipartFormData: { multipartFormData in
+        // Alamofire manager
+        manager.upload(.POST, path, multipartFormData: { multipartFormData in
             
             for image in imageArrays {
                 let data = UIImageJPEGRepresentation(image, 1.0)
@@ -363,6 +377,7 @@ class MyBaseNetWorkRequest: NSObject {
      - parameter path: 资源路径
      */
     func downloadWithResourcePath(path:String) {
+        // Alamofire manager
         Alamofire.download(.GET, path) { temporaryURL, response in
             
             let fileManager = NSFileManager.defaultManager()
@@ -384,6 +399,7 @@ class MyBaseNetWorkRequest: NSObject {
          // 下载后的文件保存路径
         let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
         
+        //Alamofire manager
         Alamofire.download(.GET, resourcePath, destination: destination)
     }
     
@@ -393,6 +409,7 @@ class MyBaseNetWorkRequest: NSObject {
     func downloadResource(resourcePath:String) {
         let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
         
+        //Alamofire manager
         Alamofire.download(.GET, resourcePath, destination: destination)
             .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
                 print(totalBytesRead)
@@ -418,6 +435,7 @@ class MyBaseNetWorkRequest: NSObject {
      */
     func downloadResourceWithPath(resourcePath:String) {
         
+        //Alamofire manager
         Alamofire.download(.GET, resourcePath, destination: destination)
             .response { (request, response, data, error) in
                 if let data = data, resumeDataString = NSString(data: data, encoding: NSUTF8StringEncoding)
@@ -479,7 +497,7 @@ class MyBaseNetWorkRequest: NSObject {
 //        downloadRequest?.response(completionHandler: downloadResponse)
     }
     
-    // 下载停止响应（不管成功或者失败）
+    /**  3.5 下载停止响应（不管成功或者失败 */
     private func downloadResponse(request: NSURLRequest?, response: NSHTTPURLResponse?,
                                   data: NSData?, error:NSError?) {
         if let error = error {
@@ -494,12 +512,8 @@ class MyBaseNetWorkRequest: NSObject {
     }
     
     
-    private func cancleDownload()  {
-        self.downloadRequest?.cancel()
-    }
-    
     /**
-     3.5 保存到用户文档目录下（Documnets目录下的savePath文件下，文件名为saveName），saveName最好根据资源类型加上后缀
+     3.6 保存到用户文档目录下（Documnets目录下的savePath文件下，文件名为saveName），saveName最好根据资源类型加上后缀
      - parameter path:     资源路径
      - parameter savePath: 保存路径
      - parameter saveName: 保存后的名字
@@ -538,9 +552,17 @@ class MyBaseNetWorkRequest: NSObject {
     
     
     //    ---------------------------   private    ----------------------- //
-    // 5. 取消所有请求
+    /** 5.  取消下载 */
+    private func cancleDownload()  {
+//        self.downloadRequest?.cancel()
+    }
+    
+    /** 6. 取消所有请求 */
     func cancleAllRequest() {
-        manager.session.finishTasksAndInvalidate()
+        debugPrint("取消所有网络请求！")
+        mainRequest?.cancel()
+//        mainRequest?.suspend() // 暂停底层任务和调度队列
+//        manager.session.finishTasksAndInvalidate() // finishTasksAndInvalidate: 会执行完当前的请求，之后不再建新请求，看看SDK; invalidateAndCancel:
     }
     
     deinit{
@@ -548,7 +570,7 @@ class MyBaseNetWorkRequest: NSObject {
     }
     
     /**
-      6. JPEG方式 压缩图片
+      7. JPEG方式 压缩图片
      - parameter image:     要压缩的图片
      - parameter sizeLimit: 压缩后的图片最大为？M ，外界直接传入几M即可
      - returns: 压缩后的图片二进制数据
@@ -577,7 +599,7 @@ class MyBaseNetWorkRequest: NSObject {
     }
     
     /**
-     7.  手动实现图片压缩，按照大小进行比例压缩，改变了图片的尺寸； 可以再调用 6. 对此中得到的图片进行压缩，返回压缩后的图片二进制数据
+     8.  手动实现图片压缩，按照大小进行比例压缩，改变了图片的尺寸； 可以再调用 6. 对此中得到的图片进行压缩，返回压缩后的图片二进制数据
      - parameter scale: 压缩比例， 如由100*100压缩为10*10，则scale = 0.1
      */
     func compressImage(image: UIImage, scale: CGFloat) -> UIImage {
