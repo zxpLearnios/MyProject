@@ -14,6 +14,11 @@ class MySuperVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     let cellIdenty = "cellId"
     
     @IBOutlet weak var tableView: UITableView!
+    
+    convenience init(){
+        self.init(nibName: "MySuperVC",bundle:nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

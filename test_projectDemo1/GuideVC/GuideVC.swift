@@ -70,7 +70,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
         
         
         // 3.
-//        self.addScrollerView()
+        self.addScrollerView()
         
         self.addTimeButton()
         self.addDownloadBtn()
@@ -448,5 +448,6 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
         cBh = nil
     }
     
+
     
 }

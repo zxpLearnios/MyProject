@@ -33,7 +33,10 @@ class MyProgressHUD: NSObject {
         
         doInit()
     }
-    
+  
+
+   
+
      /**  第二种方式. 外部无须传参，此弹出框在当前window的所有页面都展示直至弹出框自己消失 */
 //    class var sharedInstance: MyProgressHUD {
 //        struct Static {
@@ -85,7 +88,7 @@ class MyProgressHUD: NSObject {
     private func doInit(){
        
       //   0.
-    isFirstMethod = true
+        isFirstMethod = true
         // 1.
         superView.addSubview(view)
         

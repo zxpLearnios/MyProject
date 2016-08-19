@@ -118,7 +118,7 @@ class Part: NSObject {
  
  2. 将类声明为final，说明它是不能被继承的； 类中的方法若用final修饰，则说明此法不可被子类重写（保证了有子类继承的情况下，父类中的某些方法仍可以继续被父类执行）；类中的属性若用final修饰，则说明此属性不可被子类重写；
  
- 3. swift 2.0 后， public 被(==) internal代替； 所有东西的默认访问级别都是internal即公开的
+ 3. swift 2.0 后， [1.public:可以被模块外访问, 写cocopods时有用 2.internal：可以被本模块访问 3.private：可以被本文件访问]
  
  4. @noescape .    现在很多函数式编程，比如有个排序，需要一个比较的closure作为参数，这种closure都会是同步调用完毕获得返回值。这种可以放一个@noescape在前面，可优化内存，引用self不必写self。其他的closure在外部引用着等待将来回掉用的则不能@noescape，因为它会escape。总体来说这个@noescape没啥卵用，但是有些人会用，可能会吓到你，这个基本可以无视.
  
@@ -168,6 +168,10 @@ class Part: NSObject {
  
  17. 单例写法看MyGifView。
  
+ 18. // 闭包的写法
+ //typealias colsure = (str:String) -> Void // typealias colsure = (str:String) -> () ,可将没返回值的方法传过去
+ //var colsure1:((str:String) -> String) = {str in return str }
+ //let colsure2:((str:String) -> String) = {str in return str + "你好"}
  
  */
 

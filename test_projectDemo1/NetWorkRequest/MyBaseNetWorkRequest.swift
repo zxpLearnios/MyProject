@@ -21,6 +21,9 @@
 //  4. 可以用个属性request来 接收 每次请求时（调用request方法进行请求时）返回的Request实例，以便在合适的地方取消相应的请求；取消所有请求得用manage的方法了，如5.；
 //  5. upload download 此处不需要总的请求
 //  6. 对于取消请求： 需要令 mainRequest =  manager.request(...) / Alamofire.upload(..) / Alamofire.download(...), 之后才可以调用取消网络请求的方法，即须调用Request对象的cancle()才可以取消请求的
+//  7. 当operation有多个任务的时候会自动分配多个线程并发执行,
+//如果只有一个任务，会自动在主线程同步执行
+
 
 import UIKit
 import Alamofire
@@ -54,7 +57,8 @@ class MyBaseNetWorkRequest: NSObject {
     // 设置请求的超时时间
     private let config = NSURLSessionConfiguration.defaultSessionConfiguration()
     private let requestTimeOut = 30
-    
+    private let operationQueue = NSOperationQueue.init()
+     private let queueName = "operationQueue_mybaserquest_001"
     
     override init() {
         super.init()
@@ -66,6 +70,12 @@ class MyBaseNetWorkRequest: NSObject {
         config.timeoutIntervalForRequest = 30
         config.timeoutIntervalForResource = 30
         manager = Manager.init(configuration: config)
+        
+        operationQueue.name = queueName
+        //设置最大并发数
+//        operationQueue.maxConcurrentOperationCount = 2
+        
+        
     }
     
     /**
@@ -100,6 +110,7 @@ class MyBaseNetWorkRequest: NSObject {
             break
             
         case .GET:
+            
             
            mainRequest = manager.request(.GET, path, parameters: params, encoding: paramsEncoding, headers: headers).responseJSON(completionHandler: { response in
                 
@@ -207,7 +218,7 @@ class MyBaseNetWorkRequest: NSObject {
 //        completeSeltector("", code:"xx")
         print(completeSeltector.description)
         if params != nil && path.characters.count != 0 {
-//            request(.GET, path: path, params: params!, completeClosure: completeClosure)
+//            request(.GET, path: path, params: params!, completeSeltector: completeSeltector)
         }else{ // 提示 参数为空、请求路径为空
             
         }
@@ -561,6 +572,7 @@ class MyBaseNetWorkRequest: NSObject {
     func cancleAllRequest() {
         debugPrint("取消所有网络请求！")
         mainRequest?.cancel()
+        
 //        mainRequest?.suspend() // 暂停底层任务和调度队列
 //        manager.session.finishTasksAndInvalidate() // finishTasksAndInvalidate: 会执行完当前的请求，之后不再建新请求，看看SDK; invalidateAndCancel:
     }

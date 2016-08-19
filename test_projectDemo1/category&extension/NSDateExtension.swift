@@ -4,7 +4,7 @@
 //
 //  Created by Jingnan Zhang on 16/7/6.
 //  Copyright © 2016年 Jingnan Zhang. All rights reserved.
-//  日期扩展
+//  日期扩展  swift 中 |或运算符的写法 如下：
 /*
  iOS8.0开始,NSCalendar增加了一些更为简单的判断日期的方法,如:
  - (BOOL)isDateInToday:(NSDate *)date  等等等等

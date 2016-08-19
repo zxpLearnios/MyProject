@@ -46,6 +46,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         }
         
+        // 横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了，是因为iOS8默认横屏时将电池状态栏隐藏了，这是iOS8的新特性； 须做以下
+        kApplication.setStatusBarHidden(true, withAnimation: .None)
+        kApplication.setStatusBarHidden(false, withAnimation: .None)
+        
         return true
     }
 

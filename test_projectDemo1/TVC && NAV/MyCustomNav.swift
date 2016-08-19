@@ -11,9 +11,10 @@
 import UIKit
 
 
-class MyCustomNav: UINavigationController {
+class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
 
-    var  rVc:UITabBarController?
+    var rtvc:MyCustomTVC!
+    
     let aniTime = 0.5
     
     
@@ -71,7 +72,10 @@ class MyCustomNav: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.doInit()
+        
+        self.delegate = self
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -91,19 +95,22 @@ class MyCustomNav: UINavigationController {
             
             // 右边的按钮
             
-            viewController.hidesBottomBarWhenPushed = true
+//            viewController.hidesBottomBarWhenPushed = true // statusBra有阴影
+            
+            
         }
         
+        
         // 拿到根控制器
-//        rVc = (UIApplication.sharedApplication().keyWindow?.rootViewController as? UITabBarController)
-//   
-//        if ( rVc != nil) {
-//            
-//            UIView.animateWithDuration(aniTime) {
-//                self.rVc!.tabBar.transform = CGAffineTransformMakeTranslation(0, 50)
-//            }
-//            
-//        }
+        rtvc = (kwindow?.rootViewController as? MyCustomTVC)
+        
+        if rtvc != nil { // 说明rootViewController已经变为MyCustomTVC， 而非GuideVC
+            // 隐藏tabbar ,需在tabbarVC将要显示时再次显示之
+            UIView.animateWithDuration(aniTime) {
+                self.rtvc.tabBar.transform = CGAffineTransformMakeTranslation(0, -50)
+            }
+        }
+        
 //
             super.pushViewController(viewController, animated: animated)
     }
@@ -112,17 +119,60 @@ class MyCustomNav: UINavigationController {
     // MARK: 返回
     func back() {
         self.popToRootViewControllerAnimated(true)
-        if ( rVc != nil) {
-            UIView.animateWithDuration(aniTime) {
-                self.rVc!.tabBar.transform = CGAffineTransformIdentity
-            }
-            
-            
-        }
+        
+        // 点击返回按钮返回时有效，但滑动返回时无效, 因为滑动返回时不进入此法，故直接写到nav的didShowViewController里即可
+//        if self.rtvc != nil {
+//            UIView.animateWithDuration(aniTime) {
+//                self.rtvc!.tabBar.transform = CGAffineTransformIdentity
+//            }
+//        }
     }
+    
+    
     
     // MARK: 右边按钮的方法
     func rightItemAction() {
         
     }
+    
+    // MARK:  ---------------------   UINavigationControllerDelegate    -------------- //
+    // 将要显示某控制器时， 此时此控制器虽然还没显示但已经是它的topViewController了
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+    
+    }
+    
+    // 将要显示某控制器时， 此时此控制器已经显示，它更是此nav的topViewController了
+    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+        
+        // 即此时只有一个（根）控制器, 第一次进入时rVc==nil，故不能用!
+        if self.viewControllers.count == 1 {
+            UIView.animateWithDuration(aniTime) {
+                self.rtvc?.tabBar.transform = CGAffineTransformIdentity
+            }
+         
+        }
+//        
+//        if self.rtvc != nil {
+//            
+//            for item in self.rtvc!.tabBar.subviews {
+//                if item is MyPlusButton {
+//                    
+//                    let width = kwidth / 4
+//                    item.frame = CGRectMake(width, 0, width, 50)
+//                    self.rtvc!.tabBar.addSubview(item)
+//                }
+//            }
+//        }
+        
+
+    }
+    
+    
+    // ----------------- private ---------------------- //
+
+    
+    
+    
+    
+    
 }

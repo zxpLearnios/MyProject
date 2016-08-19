@@ -14,6 +14,7 @@ class MyTabBar: UITabBar {
 
     private let totalCount:CGFloat = 4 // 必须自己来修改,这样其实会更方便
     var   buttonW:CGFloat = 0.0 // 方便外界的加号按钮来设置
+    var onceToken:dispatch_once_t = 0
     
     // MARK: 初始化
     override init(frame: CGRect) {
@@ -41,20 +42,30 @@ class MyTabBar: UITabBar {
         let  buttonH = self.frame.height
         var  index:CGFloat = 0
         
-        for item in self.subviews {
-            
-            var buttonX  = index * buttonW
-            // 只找出 所有的UITabBarItem,
-            if item.isKindOfClass(UIControl.classForCoder()) {
-                if index > 0 {
-                    buttonX = (index + 1) * buttonW
+//        dispatch_once(&onceToken) {
+            for item in self.subviews {
+                
+                var buttonX  = index * self.buttonW
+                // 只找出 所有的UITabBarItem,
+                if item.isKindOfClass(UIControl.classForCoder()) {
+                    if index > 0 {
+                        buttonX = (index + 1) * self.buttonW
+                    }
+                    item.frame = CGRectMake(buttonX, buttonY, self.buttonW, buttonH)
+                    index += 1
+                    
+                    //
+//                    if index == self.totalCount - 1 {
+//                        let rootVC = (kwindow?.rootViewController as! MyCustomTVC)
+//                        rootVC.addPlusButton()
+//                    }
                 }
-                item.frame = CGRectMake(buttonX, buttonY, buttonW, buttonH)
-                index += 1
-
-            }
-            
+                
+                
+//            }
+                
         }
+        
         
     }
 }

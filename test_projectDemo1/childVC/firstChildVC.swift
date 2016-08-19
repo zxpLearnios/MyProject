@@ -18,6 +18,8 @@ class firstChildVC: UIViewController, UIScrollViewDelegate, MyTopScrollViewDeleg
     let topScroller = MyTopScrollView()
     let contentScroller = UIScrollView()
     
+    var rtvc:MyCustomTVC!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
@@ -31,6 +33,23 @@ class firstChildVC: UIViewController, UIScrollViewDelegate, MyTopScrollViewDeleg
         
         // 内容scroller
         self.setupContentScroller()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        rtvc = (kwindow?.rootViewController as? MyCustomTVC)
+//        rtvc.addPlusButton()
+        
+        rtvc.plusBtn.frame = CGRectMake(100, 0, 50, 50)
+        
+//            rtvc.tabBar.addSubview(rtvc.plusBtn)
+//
+//        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+//        dispatch_after(time, dispatch_get_main_queue()) {
+//            self.rtvc.addPlusButton()
+//        }
+        
     }
     
     // scroller
@@ -61,7 +80,12 @@ class firstChildVC: UIViewController, UIScrollViewDelegate, MyTopScrollViewDeleg
     // MARK: 左边按钮点击
     func leftItemAction()  {
         
-        self.navigationController?.pushViewController(pushByfirstVC(), animated: true)
+        let vc = testVC()
+        
+        
+        let firstSubVC = self.childViewControllers[0]
+        self.navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     func rightAction(){
