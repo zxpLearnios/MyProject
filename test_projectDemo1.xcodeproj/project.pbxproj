@@ -399,7 +399,6 @@
 				5486F7A11D2A3D0200C0A68A /* NetWorkRequest */,
 				545CE13B1D4065DA007A3DE0 /* GuideVC */,
 				54C7BB161CFD862500963002 /* LaunchVC */,
-				5465D27E1CFC247C0012A314 /* TabBar */,
 				5465D2791CFC24760012A314 /* TVC && NAV */,
 				5465D26D1CFBDD730012A314 /* childVC */,
 				5465D23D1CFBDBE20012A314 /* Assets.xcassets */,
@@ -463,7 +462,8 @@
 				5465D2811CFC24920012A314 /* MyCustomTabBar.swift */,
 				5465D2831CFC24E50012A314 /* MyCustomTabBarItem.swift */,
 			);
-			path = TabBar;
+			name = TabBar;
+			path = ../TabBar;
 			sourceTree = "<group>";
 		};
 		546F7F3B1D51F9F100B9565C /* Camera */ = {
@@ -508,6 +508,7 @@
 		54C7BB161CFD862500963002 /* LaunchVC */ = {
 			isa = PBXGroup;
 			children = (
+				5465D27E1CFC247C0012A314 /* TabBar */,
 				54C7BB181CFD862500963002 /* LaunchVC.swift */,
 				54C7BB171CFD862500963002 /* LaunchVC.storyboard */,
 			);
@@ -906,7 +907,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "";
@@ -947,7 +948,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -964,7 +965,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = test_projectDemo1/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quarkfinai.test-projectDemo1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -984,7 +985,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = test_projectDemo1/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quarkfinai.test-projectDemo1";
 				PRODUCT_NAME = "$(TARGET_NAME)";

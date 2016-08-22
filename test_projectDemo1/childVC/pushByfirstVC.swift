@@ -4,7 +4,7 @@
 //
 //  Created by Jingnan Zhang on 16/5/30.
 //  Copyright © 2016年 Jingnan Zhang. All rights reserved.
-//  >= 8.2 用KVC强制屏幕旋转才有效
+//  >= 8.2 用KVC强制屏幕旋转才有效; 8.1 以下必须写最后的三个方法，但还是有问题的，即第一次点击屏幕时，不会响应，会提示“2016-08-22 15:09:04.845 test_projectDemo1[13617:948796] unexpected nil window in _UIApplicationHandleEventFromQueueEvent, _windowServerHitTestWindow: <UIWindow: 0x7fbefb597b70; frame = (0 0; 667 375); gestureRecognizers = <NSArray: 0x7fbefb598300>; layer = <UIWindowLayer: 0x7fbefb597db0>>”， 第二次才会响应。
 
 import UIKit
 import PullToRefreshKit
@@ -47,76 +47,36 @@ class pushByfirstVC: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-    
-        
-                if UIDevice.currentDevice().orientation == .Portrait {
-                     //强制横屏
-                    kApplication.setStatusBarOrientation(.LandscapeRight, animated: true)
-                    
-                    if kSystemVersion >= 8.2 {
-                        kDevice.setValue(UIDeviceOrientation.LandscapeRight.rawValue, forKey: "orientation")
-                    }
-        
-                    if KIS_IOS9() {
-        
-                    }
-        
-                }else{
-                    //强制竖屏
-                    kApplication.setStatusBarHidden(false, withAnimation: .None)
-                    kApplication.setStatusBarOrientation(.Portrait, animated: true)
-                    kDevice.setValue(UIDeviceOrientation.Portrait.rawValue, forKey: "orientation")
-        
+        if UIDevice.currentDevice().orientation == .Portrait {
+             //强制横屏
+            kApplication.setStatusBarOrientation(.LandscapeRight, animated: true)
+            
+            if kSystemVersion >= 8.2 {
+                kDevice.setValue(UIDeviceOrientation.LandscapeRight.rawValue, forKey: "orientation")
+            }
+            
+            //iOS9 填坑方案
+            if kSystemVersion >= 9.0 {
+//                if self.mytext.isFirstResponder()  {
+//                    self.mytext.resignFirstResponder()
+//                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+//                    dispatch_after(time, dispatch_get_main_queue()) {
+//                        self.mytext.becomeFirstResponder()
+//                    }
                 }
-        
-        
-//                if([[UIDevice currentDevice] orientation]==UIDeviceOrientationPortrait){
-//        
-//                    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft];
-//                    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-//                    {
-//                        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeRight] forKey:@"orientation"];
-//                    }
-//                    //iOS9 填坑方案
-//                    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0){
-//                        //            if ([self.mytext isFirstResponder]) {
-//                        //                [self.mytext resignFirstResponder];
-//                        //            }
-//                        //            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                        //                NSLog(@"进来啦");
-//                        //                [self.mytext becomeFirstResponder];
-//                        //            });
-//                    }
-//                }else{
-//                    //强制竖屏
-//                    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-//                    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
-//                    if([[[UIDevice currentDevice] systemVersion] floatValue])
-//                    {
-//                        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIInterfaceOrientationPortrait] forKey:@"orientation"];
-//                    }
-//                }
+
+        }else{
+            //强制竖屏
+            kApplication.setStatusBarHidden(false, withAnimation: .None)
+            kApplication.setStatusBarOrientation(.Portrait, animated: true)
+            kDevice.setValue(UIDeviceOrientation.Portrait.rawValue, forKey: "orientation")
+
+        }
         
         
         
     }
     
-    // MARK: 通知 屏幕旋转了. 方向改变了
-    //    func orientationDidChange() {
-    //        let pt  = CGPointMake(UIScreen.mainScreen().bounds.width/2, UIScreen.mainScreen().bounds.height/2)
-    //
-    //        debugPrint(pt)
-    //        if kOrientation == .Portrait {
-    //            self.view.transform = CGAffineTransformIdentity
-    //        }
-    //
-    //        if kOrientation == .LandscapeRight {
-    //
-    //            self.view.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
-    //        }
-    //    }
-    //
-    //
     
     
     @IBAction func back(btn: UIButton) {
@@ -199,18 +159,21 @@ class pushByfirstVC: UIViewController {
     }
     
     // -------------- private --------------- //
-//    override func shouldAutorotate() -> Bool {
-//        return (self.topViewController?.shouldAutorotate())!
-//    }
-//    
-//    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-//        
-//        return (self.topViewController?.supportedInterfaceOrientations())!
-//    }
-//    
-//    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
-//        return (self.topViewController?.preferredInterfaceOrientationForPresentation())!
-//    }
+    
+    // 8.1 的话必须写一下三个， >=8.2 则无需写了，直接看viewDidAppear里的即可
+    override func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        
+        return [.LandscapeLeft, .LandscapeRight]
+    }
+    
+    // 写的话，此句必须要， 但是 是直接显示横屏的（瞬间横屏的）
+    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
+        return .LandscapeRight
+    }
 
     
 }

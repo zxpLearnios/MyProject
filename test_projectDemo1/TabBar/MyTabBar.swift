@@ -42,6 +42,7 @@ class MyTabBar: UITabBar {
         let  buttonH = self.frame.height
         var  index:CGFloat = 0
         
+        debugPrint("layoutSubviews-------tabbar")
 //        dispatch_once(&onceToken) {
             for item in self.subviews {
                 
@@ -54,11 +55,17 @@ class MyTabBar: UITabBar {
                     item.frame = CGRectMake(buttonX, buttonY, self.buttonW, buttonH)
                     index += 1
                     
-                    //
-//                    if index == self.totalCount - 1 {
-//                        let rootVC = (kwindow?.rootViewController as! MyCustomTVC)
-//                        rootVC.addPlusButton()
-//                    }
+                    // 最后一个加的控制器多对应的item， 此时将此item放在第二个的位置处；
+                    if index == self.totalCount {
+                        let rVC = kwindow!.rootViewController as! MyCustomTVC
+                        if rVC.isCompleteAnimate {
+                            rVC.plusBtn.removeFromSuperview()
+                            buttonX = self.buttonW
+                            item.frame = CGRectMake(buttonX, buttonY, self.buttonW, buttonH)
+                        }
+                        
+                        
+                    }
                 }
                 
                 
@@ -68,4 +75,6 @@ class MyTabBar: UITabBar {
         
         
     }
+    
+    
 }

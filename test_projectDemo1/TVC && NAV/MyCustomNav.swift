@@ -107,11 +107,10 @@ class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
         if rtvc != nil { // 说明rootViewController已经变为MyCustomTVC， 而非GuideVC
             // 隐藏tabbar ,需在tabbarVC将要显示时再次显示之
             UIView.animateWithDuration(aniTime) {
-                self.rtvc.tabBar.transform = CGAffineTransformMakeTranslation(0, -50)
+                self.rtvc.tabBar.transform = CGAffineTransformMakeTranslation(0, 50)
             }
         }
         
-//
             super.pushViewController(viewController, animated: animated)
     }
     

@@ -4,20 +4,19 @@
 //
 //  Created by Jingnan Zhang on 16/5/10.
 //  Copyright © 2016年 Jingnan Zhang. All rights reserved.
-//  1. 自定义TVC, 使用提醒按钮  2. 有判断类型
+//  1. 自定义TVC, 使用提醒按钮  2. 有判断类型; 3. plusBtn 做动画，从某处到tabbar的指定位置，动画结束后，主动刷新tabbar的子控件，在tabbar里加了判断，移除plusBtn，将此处加自定义的只有图片的tabbarItem即可；实现切屏时的位移问题的处理。
 
 import UIKit
 
 
-
-class MyCustomTVC: UITabBarController {
+class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
     
-
+    
     var childVCs = [UIViewController]()
     var customTabBar = MyTabBar()
     var plusBtn = MyPlusButton() // 真正的和其他item平均分占了tabbar，如在自定义的tabbar里加plusBtn，则最左边的item的有效范围始终会挡住plusBtn的左半部
     var toPoint = CGPointZero
-//    var isFirstComeIn = true
+    var isCompleteAnimate = false
     
     // MARK: xib\代码  都会调之，但此类型只会调一次
     override class func initialize() {
@@ -44,6 +43,9 @@ class MyCustomTVC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // -1
+        self.delegate = self
+        
         // 0. 以便子控制器的view做转场动画时看到白色
         self.view.backgroundColor = UIColor.whiteColor()
        
@@ -64,15 +66,17 @@ class MyCustomTVC: UITabBarController {
         // 4.设置tabbaralpha
         self.tabBar.alpha = 0.8
         
-//        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-//        dispatch_after(time, dispatch_get_main_queue()) {
-//            self.addPlusButton()
-//        }
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+        dispatch_after(time, dispatch_get_main_queue()) {
+            self.addPlusButton()
+        }
        
         
+        self.addChildViewControllers(UIViewController(), title: "", itemImage: UIImage(named: "tabBar_publish_icon"), itemSelectedImage: UIImage(named: "tabBar_publish_icon"))
+        
         // 5. 屏幕旋转通知
-//        kDevice.beginGeneratingDeviceOrientationNotifications()
-//        kNotificationCenter.addObserver(self, selector: #selector(orientationDidChange), name: UIDeviceOrientationDidChangeNotification, object: nil)
+        kDevice.beginGeneratingDeviceOrientationNotifications()
+        kNotificationCenter.addObserver(self, selector: #selector(orientationDidChange), name: UIDeviceOrientationDidChangeNotification, object: nil)
         
         
     }
@@ -111,8 +115,13 @@ class MyCustomTVC: UITabBarController {
             
          }
         
+        if kDevice.orientation == .LandscapeRight || kDevice.orientation == .LandscapeLeft {
+            
+        }
+        
         
     }
+    
     // MARK: 添加加号按钮
      func addPlusButton(){
         
@@ -160,18 +169,49 @@ class MyCustomTVC: UITabBarController {
        
         let newItemSelectdImg = itemSelectedImage?.imageWithRenderingMode(.AlwaysOriginal)
         
-        viewController.title = title
-        viewController.tabBarItem.image = itemImage
-        viewController.tabBarItem.selectedImage = newItemSelectdImg
+        if self.viewControllers?.count == 3 {
+            let item = MyCustomTabBarItem.init(image: itemImage, selectedImage: itemSelectedImage)
+            viewController.tabBarItem = item
+        }else{
+            
+            viewController.title = title
+            viewController.tabBarItem.image = itemImage
+            viewController.tabBarItem.selectedImage = newItemSelectdImg
+        }
+        
         
         let nav = MyCustomNav.init(rootViewController: viewController)
         self.addChildViewController(nav)
     }
     
+    // MARK: UITabBarControllerDelegate
+    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+        
+        let index = self.viewControllers?.indexOf(viewController)
+        
+        if index != nil {
+            if index == 3 {
+                self.performSelector(#selector(btnAction), withObject: plusBtn, afterDelay: 0)
+//                viewController.tabBarItem.selectedImage = nil // 可以在此处设置点击item时的选中图片，因为点击item选中控制器被禁止了
+//                self.selectedIndex = 3  // 因为这样会选中并显示控制器
+                
+                return false
+            }else{
+                return true
+            }
+        }else{
+            return false
+        }
+        
+    }
+    
+    
     override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
         
         if flag {
             plusBtn.center = toPoint
+            isCompleteAnimate = true
+            self.tabBar.layoutSubviews() // 主动刷新
         }
     }
     
