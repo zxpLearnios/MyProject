@@ -34,7 +34,12 @@ class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
     // MARK: 初始化
     func doInit() {
         
-//        self.navigationBar.barTintColor = UIColor.redColor()
+        // 对于statusBar和navBar颜色不一致，可以用图片、在nav上加一颜色view等
+        let statusBg = UILabel.init(frame: kApplication.statusBarFrame)
+        statusBg.backgroundColor = UIColor.orangeColor()
+        self.view.addSubview(statusBg)
+        self.navigationBar.barTintColor = UIColor.purpleColor()
+        
         // 所有push出的控制器的title的属性设置
         let textAttibute = [NSFontAttributeName: UIFont.systemFontOfSize(10), NSForegroundColorAttributeName: UIColor.greenColor()]
         self.navigationBar.titleTextAttributes = textAttibute

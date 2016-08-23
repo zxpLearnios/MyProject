@@ -91,7 +91,7 @@ class pushByfirstVC: UIViewController {
         }
         
         // 恢复竖屏
-        self.dismissViewControllerAnimated(true) {
+        self.navigationController?.dismissViewControllerAnimated(true) {
             
             if UIDevice.currentDevice().orientation == .LandscapeRight || UIDevice.currentDevice().orientation == .LandscapeLeft{
                 //强制竖屏

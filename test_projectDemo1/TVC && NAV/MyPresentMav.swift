@@ -4,7 +4,7 @@
 //
 //  Created by Jingnan Zhang on 16/8/18.
 //  Copyright © 2016年 Jingnan Zhang. All rights reserved.
-//
+//  被present的控制器所用的nav，用于横竖屏切换
 
 import UIKit
 
@@ -12,8 +12,7 @@ class MyPresentMav: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
     }
 
     override func didReceiveMemoryWarning() {
