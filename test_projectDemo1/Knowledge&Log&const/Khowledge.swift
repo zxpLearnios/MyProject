@@ -173,6 +173,9 @@ class Part: NSObject {
  //var colsure1:((str:String) -> String) = {str in return str }
  //let colsure2:((str:String) -> String) = {str in return str + "你好"}
  
+ 19. 对于键盘退出的看test里的工程以及UFO里设置密码的xib，注意有无nav时的情况是不一样的
+ 
+ 
  */
 
 

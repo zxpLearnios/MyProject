@@ -4,7 +4,7 @@
 //
 //  Created by Jingnan Zhang on 16/5/10.
 //  Copyright © 2016年 Jingnan Zhang. All rights reserved.
-//  1. 自定义TVC, 使用提醒按钮  2. 有判断类型; 3. plusBtn 做动画，从某处到tabbar的指定位置，动画结束后，主动刷新tabbar的子控件，在tabbar里加了判断，移除plusBtn，将此处加自定义的只有图片的tabbarItem即可；实现切屏时的位移问题的处理。
+//  1. 自定义TVC, 使用提醒按钮  2. 有判断类型; 3. plusBtn 做动画，从某处到tabbar的指定位置，动画结束后，主动刷新tabbar的子控件，在tabbar里加了判断，移除plusBtn，将此处加自定义的只有图片的tabbarItem即可；实现切屏时的位移问题的处理。 即只要是通过addSubView上到tabbar的估计在横竖屏切换时都会出错，必须是tabbar自带的东西才不会出错的。
 
 import UIKit
 
