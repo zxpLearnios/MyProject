@@ -25,6 +25,7 @@
 		541CAFD01D41BAAB00A8EC88 /* MyVideoPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 541CAFCC1D41BAAB00A8EC88 /* MyVideoPlayerView.xib */; };
 		544E978A1D65C1CB00A8984E /* MyPresentMav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544E97891D65C1CB00A8984E /* MyPresentMav.swift */; };
 		5454FF1F1D5072AC00A0A58D /* Array+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5454FF1E1D5072AC00A0A58D /* Array+extension.swift */; };
+		5458A9091D6E87E3004A8418 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5458A9081D6E87E3004A8418 /* Config.swift */; };
 		545CE14D1D4065DA007A3DE0 /* GuideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545CE13C1D4065DA007A3DE0 /* GuideVC.swift */; };
 		545CE14E1D4065DA007A3DE0 /* upload.png in Resources */ = {isa = PBXBuildFile; fileRef = 545CE13E1D4065DA007A3DE0 /* upload.png */; };
 		545CE14F1D4065DA007A3DE0 /* 本地视频.mov in Resources */ = {isa = PBXBuildFile; fileRef = 545CE13F1D4065DA007A3DE0 /* 本地视频.mov */; };
@@ -136,6 +137,7 @@
 		542C00AE1D48987500D2B041 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		544E97891D65C1CB00A8984E /* MyPresentMav.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPresentMav.swift; sourceTree = "<group>"; };
 		5454FF1E1D5072AC00A0A58D /* Array+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
+		5458A9081D6E87E3004A8418 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		545CE13C1D4065DA007A3DE0 /* GuideVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuideVC.swift; sourceTree = "<group>"; };
 		545CE13E1D4065DA007A3DE0 /* upload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = upload.png; sourceTree = "<group>"; };
 		545CE13F1D4065DA007A3DE0 /* 本地视频.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "本地视频.mov"; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 				545CE15F1D4065FD007A3DE0 /* Const.swift */,
 				545CE1601D4065FD007A3DE0 /* Khowledge.swift */,
 				545CE1611D4065FD007A3DE0 /* MyLog.swift */,
+				5458A9081D6E87E3004A8418 /* Config.swift */,
 			);
 			path = "Knowledge&Log&const";
 			sourceTree = "<group>";
@@ -803,6 +806,7 @@
 				5486F7A31D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift in Sources */,
 				5465D2711CFBDD730012A314 /* secondChildVC.swift in Sources */,
 				545CE1661D406790007A3DE0 /* MyHUD.swift in Sources */,
+				5458A9091D6E87E3004A8418 /* Config.swift in Sources */,
 				5454FF1F1D5072AC00A0A58D /* Array+extension.swift in Sources */,
 				546F7F451D51F9F200B9565C /* MyCaptureCell.swift in Sources */,
 				5460F1401D58631F00F4E304 /* UIImageView+extension.swift in Sources */,

@@ -175,7 +175,29 @@ class Part: NSObject {
  
  19. 对于键盘退出的看test里的工程以及UFO里设置密码的xib，注意有无nav时的情况是不一样的
  
+ 20. static 与 class 的又一区别： 一个了写了个如  statci func model(withJsonObj obj:AnyObject?) -> Mappable? {} 的方法，则此法不能被子类重写，因为它默认是final的， 但用class修饰后就可被重写了。
  
+ {  对ObjectMapper
+ let dic = ["sub": "base----"]
+ 
+ do{
+ 
+ let obj = try NSJSONSerialization.dataWithJSONObject(dic, options: NSJSONWritingOptions.init(rawValue: 2))
+ 
+ let json = try NSJSONSerialization.JSONObjectWithData(obj, options: .AllowFragments)
+ 
+ let subModel = Subclass.model(withJsonObj: json) as? Subclass
+ 
+ debugPrint(subModel!.sub)
+ 
+ 
+ }catch{
+ 
+ 
+ }
+ 
+
+ }
  */
 
 

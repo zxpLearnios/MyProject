@@ -11,7 +11,7 @@ import Kingfisher
 import QKLockView
 
 
-class GuideVC: UIViewController,UIScrollViewDelegate {
+class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     
     private let im  = UIImageView(), scroller = UIScrollView(), timeBtn = UIButton(), downloadBtn = UIButton(), bgimageV = UIImageView(), useNowBtn = UIButton(), takePhotoBtn = UIButton(), scanBtn = UIButton()
     
@@ -122,6 +122,8 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
         let hStr = String.deleteBlankFromHeadAndTail(primordailStr: "   123   ")
         
         
+        // 12.
+         Config.showAlert(withDelegate: self, title: "温馨提示", message: "是否呼叫", cancleTitle: nil, confirmTitle: "呼叫")
         
     }
     
@@ -449,5 +451,12 @@ class GuideVC: UIViewController,UIScrollViewDelegate {
     }
     
 
+    // MARK: UIAlertViewDelegate
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+         let totla = alertView.numberOfButtons
+        if buttonIndex  == totla - 1{ // 确保点击的实在是最后的那个按钮
+           
+        }
+    }
     
 }

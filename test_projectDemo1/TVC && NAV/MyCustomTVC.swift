@@ -170,9 +170,13 @@ class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
         let newItemSelectdImg = itemSelectedImage?.imageWithRenderingMode(.AlwaysOriginal)
         
         if self.viewControllers?.count == 3 {
+            // 只有图片的tabbaritem
             let item = MyCustomTabBarItem.init(image: itemImage, selectedImage: itemSelectedImage)
             viewController.tabBarItem = item
         }else{
+            // 当navigationItem.title ！= tabBarItem.title 时，必须如此设置：先设置title，在设置navigationItem.title，设置tabBarItem.title已经无用了
+//            viewController.title = title
+//            viewController.navigationItem.title = "我的账户"
             
             viewController.title = title
             viewController.tabBarItem.image = itemImage

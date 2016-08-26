@@ -11,6 +11,12 @@ class MyHUD: NSObject {
     
     private let timeOut = 2.0
     
+    // MARK: 单例, static:表示类用
+    private static let shareInstanceObj = MyHUD()
+    static let shareInstance:MyHUD = {
+        return shareInstanceObj
+    }()
+    
     override init() {
         HUD.dimsBackground = true
         // 不允许交互
