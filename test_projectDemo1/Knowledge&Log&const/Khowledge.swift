@@ -198,6 +198,13 @@ class Part: NSObject {
  
 
  }
+ 
+ 21. webView 不能加载Asses里的图片，
+ 
+ 
+ 
+ 
+ 
  */
 
 
