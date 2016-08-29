@@ -78,6 +78,7 @@
 		5486F7A31D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */; };
 		549488801D61A52700C1E3A8 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5494887F1D61A52700C1E3A8 /* String+extension.swift */; };
 		549488821D61AC8100C1E3A8 /* MySystemRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549488811D61AC8100C1E3A8 /* MySystemRequest.swift */; };
+		549911841D7431C5000ABDA2 /* ConstraintVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549911831D7431C5000ABDA2 /* ConstraintVC.swift */; };
 		54B9CE2C1D41F655005D7EC2 /* MyImagePickerController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54B9CE2B1D41F655005D7EC2 /* MyImagePickerController.storyboard */; };
 		54B9CE2E1D421731005D7EC2 /* MyAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9CE2D1D421731005D7EC2 /* MyAlbumViewController.swift */; };
 		54B9CE311D42176F005D7EC2 /* MyAlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9CE2F1D42176F005D7EC2 /* MyAlbumTableViewCell.swift */; };
@@ -199,6 +200,7 @@
 		5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBaseNetWorkRequest.swift; sourceTree = "<group>"; };
 		5494887F1D61A52700C1E3A8 /* String+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		549488811D61AC8100C1E3A8 /* MySystemRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySystemRequest.swift; sourceTree = "<group>"; };
+		549911831D7431C5000ABDA2 /* ConstraintVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintVC.swift; sourceTree = "<group>"; };
 		54B9CE2B1D41F655005D7EC2 /* MyImagePickerController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MyImagePickerController.storyboard; sourceTree = "<group>"; };
 		54B9CE2D1D421731005D7EC2 /* MyAlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAlbumViewController.swift; sourceTree = "<group>"; };
 		54B9CE2F1D42176F005D7EC2 /* MyAlbumTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAlbumTableViewCell.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				545CE13C1D4065DA007A3DE0 /* GuideVC.swift */,
+				549911831D7431C5000ABDA2 /* ConstraintVC.swift */,
 				546F7F3B1D51F9F100B9565C /* Camera */,
 				541CAFB01D41BA9A00A8EC88 /* Album */,
 				541CAFBB1D41BAA000A8EC88 /* QrCode */,
@@ -769,6 +772,7 @@
 				5463E7F11D6407F40004555D /* UIDevice+extension.swift in Sources */,
 				54B9CE2E1D421731005D7EC2 /* MyAlbumViewController.swift in Sources */,
 				5465D27D1CFC24760012A314 /* MyCustomTVC.swift in Sources */,
+				549911841D7431C5000ABDA2 /* ConstraintVC.swift in Sources */,
 				546BCEEC1CFD620300011035 /* ThirdChildVC.swift in Sources */,
 				5465D2371CFBDBE20012A314 /* AppDelegate.swift in Sources */,
 				5465D2841CFC24E50012A314 /* MyCustomTabBarItem.swift in Sources */,

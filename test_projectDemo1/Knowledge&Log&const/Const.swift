@@ -11,9 +11,25 @@
 import UIKit
 
 let appNameKey = "CFBundleName"
-
 let  appVersionKey = "CFBundleShortVersionString" // app版本 全部版本号
 let appBundleVersionKey  = "CFBundleVersion" // app build版本 大的版本号
+
+
+/*
+ 1.  Documents：保存应用运行时生成的需要持久化的数据，iTunes同步设备时会备份该目录。例如，游戏应用可将游戏存档保存在该目录
+ 2.  tmp：保存应用运行时所需的临时数据，使用完毕后    再将相应的文件从该目录删除。应用没有运行时，系统也可能会清除该目录下的文件。iTunes同步设备时不会备份该目录
+ 3.1  Library/Caches：保存应用运行时生成的需要持久化的数据，iTunes同步设备时不会备份该目录。一般存储体积大、不需要备份的非重要数据
+ 3.2  Library/Preference：保存应用的所有偏好设置，iOS的Settings(设置)应用会在该目录中查找应用的设置信息。iTunes同步设备时会备份该目录
+ */
+/** 外层temp目录 */
+ let temp = NSTemporaryDirectory() // NSHomeDirectory + "/tmp"
+/** 外层documents目录 */
+let documents = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) // NSHomeDirectory() + "/Documents"
+/** 外层library下的caches目录 */
+let caches = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true) // NSHomeDirectory() + "/Library/Caches"
+/** 外层library下的preference目录 */
+let preferences = "" // 通过 NSUserDefaults 存储直接到此目录下 ; NSHomeDirectory() + "/Library/Preferences"
+
 
 /** 不管横竖屏，kwidth   kheight  都是第一次屏幕的情况 */
 let kwidth = UIScreen.mainScreen().bounds.width
@@ -21,16 +37,14 @@ let kheight =  UIScreen.mainScreen().bounds.height
 let kwindow = UIApplication.sharedApplication().keyWindow
 
 
-
-
+let kFileManager =  NSFileManager.defaultManager()
+let kUserDefaults = NSUserDefaults.standardUserDefaults()
 let kNotificationCenter = NSNotificationCenter.defaultCenter()
 /** 当前正在makeKeyAndVisible的window，即当前正在显示且离用户最近的window；注意MyProgressHUD的第二种方式 */
 let currentWindow = UIApplication.sharedApplication().windows.last
 /** 当前正在makeKeyAndVisible的window的 上面的那个window；对比MyProgressHUD的第二种方式 */
 let beforWindow = getWindowBeforeOfKeyWindow()
-
 let kDevice = UIDevice.currentDevice()
-
 /** 屏幕方向 */
 //let kOrientation = UIDevice.currentDevice().orientation
 /** 屏幕状态栏方向 */
@@ -43,8 +57,8 @@ let kAppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
 let kcenter = CGPointMake(kwidth/2, kheight/2)
 let kbounds = UIScreen.mainScreen().bounds
 
-let hud = MyProgressHUD.init(superView: kwindow!)
 
+let hud = MyProgressHUD.init(superView: kwindow!)
 //let hud = MyProgressHUD.sharedInstance
 
 /** 图片数组保存路径 */
@@ -70,12 +84,18 @@ func getWindowBeforeOfKeyWindow() -> UIWindow {
     return beforWindowOfKeyWindow
 }
 
+
 /** 系统版本号 */
 let kSystemVersion = (UIDevice.currentDevice().systemVersion as NSString).doubleValue
+let kios7 = ((UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 7.0) ? true : false
+let kios8:Bool = {
+    return (UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 8.0
+}()
+//let kiosx = {return (UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 8.0} // 相当于定义了一个函数， kiosx就是那个函数，且只是定义了并未执行
 
+let kios9 = ((UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 9.0) ? true : false
 func kIS_IOS7() ->Bool { return (UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 7.0 }
 func kIS_IOS8() -> Bool { return (UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 8.0 }
-
 func KIS_IOS9() -> Bool  { return (UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 8.0 }
 
 // App沙盒路径

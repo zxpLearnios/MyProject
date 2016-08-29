@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '99BBBADE0725ECAC50FFE3425AB76019'
+               BlueprintIdentifier = '46507220366D9573733D36050148EDEA'
                BlueprintName = 'QKLockView'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'QKLockView.framework'>

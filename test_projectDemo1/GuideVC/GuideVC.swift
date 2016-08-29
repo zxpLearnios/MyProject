@@ -123,7 +123,33 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         
         
         // 12.
-         Config.showAlert(withDelegate: self, title: "温馨提示", message: "是否呼叫", cancleTitle: nil, confirmTitle: "呼叫")
+//         Config.showAlert(withDelegate: self, title: "温馨提示", message: "是否呼叫", cancleTitle: nil, confirmTitle: "呼叫")
+        
+        // 13.  测试存储
+//        let testPath = NSHomeDirectory() + "/user.plist"
+//        
+//        let testAry = ["ary0", "ary1"]
+//        // 13.1
+////        let finish = NSKeyedArchiver.archiveRootObject(testAry, toFile: testPath)
+////        let getAry = NSKeyedUnarchiver.unarchiveObjectWithFile(testPath)
+//        // 13.2
+//        let bl =  (testAry as NSArray).writeToFile(testPath, atomically: true)
+//        let newAry = NSArray.init(contentsOfFile: testPath)
+//        
+//        // 13.3   将已归档的数据读取，但之后不能进行其他操作的
+//            let getData = kFileManager.contentsAtPath(testPath)
+//        
+//        do{
+//            // 必须是 序列化后的数据才可以被反序列化
+//            let jsonobj = try  NSJSONSerialization.JSONObjectWithData(getData!, options: .AllowFragments)
+//            debugPrint(jsonobj)
+//        }catch let error  {
+//            debugPrint(error)
+//        }
+        
+        
+        // 14. 约束第三方的使用
+        addConstraintsButton()
         
     }
     
@@ -191,7 +217,16 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         
     }
     
-
+    
+    private func addConstraintsButton(){
+        let  constranitsBtn = UIButton()
+        constranitsBtn.frame = CGRectMake(150, 270, 80, 40)
+        constranitsBtn.setTitle("约束按钮", forState: .Normal)
+        constranitsBtn.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        constranitsBtn.addTarget(self, action: #selector(constaintsAction), forControlEvents: .TouchUpInside)
+        self.view.addSubview(constranitsBtn)
+        
+    }
     
     // --------------------------  btnAction -------------------------- //
     
@@ -273,6 +308,12 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         kwindow?.rootViewController = MyCustomTVC()
     }
     
+    // MARK: 约束
+    func constaintsAction()  {
+        let constranitVC = ConstraintVC()
+        self.view.addSubview(constranitVC.view)
+        
+    }
     
     // MARK:  添加scroller
     private func addScrollerView(){

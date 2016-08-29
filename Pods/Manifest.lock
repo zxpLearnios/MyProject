@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (3.4.1)
+  - Cartography (0.6.0)
   - GPUImage (0.1.7)
   - Kingfisher (2.4.2)
   - MJRefresh (3.1.12)
@@ -9,6 +10,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 3.4)
+  - Cartography
   - GPUImage
   - Kingfisher
   - MJRefresh
@@ -18,6 +20,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   Kingfisher: 05bf8d04408aaa70fcd2c8c81b9f1d0f1ad313dd
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
@@ -25,6 +28,6 @@ SPEC CHECKSUMS:
   PullToRefreshKit: c60ad73569b8c6791b1833e9b02631a676a6f944
   QKLockView: a22ce3fc7ed288048984b4a8922566d5de138dea
 
-PODFILE CHECKSUM: 4ed1b7b66ae9278d27bb5c5f86399cc70e976003
+PODFILE CHECKSUM: 378054946c03a291aa6d2895cdb0761e57053c9f
 
 COCOAPODS: 1.1.0.beta.1

@@ -11,5 +11,8 @@ pod "PullToRefreshKit"
 pod "Kingfisher"        # SDWebImaged的swift版本
 #pod "ReactiveCocoa"     # RAC，它依赖了一个第三方Result库
 pod "QKLockView"
+pod "Cartography" # swift版的约束
+
+
 end
 

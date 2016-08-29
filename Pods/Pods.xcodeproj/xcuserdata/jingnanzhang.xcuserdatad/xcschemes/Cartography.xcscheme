@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '3D3212059D5397CBF9834BEAAA229E95'
-               BlueprintName = 'PullToRefreshKit'
+               BlueprintIdentifier = 'C3A04698AAE4D6124C20602D622956E5'
+               BlueprintName = 'Cartography'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'PullToRefreshKit.framework'>
+               BuildableName = 'Cartography.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

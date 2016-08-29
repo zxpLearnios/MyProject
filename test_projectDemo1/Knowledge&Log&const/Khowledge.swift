@@ -177,33 +177,43 @@ class Part: NSObject {
  
  20. static 与 class 的又一区别： 一个了写了个如  statci func model(withJsonObj obj:AnyObject?) -> Mappable? {} 的方法，则此法不能被子类重写，因为它默认是final的， 但用class修饰后就可被重写了。
  
- {  对ObjectMapper
- let dic = ["sub": "base----"]
- 
- do{
- 
- let obj = try NSJSONSerialization.dataWithJSONObject(dic, options: NSJSONWritingOptions.init(rawValue: 2))
- 
- let json = try NSJSONSerialization.JSONObjectWithData(obj, options: .AllowFragments)
- 
- let subModel = Subclass.model(withJsonObj: json) as? Subclass
- 
- debugPrint(subModel!.sub)
- 
- 
- }catch{
- 
- 
- }
- 
+         {  对ObjectMapper
+         let dic = ["sub": "base----"]
+         
+         do{
+         
+         let obj = try NSJSONSerialization.dataWithJSONObject(dic, options: NSJSONWritingOptions.init(rawValue: 2))
+         
+         let json = try NSJSONSerialization.JSONObjectWithData(obj, options: .AllowFragments)
+         
+         let subModel = Subclass.model(withJsonObj: json) as? Subclass
+         
+         debugPrint(subModel!.sub)
+         
+         
+         }catch{
+         
+         
+         }
+         
 
- }
+         }
  
  21. webView 不能加载Asses里的图片，
  
+ 22. 自定义只读数据的情况, 有以下四种形式：
  
+         let testInt = {   // closure
+         return 3
+         }()
+         
+         var testInt1:Int { // var
+         return 1
+         }
  
+        func testInt2 -> Int {   return  3  }
  
+        lazy var testInt3:Int  = { return  3  }()
  
  */
 

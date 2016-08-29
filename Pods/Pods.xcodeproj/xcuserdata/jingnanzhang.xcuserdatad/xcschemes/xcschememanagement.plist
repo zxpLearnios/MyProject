@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Cartography.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>GPUImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -47,12 +52,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1AAB611DAF77675FA6831934C2F0EDFA</key>
+		<key>29DD99664D189A7CA206368F493B1E0B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>29DD99664D189A7CA206368F493B1E0B</key>
+		<key>3D3212059D5397CBF9834BEAAA229E95</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>46507220366D9573733D36050148EDEA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>589B800CED0F0566803354B9E626C0EC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -62,12 +77,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>99BBBADE0725ECAC50FFE3425AB76019</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DCA43655DF4D3DA6509EADBD01C285A2</key>
+		<key>C3A04698AAE4D6124C20602D622956E5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
