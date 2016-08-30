@@ -58,7 +58,7 @@ class MyTabBar: UITabBar {
                     // 最后一个加的控制器多对应的item， 此时将此item放在第二个的位置处；
                     if index == self.totalCount {
                         let rVC = kwindow!.rootViewController as! MyCustomTVC
-                        if rVC.isCompleteAnimate {
+                        if rVC.isCompleteAnimate { // 在按钮动画结束后， 移除并加新的按钮
                             rVC.plusBtn.removeFromSuperview()
                             buttonX = self.buttonW
                             item.frame = CGRectMake(buttonX, buttonY, self.buttonW, buttonH)

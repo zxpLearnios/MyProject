@@ -59,11 +59,11 @@
 		5465D2711CFBDD730012A314 /* secondChildVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465D26F1CFBDD730012A314 /* secondChildVC.swift */; };
 		5465D27C1CFC24760012A314 /* MyCustomNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465D27A1CFC24760012A314 /* MyCustomNav.swift */; };
 		5465D27D1CFC24760012A314 /* MyCustomTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465D27B1CFC24760012A314 /* MyCustomTVC.swift */; };
-		5465D2801CFC247C0012A314 /* MyTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465D27F1CFC247C0012A314 /* MyTabBar.swift */; };
-		5465D2821CFC24920012A314 /* MyCustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465D2811CFC24920012A314 /* MyCustomTabBar.swift */; };
-		5465D2841CFC24E50012A314 /* MyCustomTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465D2831CFC24E50012A314 /* MyCustomTabBarItem.swift */; };
-		5465D2861CFC39DA0012A314 /* MyPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465D2851CFC39DA0012A314 /* MyPlusButton.swift */; };
 		546BCEEC1CFD620300011035 /* ThirdChildVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546BCEEB1CFD620300011035 /* ThirdChildVC.swift */; };
+		546F01C11D753804006F16AC /* MyCustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F01BD1D753804006F16AC /* MyCustomTabBar.swift */; };
+		546F01C21D753804006F16AC /* MyCustomTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F01BE1D753804006F16AC /* MyCustomTabBarItem.swift */; };
+		546F01C31D753804006F16AC /* MyPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F01BF1D753804006F16AC /* MyPlusButton.swift */; };
+		546F01C41D753804006F16AC /* MyTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F01C01D753804006F16AC /* MyTabBar.swift */; };
 		546F7F321D51F28C00B9565C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 546F7F341D51F28C00B9565C /* InfoPlist.strings */; };
 		546F7F3A1D51F4A400B9565C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 546F7F391D51F4A400B9565C /* Localizable.strings */; };
 		546F7F431D51F9F200B9565C /* MyCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F7F3D1D51F9F100B9565C /* MyCameraView.swift */; };
@@ -178,11 +178,11 @@
 		5465D26F1CFBDD730012A314 /* secondChildVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = secondChildVC.swift; sourceTree = "<group>"; };
 		5465D27A1CFC24760012A314 /* MyCustomNav.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCustomNav.swift; sourceTree = "<group>"; };
 		5465D27B1CFC24760012A314 /* MyCustomTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCustomTVC.swift; sourceTree = "<group>"; };
-		5465D27F1CFC247C0012A314 /* MyTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTabBar.swift; sourceTree = "<group>"; };
-		5465D2811CFC24920012A314 /* MyCustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCustomTabBar.swift; sourceTree = "<group>"; };
-		5465D2831CFC24E50012A314 /* MyCustomTabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCustomTabBarItem.swift; sourceTree = "<group>"; };
-		5465D2851CFC39DA0012A314 /* MyPlusButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlusButton.swift; sourceTree = "<group>"; };
 		546BCEEB1CFD620300011035 /* ThirdChildVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdChildVC.swift; sourceTree = "<group>"; };
+		546F01BD1D753804006F16AC /* MyCustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCustomTabBar.swift; sourceTree = "<group>"; };
+		546F01BE1D753804006F16AC /* MyCustomTabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCustomTabBarItem.swift; sourceTree = "<group>"; };
+		546F01BF1D753804006F16AC /* MyPlusButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlusButton.swift; sourceTree = "<group>"; };
+		546F01C01D753804006F16AC /* MyTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTabBar.swift; sourceTree = "<group>"; };
 		546F7F311D51F25F00B9565C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		546F7F331D51F28C00B9565C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		546F7F351D51F29200B9565C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -453,6 +453,7 @@
 		5465D2791CFC24760012A314 /* TVC && NAV */ = {
 			isa = PBXGroup;
 			children = (
+				546F01BC1D753804006F16AC /* TabBar */,
 				5465D27A1CFC24760012A314 /* MyCustomNav.swift */,
 				5465D27B1CFC24760012A314 /* MyCustomTVC.swift */,
 				544E97891D65C1CB00A8984E /* MyPresentMav.swift */,
@@ -460,16 +461,15 @@
 			path = "TVC && NAV";
 			sourceTree = "<group>";
 		};
-		5465D27E1CFC247C0012A314 /* TabBar */ = {
+		546F01BC1D753804006F16AC /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
-				5465D27F1CFC247C0012A314 /* MyTabBar.swift */,
-				5465D2851CFC39DA0012A314 /* MyPlusButton.swift */,
-				5465D2811CFC24920012A314 /* MyCustomTabBar.swift */,
-				5465D2831CFC24E50012A314 /* MyCustomTabBarItem.swift */,
+				546F01BD1D753804006F16AC /* MyCustomTabBar.swift */,
+				546F01BE1D753804006F16AC /* MyCustomTabBarItem.swift */,
+				546F01BF1D753804006F16AC /* MyPlusButton.swift */,
+				546F01C01D753804006F16AC /* MyTabBar.swift */,
 			);
-			name = TabBar;
-			path = ../TabBar;
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		546F7F3B1D51F9F100B9565C /* Camera */ = {
@@ -514,7 +514,6 @@
 		54C7BB161CFD862500963002 /* LaunchVC */ = {
 			isa = PBXGroup;
 			children = (
-				5465D27E1CFC247C0012A314 /* TabBar */,
 				54C7BB181CFD862500963002 /* LaunchVC.swift */,
 				54C7BB171CFD862500963002 /* LaunchVC.storyboard */,
 			);
@@ -768,6 +767,7 @@
 				545CE1641D4065FD007A3DE0 /* MyLog.swift in Sources */,
 				54BA44DF1D377D3600F45807 /* UIView+extension.swift in Sources */,
 				541CAFB81D41BA9A00A8EC88 /* MyCollectionViewCell.swift in Sources */,
+				546F01C21D753804006F16AC /* MyCustomTabBarItem.swift in Sources */,
 				5460F13E1D58366200F4E304 /* UIImage+extension.swift in Sources */,
 				5463E7F11D6407F40004555D /* UIDevice+extension.swift in Sources */,
 				54B9CE2E1D421731005D7EC2 /* MyAlbumViewController.swift in Sources */,
@@ -775,15 +775,14 @@
 				549911841D7431C5000ABDA2 /* ConstraintVC.swift in Sources */,
 				546BCEEC1CFD620300011035 /* ThirdChildVC.swift in Sources */,
 				5465D2371CFBDBE20012A314 /* AppDelegate.swift in Sources */,
-				5465D2841CFC24E50012A314 /* MyCustomTabBarItem.swift in Sources */,
 				54B9CE311D42176F005D7EC2 /* MyAlbumTableViewCell.swift in Sources */,
 				541CAFC51D41BAA000A8EC88 /* MyQrCodeScanVC.swift in Sources */,
 				546F7F471D51F9F200B9565C /* MyLabel.swift in Sources */,
 				5460F1381D582A8400F4E304 /* MyGifView.swift in Sources */,
 				541CAFCD1D41BAAB00A8EC88 /* MyLoadProgressView.swift in Sources */,
-				5465D2821CFC24920012A314 /* MyCustomTabBar.swift in Sources */,
 				54C7BB1A1CFD862500963002 /* LaunchVC.swift in Sources */,
 				54B9CE341D4225A5005D7EC2 /* MyAlbumDetailViewController.swift in Sources */,
+				546F01C31D753804006F16AC /* MyPlusButton.swift in Sources */,
 				544E978A1D65C1CB00A8984E /* MyPresentMav.swift in Sources */,
 				546117521CFEC459008C48DB /* MyTopScrollView.swift in Sources */,
 				5460F1421D58698A00F4E304 /* UIWebView+extension.swift in Sources */,
@@ -794,6 +793,7 @@
 				549488821D61AC8100C1E3A8 /* MySystemRequest.swift in Sources */,
 				545CE1631D4065FD007A3DE0 /* Khowledge.swift in Sources */,
 				545CE1681D406BF9007A3DE0 /* UIViewController+extension.swift in Sources */,
+				546F01C11D753804006F16AC /* MyCustomTabBar.swift in Sources */,
 				545CE1621D4065FD007A3DE0 /* Const.swift in Sources */,
 				54E6BE931D670E53007288F0 /* UIBarButtonItem+extension.swift in Sources */,
 				547B08F31D66AF14000FFA08 /* pushByfirstVC.swift in Sources */,
@@ -801,7 +801,7 @@
 				546F7F491D51FA2100B9565C /* MyDefaultCameraVC.swift in Sources */,
 				5465D2701CFBDD730012A314 /* firstChildVC.swift in Sources */,
 				541CAFC21D41BAA000A8EC88 /* MyQrCodeCreatView.swift in Sources */,
-				5465D2801CFC247C0012A314 /* MyTabBar.swift in Sources */,
+				546F01C41D753804006F16AC /* MyTabBar.swift in Sources */,
 				54D7FA5C1D41C7310007631B /* MyCollectionViewLayout.swift in Sources */,
 				541CAFC71D41BAA000A8EC88 /* MyQrCodeScanView.swift in Sources */,
 				541CAFC31D41BAA000A8EC88 /* MyQrCodeScanResultVC.swift in Sources */,
@@ -818,7 +818,6 @@
 				541CAFCF1D41BAAB00A8EC88 /* MyVideoPlayerView.swift in Sources */,
 				541CAFB61D41BA9A00A8EC88 /* MyCollectionView.swift in Sources */,
 				54D0AA8C1D2D0F46002A97CD /* NSDateExtension.swift in Sources */,
-				5465D2861CFC39DA0012A314 /* MyPlusButton.swift in Sources */,
 				5408A3381D0175A80044C14A /* MyTopicButton.swift in Sources */,
 				546F7F431D51F9F200B9565C /* MyCameraView.swift in Sources */,
 			);
