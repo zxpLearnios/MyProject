@@ -38,7 +38,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         var numbers = [date2, date0, date1] // "a", "be", "ba", "e", "a1"; 1, 3, 2; date2, date0, date1
         numbers.sort { (date0, date1) -> Bool in
             
-            return date0.isEarlierThanDate(ompareToDate: date1)
+            return date0.isEarlierThanDate(compareToDate: date1)
         }
         
         //        numbers.sortInPlace({$0 < $1})

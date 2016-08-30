@@ -15,6 +15,7 @@ class ConstraintVC: UIViewController {
     let redView = UIView()
     let greenView = UIView()
     let blueView = UIView()
+    let label = UILabel()
     
     
     
@@ -25,7 +26,10 @@ class ConstraintVC: UIViewController {
         self.view.addSubview(redView)
          self.view.addSubview(greenView)
          self.view.addSubview(blueView)
-        
+        self.view.addSubview(label)
+//        label.textColor = UIColor.blackColor()
+        label.text = "社团人格的若干"
+        label.textAlignment = .Center
         redView.backgroundColor = UIColor.redColor()
         greenView.backgroundColor = UIColor.greenColor()
         blueView.backgroundColor = UIColor.blueColor()
@@ -56,8 +60,8 @@ class ConstraintVC: UIViewController {
 //            
 //        }
         
-        
-        constrain(greenView, redView, blueView) { (g, r, b) in
+        // 注意， 主动view是第一个view，不要放错。
+        constrain(greenView, redView, blueView, label) { (g, r, b, lab) in
             
             g.width == 200
             g.height == 50
@@ -75,9 +79,13 @@ class ConstraintVC: UIViewController {
             
             
             
-            align(leading: g, r, b)
+            align(leading: g, r, b, lab)
+            
+            lab.width == kwidth
+            lab.top == g.bottom + 30
             
             
+            //            distribute(by: 40, vertically: mainV, view1, view2) // view1.bottom = mainV.bottom + 40 ,  view2.bottom = view1.bottom + 40
         }
         
     }

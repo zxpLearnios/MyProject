@@ -205,7 +205,7 @@ extension Array {
         var newAry = models
         
         newAry.sortInPlace { (ml0, ml1) -> Bool in
-            if ml0.creatDate!.isEarlierThanDate(ompareToDate: ml1.creatDate!) {
+            if ml0.creatDate!.isEarlierThanDate(compareToDate: ml1.creatDate!) {
                 return true  // 表示排序
             }
             return false
@@ -226,7 +226,7 @@ extension Array {
                 
                 let subModel0 = modelAry[j]
                 let subModel1 = modelAry[j+1]
-                if  subModel0.creatDate!.isEarlierThanDate(ompareToDate:subModel1.creatDate!) {
+                if  subModel0.creatDate!.isEarlierThanDate(compareToDate:subModel1.creatDate!) {
                     
                 }else{
                     modelAry[j+1] = subModel0

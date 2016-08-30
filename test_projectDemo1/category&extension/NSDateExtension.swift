@@ -94,7 +94,7 @@ extension NSDate {
     /**
      5. 时间是否比传入的时间早
      */
-    func  isEarlierThanDate(ompareToDate thanDate:NSDate) -> Bool {
+    func  isEarlierThanDate(compareToDate thanDate:NSDate) -> Bool {
         
         if self.compare(thanDate) == .OrderedAscending {
             return true
@@ -106,7 +106,7 @@ extension NSDate {
     /**
      6. 时间是否比传入的时间晚
      */
-    func  islatterThanDate(ompareToDate thanDate:NSDate) -> Bool {
+    func  islatterThanDate(compareToDate thanDate:NSDate) -> Bool {
         
         if self.compare(thanDate) == .OrderedDescending {
             return true
