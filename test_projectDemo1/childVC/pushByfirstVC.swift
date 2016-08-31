@@ -28,6 +28,7 @@ class pushByfirstVC: UIViewController {
         
         self.title = "pushByFirstVC"
         
+        self.view.backgroundColor = UIColor.whiteColor() // 不设置的话，滑动返回时会出现透明现象
         
         //        self.tableView.setUpHeaderRefresh {
         //

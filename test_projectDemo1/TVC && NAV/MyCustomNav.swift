@@ -69,7 +69,7 @@ class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
         }
         
         // 若滑动返回失效，则清空代理, 即可
-        self.interactivePopGestureRecognizer?.delegate = nil
+        self.interactivePopGestureRecognizer?.delegate = nil // 注意设置被push处理的控制器的背景色为白色， 不设置的话，滑动返回时会出现透明现象
     }
     
   
