@@ -12,7 +12,7 @@ pod "Kingfisher"        # SDWebImaged的swift版本
 #pod "ReactiveCocoa"     # RAC，它依赖了一个第三方Result库
 pod "QKLockView"
 pod "Cartography" # swift版的约束
-
+pod "LTMorphingLabel"  # 动态效果的label; 两次的text必须不一样，才会有动画效果; 故在设置morphingEffect前先将text清空然后在设置先前的text，以达到text一样时也有动态效果, 见ConstraintVC
 
 end
 

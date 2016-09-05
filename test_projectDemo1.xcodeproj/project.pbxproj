@@ -76,6 +76,10 @@
 		547B08F41D66AF14000FFA08 /* pushByfirstVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 547B08F21D66AF14000FFA08 /* pushByfirstVC.xib */; };
 		547D05E71D66A16700A5DE56 /* testVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547D05E61D66A16700A5DE56 /* testVC.swift */; };
 		5486F7A31D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */; };
+		548B80F51D791F7C00D3517F /* lantinghei.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 548B80F41D791F7C00D3517F /* lantinghei.TTF */; };
+		548B80F81D79201B00D3517F /* demo.html in Resources */ = {isa = PBXBuildFile; fileRef = 548B80F61D79201B00D3517F /* demo.html */; };
+		548B80F91D79201B00D3517F /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 548B80F71D79201B00D3517F /* iconfont.ttf */; };
+		548B80FC1D79206B00D3517F /* QLIconFontLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548B80FB1D79206B00D3517F /* QLIconFontLabel.swift */; };
 		549488801D61A52700C1E3A8 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5494887F1D61A52700C1E3A8 /* String+extension.swift */; };
 		549488821D61AC8100C1E3A8 /* MySystemRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549488811D61AC8100C1E3A8 /* MySystemRequest.swift */; };
 		549911841D7431C5000ABDA2 /* ConstraintVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549911831D7431C5000ABDA2 /* ConstraintVC.swift */; };
@@ -198,6 +202,10 @@
 		547B08F21D66AF14000FFA08 /* pushByfirstVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = pushByfirstVC.xib; sourceTree = "<group>"; };
 		547D05E61D66A16700A5DE56 /* testVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testVC.swift; sourceTree = "<group>"; };
 		5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBaseNetWorkRequest.swift; sourceTree = "<group>"; };
+		548B80F41D791F7C00D3517F /* lantinghei.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = lantinghei.TTF; sourceTree = "<group>"; };
+		548B80F61D79201B00D3517F /* demo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = demo.html; sourceTree = "<group>"; };
+		548B80F71D79201B00D3517F /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
+		548B80FB1D79206B00D3517F /* QLIconFontLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QLIconFontLabel.swift; sourceTree = "<group>"; };
 		5494887F1D61A52700C1E3A8 /* String+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		549488811D61AC8100C1E3A8 /* MySystemRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySystemRequest.swift; sourceTree = "<group>"; };
 		549911831D7431C5000ABDA2 /* ConstraintVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintVC.swift; sourceTree = "<group>"; };
@@ -302,6 +310,7 @@
 			children = (
 				545CE13C1D4065DA007A3DE0 /* GuideVC.swift */,
 				549911831D7431C5000ABDA2 /* ConstraintVC.swift */,
+				548B80FA1D79206400D3517F /* IconfotLabel */,
 				546F7F3B1D51F9F100B9565C /* Camera */,
 				541CAFB01D41BA9A00A8EC88 /* Album */,
 				541CAFBB1D41BAA000A8EC88 /* QrCode */,
@@ -395,6 +404,9 @@
 			children = (
 				5460F1541D58921700F4E304 /* data.json */,
 				5460F1431D586E7200F4E304 /* test.gif */,
+				548B80F61D79201B00D3517F /* demo.html */,
+				548B80F71D79201B00D3517F /* iconfont.ttf */,
+				548B80F41D791F7C00D3517F /* lantinghei.TTF */,
 				5460F1451D58752900F4E304 /* test1.gif */,
 				5465D2361CFBDBE20012A314 /* AppDelegate.swift */,
 				542A51DD1D48B2840020D722 /* test_projectDemo1-Bridging-Header.h */,
@@ -509,6 +521,14 @@
 				549488811D61AC8100C1E3A8 /* MySystemRequest.swift */,
 			);
 			path = NetWorkRequest;
+			sourceTree = "<group>";
+		};
+		548B80FA1D79206400D3517F /* IconfotLabel */ = {
+			isa = PBXGroup;
+			children = (
+				548B80FB1D79206B00D3517F /* QLIconFontLabel.swift */,
+			);
+			path = IconfotLabel;
 			sourceTree = "<group>";
 		};
 		54C7BB161CFD862500963002 /* LaunchVC */ = {
@@ -673,6 +693,7 @@
 				541CAFC41D41BAA000A8EC88 /* MyQrCodeScanResultVC.xib in Resources */,
 				5465395F1D01213900BD2F87 /* MySuperVC.xib in Resources */,
 				54B9CE2C1D41F655005D7EC2 /* MyImagePickerController.storyboard in Resources */,
+				548B80F51D791F7C00D3517F /* lantinghei.TTF in Resources */,
 				547B08F41D66AF14000FFA08 /* pushByfirstVC.xib in Resources */,
 				546F7F3A1D51F4A400B9565C /* Localizable.strings in Resources */,
 				5465D2411CFBDBE20012A314 /* LaunchScreen.storyboard in Resources */,
@@ -681,6 +702,8 @@
 				5460F1441D586E7200F4E304 /* test.gif in Resources */,
 				541CAFD01D41BAAB00A8EC88 /* MyVideoPlayerView.xib in Resources */,
 				545E33CC1D07B456006768C6 /* Images.xcassets in Resources */,
+				548B80F91D79201B00D3517F /* iconfont.ttf in Resources */,
+				548B80F81D79201B00D3517F /* demo.html in Resources */,
 				546F7F461D51F9F200B9565C /* MyCaptureCell.xib in Resources */,
 				546F7F321D51F28C00B9565C /* InfoPlist.strings in Resources */,
 				541CAFB71D41BA9A00A8EC88 /* MyCollectionView.xib in Resources */,
@@ -778,6 +801,7 @@
 				54B9CE311D42176F005D7EC2 /* MyAlbumTableViewCell.swift in Sources */,
 				541CAFC51D41BAA000A8EC88 /* MyQrCodeScanVC.swift in Sources */,
 				546F7F471D51F9F200B9565C /* MyLabel.swift in Sources */,
+				548B80FC1D79206B00D3517F /* QLIconFontLabel.swift in Sources */,
 				5460F1381D582A8400F4E304 /* MyGifView.swift in Sources */,
 				541CAFCD1D41BAAB00A8EC88 /* MyLoadProgressView.swift in Sources */,
 				54C7BB1A1CFD862500963002 /* LaunchVC.swift in Sources */,

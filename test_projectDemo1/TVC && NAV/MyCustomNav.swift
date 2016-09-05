@@ -41,7 +41,7 @@ class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
         self.navigationBar.barTintColor = UIColor.purpleColor()
         
         // 所有push出的控制器的title的属性设置
-        let textAttibute = [NSFontAttributeName: UIFont.systemFontOfSize(10), NSForegroundColorAttributeName: UIColor.greenColor()]
+        let textAttibute = [NSFontAttributeName: UIFont.systemFontOfSize(20), NSForegroundColorAttributeName: UIColor.greenColor()]
         self.navigationBar.titleTextAttributes = textAttibute
         
         
@@ -70,6 +70,10 @@ class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
         
         // 若滑动返回失效，则清空代理, 即可
         self.interactivePopGestureRecognizer?.delegate = nil // 注意设置被push处理的控制器的背景色为白色， 不设置的话，滑动返回时会出现透明现象
+        
+        // 禁止使用系统自带的滑动手势
+//        self.interactivePopGestureRecognizer?.enabled = false
+        
     }
     
   
@@ -81,6 +85,16 @@ class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
         self.delegate = self
     }
     
+    // 滑动返回手势， 不在最左边亦可的那种
+//    private func addPanGestrue(){
+//        let pan = UIPanGestureRecognizer.init(target: self, action: #selector(panAction))
+//        self.view.addGestureRecognizer(pan)
+//        
+//    }
+//    
+//    func panAction(pan:UIPanGestureRecognizer) {
+//        
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

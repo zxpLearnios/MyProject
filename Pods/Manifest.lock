@@ -1,8 +1,9 @@
 PODS:
-  - Alamofire (3.4.1)
+  - Alamofire (3.4.2)
   - Cartography (0.6.0)
   - GPUImage (0.1.7)
-  - Kingfisher (2.4.2)
+  - Kingfisher (2.5.0)
+  - LTMorphingLabel (0.2.1)
   - MJRefresh (3.1.12)
   - PKHUD (3.2.1)
   - PullToRefreshKit (0.3.1)
@@ -13,21 +14,23 @@ DEPENDENCIES:
   - Cartography
   - GPUImage
   - Kingfisher
+  - LTMorphingLabel
   - MJRefresh
   - PKHUD
   - PullToRefreshKit
   - QKLockView
 
 SPEC CHECKSUMS:
-  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  Alamofire: 6aa33201d20d069e1598891cf928883ff1888c7a
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
-  Kingfisher: 05bf8d04408aaa70fcd2c8c81b9f1d0f1ad313dd
+  Kingfisher: d467bd710907ec9aa94aaddecaa5390aa3559819
+  LTMorphingLabel: 1858358ea38ef4d548e1f58b648b0d08ec3a62ed
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   PKHUD: 001c11518f125a273ddf026bcc64918423744ea2
   PullToRefreshKit: c60ad73569b8c6791b1833e9b02631a676a6f944
   QKLockView: a22ce3fc7ed288048984b4a8922566d5de138dea
 
-PODFILE CHECKSUM: 378054946c03a291aa6d2895cdb0761e57053c9f
+PODFILE CHECKSUM: a03c0a3c0d98875fc7bdbe5b00ff97dc800b5ef0
 
 COCOAPODS: 1.1.0.beta.1

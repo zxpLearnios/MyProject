@@ -48,5 +48,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>iconfont.ttf</string>
+		<string>lantinghei.TTF</string>
+	</array>
 </dict>
 </plist>

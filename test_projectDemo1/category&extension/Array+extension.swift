@@ -216,7 +216,7 @@ extension Array {
     }
     
     /**
-     *   3.冒泡排序
+     *   3.冒泡排序, 时间先后排序
      */
     func bubbleSortByDate(array:[TestSortOfModel]) -> [TestSortOfModel] {
         var modelAry = array

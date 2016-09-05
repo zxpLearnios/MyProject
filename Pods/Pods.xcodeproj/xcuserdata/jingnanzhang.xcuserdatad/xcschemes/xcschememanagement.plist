@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>LTMorphingLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MJRefresh.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -57,17 +62,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3D3212059D5397CBF9834BEAAA229E95</key>
+		<key>33F74CFAD9CF9081F94C2FC255D6DC57</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>46507220366D9573733D36050148EDEA</key>
+		<key>3A14D64B54FE4778464729B737362D5E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>589B800CED0F0566803354B9E626C0EC</key>
+		<key>3C900E8E2449EBBCC12128A9BDA69E7F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>57831C033E4561EF7EB86F6BE6FD0A75</key>
 		<dict>
 			<key>primary</key>
 			<true/>

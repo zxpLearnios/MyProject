@@ -151,6 +151,14 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         // 14. 约束第三方的使用
         addConstraintsButton()
         
+        // 15. Iconfont
+        let iconLab = UILabel.init(frame: CGRectMake(30, 250, 300, 30))
+        iconLab.font = UIFont.init(name: "lantinghei", size: 20) // iconfont
+        iconLab.text = "就输入该太难usefjkn" // "\u{e603}"
+        self.view.addSubview(iconLab)
+        
+        // 16.
+        
     }
     
     private func addScanButton(){
@@ -311,7 +319,8 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     // MARK: 约束
     func constaintsAction()  {
         let constranitVC = ConstraintVC()
-        self.view.addSubview(constranitVC.view)
+        
+        self.presentViewController(constranitVC, animated: true, completion: nil)
         
     }
     
