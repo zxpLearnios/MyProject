@@ -36,6 +36,7 @@
 		545CE1641D4065FD007A3DE0 /* MyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545CE1611D4065FD007A3DE0 /* MyLog.swift */; };
 		545CE1661D406790007A3DE0 /* MyHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545CE1651D406790007A3DE0 /* MyHUD.swift */; };
 		545CE1681D406BF9007A3DE0 /* UIViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545CE1671D406BF9007A3DE0 /* UIViewController+extension.swift */; };
+		545E2C591D810E81001A046D /* MyPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545E2C581D810E81001A046D /* MyPhotoBrowser.swift */; };
 		545E33CC1D07B456006768C6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 545E33CB1D07B456006768C6 /* Images.xcassets */; };
 		5460F1381D582A8400F4E304 /* MyGifView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460F1371D582A8400F4E304 /* MyGifView.swift */; };
 		5460F13E1D58366200F4E304 /* UIImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460F13D1D58366200F4E304 /* UIImage+extension.swift */; };
@@ -153,6 +154,7 @@
 		545CE1611D4065FD007A3DE0 /* MyLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLog.swift; sourceTree = "<group>"; };
 		545CE1651D406790007A3DE0 /* MyHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHUD.swift; sourceTree = "<group>"; };
 		545CE1671D406BF9007A3DE0 /* UIViewController+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+extension.swift"; sourceTree = "<group>"; };
+		545E2C581D810E81001A046D /* MyPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPhotoBrowser.swift; sourceTree = "<group>"; };
 		545E33CB1D07B456006768C6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5460F1371D582A8400F4E304 /* MyGifView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyGifView.swift; sourceTree = "<group>"; };
 		5460F13D1D58366200F4E304 /* UIImage+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+extension.swift"; path = "../UIImage+extension.swift"; sourceTree = "<group>"; };
@@ -350,6 +352,14 @@
 			path = "Knowledge&Log&const";
 			sourceTree = "<group>";
 		};
+		545E2C571D810E0F001A046D /* PhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				545E2C581D810E81001A046D /* MyPhotoBrowser.swift */,
+			);
+			path = PhotoBrowser;
+			sourceTree = "<group>";
+		};
 		5460F1361D582A5200F4E304 /* Gif */ = {
 			isa = PBXGroup;
 			children = (
@@ -410,6 +420,7 @@
 				5460F1451D58752900F4E304 /* test1.gif */,
 				5465D2361CFBDBE20012A314 /* AppDelegate.swift */,
 				542A51DD1D48B2840020D722 /* test_projectDemo1-Bridging-Header.h */,
+				545E2C571D810E0F001A046D /* PhotoBrowser */,
 				545CE15E1D4065FD007A3DE0 /* Knowledge&Log&const */,
 				5460F1361D582A5200F4E304 /* Gif */,
 				545CE15B1D4065F4007A3DE0 /* HUD */,
@@ -833,6 +844,7 @@
 				549488801D61A52700C1E3A8 /* String+extension.swift in Sources */,
 				5486F7A31D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift in Sources */,
 				5465D2711CFBDD730012A314 /* secondChildVC.swift in Sources */,
+				545E2C591D810E81001A046D /* MyPhotoBrowser.swift in Sources */,
 				545CE1661D406790007A3DE0 /* MyHUD.swift in Sources */,
 				5458A9091D6E87E3004A8418 /* Config.swift in Sources */,
 				5454FF1F1D5072AC00A0A58D /* Array+extension.swift in Sources */,

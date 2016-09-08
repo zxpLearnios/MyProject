@@ -9,6 +9,7 @@
 // kwindow  最后在viewDidAppear中获取，防止有时获取不到
 
 import UIKit
+import CoreText
 
 let appNameKey = "CFBundleName"
 let  appVersionKey = "CFBundleShortVersionString" // app版本 全部版本号
@@ -49,6 +50,20 @@ let kDevice = UIDevice.currentDevice()
 //let kOrientation = UIDevice.currentDevice().orientation
 /** 屏幕状态栏方向 */
 let kStatusDirection = UIApplication.sharedApplication().statusBarOrientation
+
+/** 旋转角度， 0--360 */
+func rotateRadius(radius:Double) -> Double {
+    return radius * M_PI / 180
+}
+//private var _kRotation = 0.0
+//var  kRotation:Double {
+//    get{
+//        return _kRotation * M_PI / 180
+//    }
+//    set{
+//        _kRotation = newValue
+//    }
+//}
 
 
 /** 全局的代理 */

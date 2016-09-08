@@ -68,8 +68,8 @@ extension UIView{
             return self.bounds.width
         }
         set{
-            
             self.bounds = CGRectMake(0, 0, newValue, self.bounds.height)
+//            self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, newValue, self.frame.height)
         }
         
     }
@@ -81,6 +81,8 @@ extension UIView{
         }
         set{
             self.bounds = CGRectMake(0, 0, self.bounds.width, newValue)
+            
+//            self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, newValue)
         }
         
     }

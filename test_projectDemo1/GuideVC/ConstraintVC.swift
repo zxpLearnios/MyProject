@@ -4,11 +4,12 @@
 //
 //  Created by Jingnan Zhang on 16/8/29.
 //  Copyright © 2016年 Jingnan Zhang. All rights reserved.
-//
+//  使用CoreText
 
 import UIKit
 import Cartography
 import LTMorphingLabel
+import CoreText
 
 
 class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
@@ -44,6 +45,8 @@ class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
         
         addConstranit1()
         
+        
+        useCoreText()
         
     }
 
@@ -106,6 +109,15 @@ class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
         super.didReceiveMemoryWarning()
     }
     
+    
+    private func useCoreText(){
+    
+        var str = NSMutableAttributedString.init(string: "vdth而后人和他")
+        
+        var attributeDic = [:]
+         attributeDic = [UIColor.redColor(): kCTForegroundColorAttributeName]
+        
+    }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         

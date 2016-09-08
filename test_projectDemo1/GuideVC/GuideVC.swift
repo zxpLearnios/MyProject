@@ -316,11 +316,27 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         kwindow?.rootViewController = MyCustomTVC()
     }
     
+   
+    
+    
     // MARK: 约束
     func constaintsAction()  {
-        let constranitVC = ConstraintVC()
+//        let constranitVC = ConstraintVC()
+//        self.presentViewController(constranitVC, animated: true, completion: nil)
         
-        self.presentViewController(constranitVC, animated: true, completion: nil)
+        
+        var ary = [UIImage]()
+        for i in 0...3{
+            let str = "0" + String(i)
+            let img = UIImage.init(named: str)!
+            ary.append(img)
+        }
+
+        
+        
+        let view = MyPhotoBrowser.init(frame: kbounds)
+        view.images = ary
+        self.view.addSubview(view)
         
     }
     
