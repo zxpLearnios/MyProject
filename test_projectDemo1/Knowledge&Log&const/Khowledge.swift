@@ -222,7 +222,8 @@ class Part: NSObject {
  　　2 结构体本身是值传递,如果一个结构体赋值给另外一个结构体了也是两份拷贝,互相修改不会有影响
  
  
- 24. 
+ 24.  手势
+ UIPanGestureRecognizer（拖动）  UIPinchGestureRecognizer（捏合） UIRotationGestureRecognizer（旋转） UITapGestureRecognizer（点按）  UILongPressGestureRecognizer（长按） UISwipeGestureRecognizer（轻扫）
  
  
  
@@ -338,3 +339,5 @@ class Part: NSObject {
  25 . 选项形式（as?）的操作执行转换并返回期望类型的一个选项值，如果转换成功则返回的选项包含有效值，否则选项值为 nil .   强制形式（as ）的操作执行一个实例到目的类型的强制转换，因此使用该形式可能触发一个运行时错误。
  
  */
+
+
