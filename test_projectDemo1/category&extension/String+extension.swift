@@ -16,8 +16,11 @@ extension String{
      */
     static func deleteBlankFromHeadAndTail(primordailStr str:String) -> String {
         let newStr = str.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        
         return newStr
     }
 
+    
+    
+    
+    
 }

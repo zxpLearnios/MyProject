@@ -18,7 +18,25 @@
             <subviews>
                 <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q58-9S-HAc" userLabel="顶部View" customClass="MyQrCodeScanView" customModule="test_projectDemo1" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请将二维码放入扫描框内" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lCR-po-DyY">
+                            <rect key="frame" x="207" y="330" width="187" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="lCR-po-DyY" firstAttribute="centerX" secondItem="Q58-9S-HAc" secondAttribute="centerX" id="P9U-4O-9xv"/>
+                        <constraint firstItem="lCR-po-DyY" firstAttribute="top" secondItem="Q58-9S-HAc" secondAttribute="top" constant="330" id="RYM-yX-var"/>
+                        <constraint firstAttribute="bottom" secondItem="lCR-po-DyY" secondAttribute="bottom" constant="250" id="lHT-ha-UdP"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="lHT-ha-UdP"/>
+                        </mask>
+                    </variation>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4oA-04-vVA" userLabel="底部View">
                     <rect key="frame" x="0.0" y="464" width="600" height="136"/>
@@ -27,7 +45,7 @@
                             <rect key="frame" x="554" y="106" width="46" height="30"/>
                             <state key="normal" title="Button"/>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fbI-B4-mae">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fbI-B4-mae">
                             <rect key="frame" x="0.0" y="49" width="65" height="87"/>
                             <state key="normal" image="album_normal"/>
                             <state key="selected" image="album_select"/>

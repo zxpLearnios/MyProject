@@ -23,7 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow.init(frame: UIScreen.mainScreen().bounds)
         window?.makeKeyAndVisible()
         
-        
+//        let xx = "1234567.230"
+//        
+//        let  str = 1234567.980
+//        let newStr = str.formateObjToString(str)
         
         // 1. 启动画面
         let name = "LaunchVC"

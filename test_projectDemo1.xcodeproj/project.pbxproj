@@ -51,6 +51,7 @@
 		5463E7F11D6407F40004555D /* UIDevice+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5463E7F01D6407F40004555D /* UIDevice+extension.swift */; };
 		5465395E1D01213900BD2F87 /* MySuperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465395C1D01213900BD2F87 /* MySuperVC.swift */; };
 		5465395F1D01213900BD2F87 /* MySuperVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5465395D1D01213900BD2F87 /* MySuperVC.xib */; };
+		546589721D87AF5200DA0C32 /* Double+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546589711D87AF5200DA0C32 /* Double+extension.swift */; };
 		5465D2371CFBDBE20012A314 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465D2361CFBDBE20012A314 /* AppDelegate.swift */; };
 		5465D23E1CFBDBE20012A314 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5465D23D1CFBDBE20012A314 /* Assets.xcassets */; };
 		5465D2411CFBDBE20012A314 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5465D23F1CFBDBE20012A314 /* LaunchScreen.storyboard */; };
@@ -169,6 +170,7 @@
 		5463E7F01D6407F40004555D /* UIDevice+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+extension.swift"; sourceTree = "<group>"; };
 		5465395C1D01213900BD2F87 /* MySuperVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySuperVC.swift; sourceTree = "<group>"; };
 		5465395D1D01213900BD2F87 /* MySuperVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MySuperVC.xib; sourceTree = "<group>"; };
+		546589711D87AF5200DA0C32 /* Double+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+extension.swift"; sourceTree = "<group>"; };
 		5465D2331CFBDBE20012A314 /* test_projectDemo1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test_projectDemo1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5465D2361CFBDBE20012A314 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5465D23D1CFBDBE20012A314 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -564,6 +566,7 @@
 				5494887F1D61A52700C1E3A8 /* String+extension.swift */,
 				5463E7F01D6407F40004555D /* UIDevice+extension.swift */,
 				54E6BE921D670E53007288F0 /* UIBarButtonItem+extension.swift */,
+				546589711D87AF5200DA0C32 /* Double+extension.swift */,
 			);
 			path = "category&extension";
 			sourceTree = "<group>";
@@ -833,6 +836,7 @@
 				54E6BE931D670E53007288F0 /* UIBarButtonItem+extension.swift in Sources */,
 				547B08F31D66AF14000FFA08 /* pushByfirstVC.swift in Sources */,
 				545CE15D1D4065F4007A3DE0 /* MyProgressHUD.swift in Sources */,
+				546589721D87AF5200DA0C32 /* Double+extension.swift in Sources */,
 				546F7F491D51FA2100B9565C /* MyDefaultCameraVC.swift in Sources */,
 				5465D2701CFBDD730012A314 /* firstChildVC.swift in Sources */,
 				541CAFC21D41BAA000A8EC88 /* MyQrCodeCreatView.swift in Sources */,
