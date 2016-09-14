@@ -73,6 +73,7 @@ class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
 //        }
         
         // 注意， 主动view是第一个view，不要放错。  label 根据需要，可以不设置宽度的（和autolayout一样）
+        // leading 和 trailing一起用， left和right一起用，最好不要出现leading\trailing和left\right一起用
         constrain(greenView, redView, blueView, label, muLabel) { (g, r, b, lab, mLab) in
             
             let superV = g.superview!
@@ -82,7 +83,7 @@ class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
             r.size == g.size
             b.size == g.size
             
-            g.leading == superV.left + 50
+            g.leading == superV.leading + 50
             
             g.top == superV.top + 30
             
