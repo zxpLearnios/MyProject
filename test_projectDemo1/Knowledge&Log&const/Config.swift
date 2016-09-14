@@ -8,6 +8,14 @@
 
 import UIKit
 
+enum SystemSetting:String {
+    
+    case set   = "" , //  UIApplicationOpenSettingsURLString,
+    wifi = "prefs:root=WIFI",
+    locate = "prefs:root=LOCATION_SERVICES", // 定位
+    general = "prefs:root=General"  // 通用
+}
+
 class Config: NSObject {
 
     /**
@@ -73,4 +81,19 @@ class Config: NSObject {
         
         return UIColor(red: CGFloat(r)/255.0, green: CGFloat(g)/255.0, blue: CGFloat(b)/255.0, alpha: CGFloat(1))
     }
+    
+    /**
+     *  跳转至设置界面
+     */
+    class func skipToSystemSetting(str:SystemSetting) {
+        
+        let url = NSURL.init(string: str.rawValue)
+        if url == nil {
+            return
+        }
+        if UIApplication.sharedApplication().canOpenURL(url!){
+            UIApplication.sharedApplication().openURL(url!)
+        }
+    }
+    
 }

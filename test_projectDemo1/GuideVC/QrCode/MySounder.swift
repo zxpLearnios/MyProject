@@ -7,6 +7,7 @@
 //  播放音频
 
 import UIKit
+import AudioToolbox
 
 class MySounder: NSObject {
     
