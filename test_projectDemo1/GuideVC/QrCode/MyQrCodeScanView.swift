@@ -5,7 +5,7 @@
 //  Created by Jingnan Zhang on 16/6/27.
 //  Copyright © 2016年 Jingnan Zhang. All rights reserved.
 //  二维码扫描View
-//  1.  模拟器<8.3版本不可以，2. AVFoundation框架不仅支持二维码扫描。还支持非常多别的条码类别。比如Code39，Code128，Aztec，和PDF417,  3. 本view暂时控制为 200*200, 为了隐藏那个上下移动的view（当移动到太靠下时）, 4. 判断是否可以获取硬件信息等是为了防止在模拟器上出错, 5. 若需要让动画view上移而后下移，只需改变重力方向无须再清空之， 6. 此view弄得和屏幕一样大
+//  0. 实现了不同角度的快速扫描出二维码   1.  模拟器<8.3版本不可以，2. AVFoundation框架不仅支持二维码扫描。还支持非常多别的条码类别。比如Code39，Code128，Aztec，和PDF417,  3. 本view暂时控制为 200*200, 为了隐藏那个上下移动的view（当移动到太靠下时）, 4. 判断是否可以获取硬件信息等是为了防止在模拟器上出错, 5. 若需要让动画view上移而后下移，只需改变重力方向无须再清空之， 6. 此view弄得和屏幕一样大
 
 import UIKit
 import AVFoundation
@@ -50,7 +50,7 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
     // MARK: 初始化
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+//        self.doInit()
     }
     
     
@@ -60,6 +60,13 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
     
     override func awakeFromNib() {
         super.awakeFromNib()
+//        self.doInit()
+    
+    }
+    
+    // 在此法里frame就是正确的, 只有frame正确时，在doInit里设置的有效扫描区域才与实际相符，扫描越快
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
         self.doInit()
     }
     
@@ -91,6 +98,22 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
         // 0. 设备
         self.clipsToBounds = true // 使超出碰撞边界后的效果看不见
         
+        do{
+            try device.lockForConfiguration()
+        }catch{
+        
+        }
+        
+        // 放大焦距
+        if device.activeFormat.videoMaxZoomFactor > 2 {
+            device.videoZoomFactor = 2
+        }else{
+            device.videoZoomFactor = device.activeFormat.videoMaxZoomFactor
+        }
+        
+        device.unlockForConfiguration()
+        
+        
         // 1. Input
         if session.canAddInput(input) {
             session.addInput(input)
@@ -113,17 +136,17 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
         }
         
         
-        // 2.3 设置扫描响应区域
+        // 2.3 设置扫描响应区域  扫描区域的坐标系与屏幕的坐标系正好相反  ( 扫描区域x = 屏幕坐标系 y)
         
 //        output.rectOfInterest = CGRectMake（y的起点/屏幕的高，x的起点/屏幕的宽，扫描的区域的高/屏幕的高，扫描的区域的宽/屏幕的宽） 
-        let outputW:CGFloat = 250 // 增大后，扫描区域变大了自然会使扫描速度更快，
+        let outputW:CGFloat = 260 // 增大后，扫描区域变大了自然会使扫描速度更快，
         let outputH = outputW
         let x = (kwidth - outputW)/2
         let y = (kheight - outputH)/2
         let width = kwidth // AVCaptureVideoPreviewLayer的对象的宽度
         let height = kheight // AVCaptureVideoPreviewLayer的对象的高度
         
-        output.rectOfInterest = CGRectMake(y/height, x/width, outputW/height, outputH/width)
+        output.rectOfInterest = CGRectMake(y/height, x/width, outputH/height, outputW/width)
         // 3. Session
         session.sessionPreset = AVCaptureSessionPresetHigh // 高质量采集率
         
@@ -134,6 +157,8 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
         
         preViewLayer.frame = self.bounds
         self.layer.insertSublayer(preViewLayer, atIndex: 0)
+        
+        
         
         // 5. 背景view
         bgImgV = UIImageView.init(image: UIImage(named: "scan_bg_pic"))
@@ -265,6 +290,9 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
             stopScanQrCode()
             let result = metadataObjects[0]
             
+            //1.播放系统提示音
+//            MySounder.playSystemSound(soundID: 1007)
+            MySounder.playQrCodeScanCompleteSound()
             
             if self.delegate != nil {
                 self.delegate?.finishScanQrCodeWithOutPutString!(result.stringValue)

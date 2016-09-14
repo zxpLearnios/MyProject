@@ -78,6 +78,8 @@
 		547B08F41D66AF14000FFA08 /* pushByfirstVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 547B08F21D66AF14000FFA08 /* pushByfirstVC.xib */; };
 		547D05E71D66A16700A5DE56 /* testVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547D05E61D66A16700A5DE56 /* testVC.swift */; };
 		5486F7A31D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */; };
+		54878C2F1D88F517006AF203 /* MySounder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54878C2E1D88F517006AF203 /* MySounder.swift */; };
+		54878C311D88FC04006AF203 /* scanQrCodeCompleteSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 54878C301D88FC04006AF203 /* scanQrCodeCompleteSound.wav */; };
 		548B80F51D791F7C00D3517F /* lantinghei.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 548B80F41D791F7C00D3517F /* lantinghei.TTF */; };
 		548B80F81D79201B00D3517F /* demo.html in Resources */ = {isa = PBXBuildFile; fileRef = 548B80F61D79201B00D3517F /* demo.html */; };
 		548B80F91D79201B00D3517F /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 548B80F71D79201B00D3517F /* iconfont.ttf */; };
@@ -206,6 +208,8 @@
 		547B08F21D66AF14000FFA08 /* pushByfirstVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = pushByfirstVC.xib; sourceTree = "<group>"; };
 		547D05E61D66A16700A5DE56 /* testVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testVC.swift; sourceTree = "<group>"; };
 		5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBaseNetWorkRequest.swift; sourceTree = "<group>"; };
+		54878C2E1D88F517006AF203 /* MySounder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySounder.swift; sourceTree = "<group>"; };
+		54878C301D88FC04006AF203 /* scanQrCodeCompleteSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = scanQrCodeCompleteSound.wav; sourceTree = "<group>"; };
 		548B80F41D791F7C00D3517F /* lantinghei.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = lantinghei.TTF; sourceTree = "<group>"; };
 		548B80F61D79201B00D3517F /* demo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = demo.html; sourceTree = "<group>"; };
 		548B80F71D79201B00D3517F /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
@@ -294,6 +298,7 @@
 				541CAFBF1D41BAA000A8EC88 /* MyQrCodeScanVC.swift */,
 				541CAFC01D41BAA000A8EC88 /* MyQrCodeScanVC.xib */,
 				541CAFC11D41BAA000A8EC88 /* MyQrCodeScanView.swift */,
+				54878C2E1D88F517006AF203 /* MySounder.swift */,
 			);
 			path = QrCode;
 			sourceTree = "<group>";
@@ -420,6 +425,7 @@
 				548B80F71D79201B00D3517F /* iconfont.ttf */,
 				548B80F41D791F7C00D3517F /* lantinghei.TTF */,
 				5460F1451D58752900F4E304 /* test1.gif */,
+				54878C301D88FC04006AF203 /* scanQrCodeCompleteSound.wav */,
 				5465D2361CFBDBE20012A314 /* AppDelegate.swift */,
 				542A51DD1D48B2840020D722 /* test_projectDemo1-Bridging-Header.h */,
 				545E2C571D810E0F001A046D /* PhotoBrowser */,
@@ -709,6 +715,7 @@
 				54B9CE2C1D41F655005D7EC2 /* MyImagePickerController.storyboard in Resources */,
 				548B80F51D791F7C00D3517F /* lantinghei.TTF in Resources */,
 				547B08F41D66AF14000FFA08 /* pushByfirstVC.xib in Resources */,
+				54878C311D88FC04006AF203 /* scanQrCodeCompleteSound.wav in Resources */,
 				546F7F3A1D51F4A400B9565C /* Localizable.strings in Resources */,
 				5465D2411CFBDBE20012A314 /* LaunchScreen.storyboard in Resources */,
 				54B9CE361D42264B005D7EC2 /* MyAlbumDetailViewController.storyboard in Resources */,
@@ -829,6 +836,7 @@
 				5460F1501D58855100F4E304 /* MyGifWebView.swift in Sources */,
 				547D05E71D66A16700A5DE56 /* testVC.swift in Sources */,
 				549488821D61AC8100C1E3A8 /* MySystemRequest.swift in Sources */,
+				54878C2F1D88F517006AF203 /* MySounder.swift in Sources */,
 				545CE1631D4065FD007A3DE0 /* Khowledge.swift in Sources */,
 				545CE1681D406BF9007A3DE0 /* UIViewController+extension.swift in Sources */,
 				546F01C11D753804006F16AC /* MyCustomTabBar.swift in Sources */,

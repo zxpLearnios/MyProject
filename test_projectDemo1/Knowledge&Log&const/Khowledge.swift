@@ -226,7 +226,15 @@ class Part: NSObject {
  UIPanGestureRecognizer（拖动）  UIPinchGestureRecognizer（捏合） UIRotationGestureRecognizer（旋转） UITapGestureRecognizer（点按）  UILongPressGestureRecognizer（长按） UISwipeGestureRecognizer（轻扫）
  
  
+ 25. 苹果提供一个api(CIImage的方法)对图片放大,还不影响清晰度
+     1  // 1.创建Transform    orginalImage的数据类型为CIImage
+     2  let scale = imageView.bounds.width / orginalImage.extent.width
+     3  let transform = CGAffineTransformMakeScale(scale, scale)
+     4  // 2.放大图片
+     5  let hdImage = orginalImage.imageByApplyingTransform(transform)
  
+ 
+ 26. 不要layoutSubViews，在drawRect方法里，frame也是正确的
  */
 
 
