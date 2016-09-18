@@ -43,12 +43,38 @@ extension UIViewController {
     }
 
     /**
-     通过SB加载控制器
-    */
-    static func load(withStoryBoardName name:String) -> UIViewController {
+     通过SB加载控制器  , 最后转换， 如： as QLRegisterViewController（这是使用泛型的弊端）
+     */
+    class func load<T>(withStoryBoardName name:String) -> T {
         let sb = UIStoryboard.init(name: name, bundle: nil)
-        let vc = sb.instantiateViewControllerWithIdentifier(name)
+        let vc = sb.instantiateViewControllerWithIdentifier(name) as! T
         return vc
     }
+    
    
 }
+
+
+
+class  QLBaseViewController:UIViewController {
+    
+    // 在swift里 控制器的init（构造器）发福利时无法加载xib的， 找不到。
+    convenience init(){
+        
+        let type = NSStringFromClass(self.dynamicType)
+        let name = type.componentsSeparatedByString(".").last!
+        
+        let nib = NSBundle.mainBundle().pathForResource(name, ofType: "xib")
+        let xx = NSBundle.mainBundle().loadNibNamed(name, owner: nil, options: nil).last
+        debugPrint("dfdfdfgdrgdfrgdg")
+        if nib == nil {
+            self.init(nibName: nil, bundle: nil)
+        }else{
+            self.init(nibName: name, bundle: nil)
+        }
+        
+    }
+    
+    
+}
+

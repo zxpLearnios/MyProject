@@ -110,7 +110,7 @@ class MyProgressHUD: NSObject {
         imgWH = width * 4 / 5
         imgV.center = CGPointMake(width/2, 10 + imgWH/2)
         imgV.bounds = CGRectMake(0, 0, imgWH, imgWH)
-        imgV.image = UIImage(named: "progress_circular")
+        imgV.image = UIImage(named: "progress_circular") // progress_circular 实际上是一个PDF，PDF竟然也可以这样用
         
         
        // 3.

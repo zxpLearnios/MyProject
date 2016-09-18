@@ -126,3 +126,12 @@ func kBundleDocumentPath() -> String! {
 func kCachesPath() -> String! {
     return NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first!
 }
+
+
+/** 打印 */
+func MyLog<T>(message: T, file: NSString = #file, method: String = #function, line: Int = #line)
+{
+    #if DEBUG
+        print("\(method)[\(line)]: \(message)")
+    #endif
+}

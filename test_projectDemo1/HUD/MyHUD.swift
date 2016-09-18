@@ -44,7 +44,7 @@ class MyHUD: NSObject {
     }
     
     /**
-     3. 展示提示文字和静态图片, 成功、失败的图片在里面已设置好了
+     3. 展示提示文字和静态图片, 成功、失败的图片在里面已设置好了， // progress实际上是一个PDF，PDF竟然也可以这样用
      */
     func showPromptText(isSuccess:Bool, text: String) {
         if isSuccess {
