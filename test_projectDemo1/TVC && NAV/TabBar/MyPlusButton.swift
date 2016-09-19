@@ -17,7 +17,7 @@ class MyPlusButton: UIButton {
     let fontSize:CGFloat = 10
     
     
-    // 高亮时图片。title皆不变
+    // 0. 高亮时图片。title皆不变
     private var _highlighted = false
     override var highlighted: Bool{
         get{
@@ -27,6 +27,13 @@ class MyPlusButton: UIButton {
             self._highlighted = newValue
         }
     }
+    // -0. 如下写，则无效
+//    override var highlighted: Bool{
+//        didSet{
+//            
+//        }
+//    }
+    
     
     // MARK: 初始化
     override init(frame: CGRect) {
