@@ -74,6 +74,7 @@
 		546F7F461D51F9F200B9565C /* MyCaptureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 546F7F401D51F9F100B9565C /* MyCaptureCell.xib */; };
 		546F7F471D51F9F200B9565C /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F7F411D51F9F100B9565C /* MyLabel.swift */; };
 		546F7F491D51FA2100B9565C /* MyDefaultCameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F7F481D51FA2100B9565C /* MyDefaultCameraVC.swift */; };
+		54738EB91D92853800C58AB4 /* MyBaseXibViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54738EB81D92853800C58AB4 /* MyBaseXibViewController.swift */; };
 		5473DD981D90E52600304277 /* QLCreditCertificateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5473DD971D90E52600304277 /* QLCreditCertificateVC.swift */; };
 		547B08F31D66AF14000FFA08 /* pushByfirstVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547B08F11D66AF14000FFA08 /* pushByfirstVC.swift */; };
 		547B08F41D66AF14000FFA08 /* pushByfirstVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 547B08F21D66AF14000FFA08 /* pushByfirstVC.xib */; };
@@ -205,6 +206,7 @@
 		546F7F401D51F9F100B9565C /* MyCaptureCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCaptureCell.xib; sourceTree = "<group>"; };
 		546F7F411D51F9F100B9565C /* MyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
 		546F7F481D51FA2100B9565C /* MyDefaultCameraVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyDefaultCameraVC.swift; sourceTree = "<group>"; };
+		54738EB81D92853800C58AB4 /* MyBaseXibViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBaseXibViewController.swift; sourceTree = "<group>"; };
 		5473DD971D90E52600304277 /* QLCreditCertificateVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QLCreditCertificateVC.swift; sourceTree = "<group>"; };
 		547B08F11D66AF14000FFA08 /* pushByfirstVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pushByfirstVC.swift; sourceTree = "<group>"; };
 		547B08F21D66AF14000FFA08 /* pushByfirstVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = pushByfirstVC.xib; sourceTree = "<group>"; };
@@ -431,6 +433,7 @@
 				54878C301D88FC04006AF203 /* scanQrCodeCompleteSound.wav */,
 				5465D2361CFBDBE20012A314 /* AppDelegate.swift */,
 				542A51DD1D48B2840020D722 /* test_projectDemo1-Bridging-Header.h */,
+				54738EB71D92852E00C58AB4 /* Tools */,
 				545E2C571D810E0F001A046D /* PhotoBrowser */,
 				545CE15E1D4065FD007A3DE0 /* Knowledge&Log&const */,
 				5460F1361D582A5200F4E304 /* Gif */,
@@ -534,6 +537,14 @@
 				5462C36F1D52DB9B00A3CAEF /* MyDefaultCameraVC.xib */,
 			);
 			path = SystemCamera;
+			sourceTree = "<group>";
+		};
+		54738EB71D92852E00C58AB4 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				54738EB81D92853800C58AB4 /* MyBaseXibViewController.swift */,
+			);
+			path = Tools;
 			sourceTree = "<group>";
 		};
 		5486F7A11D2A3D0200C0A68A /* NetWorkRequest */ = {
@@ -847,6 +858,7 @@
 				54E6BE931D670E53007288F0 /* UIBarButtonItem+extension.swift in Sources */,
 				547B08F31D66AF14000FFA08 /* pushByfirstVC.swift in Sources */,
 				545CE15D1D4065F4007A3DE0 /* MyProgressHUD.swift in Sources */,
+				54738EB91D92853800C58AB4 /* MyBaseXibViewController.swift in Sources */,
 				546589721D87AF5200DA0C32 /* Double+extension.swift in Sources */,
 				546F7F491D51FA2100B9565C /* MyDefaultCameraVC.swift in Sources */,
 				5465D2701CFBDD730012A314 /* firstChildVC.swift in Sources */,
