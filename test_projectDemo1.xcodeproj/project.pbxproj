@@ -74,6 +74,7 @@
 		546F7F461D51F9F200B9565C /* MyCaptureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 546F7F401D51F9F100B9565C /* MyCaptureCell.xib */; };
 		546F7F471D51F9F200B9565C /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F7F411D51F9F100B9565C /* MyLabel.swift */; };
 		546F7F491D51FA2100B9565C /* MyDefaultCameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F7F481D51FA2100B9565C /* MyDefaultCameraVC.swift */; };
+		5473DD981D90E52600304277 /* QLCreditCertificateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5473DD971D90E52600304277 /* QLCreditCertificateVC.swift */; };
 		547B08F31D66AF14000FFA08 /* pushByfirstVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547B08F11D66AF14000FFA08 /* pushByfirstVC.swift */; };
 		547B08F41D66AF14000FFA08 /* pushByfirstVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 547B08F21D66AF14000FFA08 /* pushByfirstVC.xib */; };
 		547D05E71D66A16700A5DE56 /* testVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547D05E61D66A16700A5DE56 /* testVC.swift */; };
@@ -204,6 +205,7 @@
 		546F7F401D51F9F100B9565C /* MyCaptureCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCaptureCell.xib; sourceTree = "<group>"; };
 		546F7F411D51F9F100B9565C /* MyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
 		546F7F481D51FA2100B9565C /* MyDefaultCameraVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyDefaultCameraVC.swift; sourceTree = "<group>"; };
+		5473DD971D90E52600304277 /* QLCreditCertificateVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QLCreditCertificateVC.swift; sourceTree = "<group>"; };
 		547B08F11D66AF14000FFA08 /* pushByfirstVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pushByfirstVC.swift; sourceTree = "<group>"; };
 		547B08F21D66AF14000FFA08 /* pushByfirstVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = pushByfirstVC.xib; sourceTree = "<group>"; };
 		547D05E61D66A16700A5DE56 /* testVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testVC.swift; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 		545CE13B1D4065DA007A3DE0 /* GuideVC */ = {
 			isa = PBXGroup;
 			children = (
+				5473DD971D90E52600304277 /* QLCreditCertificateVC.swift */,
 				545CE13C1D4065DA007A3DE0 /* GuideVC.swift */,
 				549911831D7431C5000ABDA2 /* ConstraintVC.swift */,
 				548B80FA1D79206400D3517F /* IconfotLabel */,
@@ -851,6 +854,7 @@
 				546F01C41D753804006F16AC /* MyTabBar.swift in Sources */,
 				54D7FA5C1D41C7310007631B /* MyCollectionViewLayout.swift in Sources */,
 				541CAFC71D41BAA000A8EC88 /* MyQrCodeScanView.swift in Sources */,
+				5473DD981D90E52600304277 /* QLCreditCertificateVC.swift in Sources */,
 				541CAFC31D41BAA000A8EC88 /* MyQrCodeScanResultVC.swift in Sources */,
 				5465D27C1CFC24760012A314 /* MyCustomNav.swift in Sources */,
 				549488801D61A52700C1E3A8 /* String+extension.swift in Sources */,
