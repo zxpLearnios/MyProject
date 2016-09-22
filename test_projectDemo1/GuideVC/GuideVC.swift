@@ -322,23 +322,23 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     // MARK: 约束
     func constaintsAction()  {
         // 测试约束
-//        let constranitVC = ConstraintVC()
-//        self.presentViewController(constranitVC, animated: true, completion: nil)
+        let constranitVC = ConstraintVC()
+        self.presentViewController(constranitVC, animated: true, completion: nil)
         
         
         // 测试图片浏览器
-        var ary = [UIImage]()
-        for i in 0...7{
-            let str = "0" + String(i)
-            let img = UIImage.init(named: str)!
-            ary.append(img)
-        }
-
-        
-        
-        let view = MyPhotoBrowser.init(frame: kbounds)
-        view.images = ary
-        self.view.addSubview(view)
+//        var ary = [UIImage]()
+//        for i in 0...7{
+//            let str = "0" + String(i)
+//            let img = UIImage.init(named: str)!
+//            ary.append(img)
+//        }
+//
+//        
+//        
+//        let view = MyPhotoBrowser.init(frame: kbounds)
+//        view.images = ary
+//        self.view.addSubview(view)
         
     }
     

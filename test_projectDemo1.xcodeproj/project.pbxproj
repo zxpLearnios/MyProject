@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5408A3381D0175A80044C14A /* MyTopicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5408A3371D0175A80044C14A /* MyTopicButton.swift */; };
+		54128C3E1D937E7C00C00C29 /* UIFont+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54128C3D1D937E7C00C00C29 /* UIFont+extension.swift */; };
 		541CAFB61D41BA9A00A8EC88 /* MyCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541CAFB11D41BA9A00A8EC88 /* MyCollectionView.swift */; };
 		541CAFB71D41BA9A00A8EC88 /* MyCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 541CAFB21D41BA9A00A8EC88 /* MyCollectionView.xib */; };
 		541CAFB81D41BA9A00A8EC88 /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541CAFB31D41BA9A00A8EC88 /* MyCollectionViewCell.swift */; };
@@ -123,6 +124,7 @@
 
 /* Begin PBXFileReference section */
 		5408A3371D0175A80044C14A /* MyTopicButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTopicButton.swift; sourceTree = "<group>"; };
+		54128C3D1D937E7C00C00C29 /* UIFont+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+extension.swift"; sourceTree = "<group>"; };
 		541CAFB11D41BA9A00A8EC88 /* MyCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCollectionView.swift; sourceTree = "<group>"; };
 		541CAFB21D41BA9A00A8EC88 /* MyCollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCollectionView.xib; sourceTree = "<group>"; };
 		541CAFB31D41BA9A00A8EC88 /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -587,6 +589,7 @@
 				5463E7F01D6407F40004555D /* UIDevice+extension.swift */,
 				54E6BE921D670E53007288F0 /* UIBarButtonItem+extension.swift */,
 				546589711D87AF5200DA0C32 /* Double+extension.swift */,
+				54128C3D1D937E7C00C00C29 /* UIFont+extension.swift */,
 			);
 			path = "category&extension";
 			sourceTree = "<group>";
@@ -867,6 +870,7 @@
 				54D7FA5C1D41C7310007631B /* MyCollectionViewLayout.swift in Sources */,
 				541CAFC71D41BAA000A8EC88 /* MyQrCodeScanView.swift in Sources */,
 				5473DD981D90E52600304277 /* QLCreditCertificateVC.swift in Sources */,
+				54128C3E1D937E7C00C00C29 /* UIFont+extension.swift in Sources */,
 				541CAFC31D41BAA000A8EC88 /* MyQrCodeScanResultVC.swift in Sources */,
 				5465D27C1CFC24760012A314 /* MyCustomNav.swift in Sources */,
 				549488801D61A52700C1E3A8 /* String+extension.swift in Sources */,

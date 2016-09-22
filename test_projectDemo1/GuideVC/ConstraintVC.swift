@@ -14,7 +14,7 @@ import CoreText
 
 class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
 
-    private let redView = UIView(), greenView = UIView(), blueView = UIView(), label = UILabel()
+    private let redView = UIView(), greenView = UIView(), blueView = UIView(), label = UILabel()//UILabel()
     private let muLabel = LTMorphingLabel()
     
     let mTexts = ["计划", "函数几号的", "客户萨尔那块", "弄好塞飞洛", "看发货", "看红方", "告诉你的"]
@@ -136,6 +136,7 @@ class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
         }
         
         
+        label.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
     }
     
     
@@ -152,5 +153,7 @@ class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
     func morphingOnProgress(label: LTMorphingLabel, progress: Float) {
 //        debugPrint(progress)
     }
+    
+    
     
 }

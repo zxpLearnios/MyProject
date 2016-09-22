@@ -186,4 +186,41 @@ extension UIImage {
         return animation
     }
 
+        //*************************** 有Iconfont字体文件里的编码获取图片  *****************//
+    /**
+     由Iconfont获取图片;
+     1. 当tabbarItem的图片用此法获取时，颜色就会不起作用了，因为tabbar很特殊
+     2. 当UIImageView的图片用此法获取时，字体大小就不起作用了，而frame起固定图片尺寸的作用
+     - parameter content:    编码后的text 字体样式名字
+     - parameter familyName: 字体库  不使用此参数时，此参数取默认
+     - parameter size:       字体大小
+     - parameter color:      字体颜色    不使用此参数时，此参数取默认
+     
+     - returns: 图片
+     */
+    static func if_image(withUniCode content: String, familyName: String = "iconfont", fontSize size: CGFloat, fontColor color: UIColor = UIColor.redColor()) -> UIImage {
+        
+        //        debugPrint("familyName = \(familyName), fontColor = \(color)")
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .Center
+        
+        var attributes = [
+            NSForegroundColorAttributeName: color,
+            NSParagraphStyleAttributeName: paragraph
+        ]
+        
+        if let font = UIFont(name: familyName, size: size) {
+            attributes[NSFontAttributeName] = font
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(size, size), false, 0)
+        
+        content.drawInRect(CGRectMake(0, 0, size, size), withAttributes: attributes)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image
+    }
+
 }
