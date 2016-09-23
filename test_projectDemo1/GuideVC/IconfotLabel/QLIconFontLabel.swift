@@ -37,6 +37,7 @@ import UIKit
     }
     
     private func setFontForSelf(){
+        self.textAlignment = .Center
         let iconFont = UIFont(name: "iconfont", size: CGFloat(_fontSize))
         self.font = iconFont
         

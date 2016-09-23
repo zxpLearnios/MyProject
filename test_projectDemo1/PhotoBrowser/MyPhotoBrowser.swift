@@ -16,6 +16,9 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
     var currentScrollerImageView :UIImageView! // scroller里的
     var currentTapImageView :UIImageView! // view里的
     
+//    var imgVScrollers = [UIScrollView]() // 存放和图片一样大小的scroller， 由于他的zoom属性之后用
+    var currentImgVScroller:UIScrollView!
+    
     var scrollerCountLab:UILabel!
     
      var scroller:UIScrollView!
@@ -69,6 +72,9 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
         
     }
     
+    // 和图片一样大小的scroller
+    private  var imgVScrollers = [UIScrollView]()
+    
     // MARK: 点击view里的图片
     @objc private func tapAction(tap:UITapGestureRecognizer) {
         
@@ -87,11 +93,14 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
             scrollerCountLab.textAlignment = .Center
             scrollerCountLab.bounds =  CGRectMake(0, 0, scroller.frame.width, 30)
             scrollerCountLab.center = CGPointMake(scroller.center.x, scroller.frame.height - 40)
-            
+           
         }
         
         // 0.
         scrollerImageViews.removeAll()
+//        if imgVScrollers.count != 0 {
+//            imgVScrollers.removeAll()
+//        }
         
         // 1.
         scroller.contentSize = CGSizeMake(scroller.frame.width * CGFloat(images.count), 0)
@@ -100,6 +109,29 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
         for subV in scroller.subviews {
             subV.removeFromSuperview()
         }
+        
+        // 2.1
+        var ary = [UIScrollView]()
+        let imgWH:CGFloat = 60
+        let padding = (self.frame.size.width - 3*60) / 4
+        
+//        for i in 0..<images.count {
+//            // 注意此处最好不要用FI，因为swift float可以对float求余了，float(1)/Int(3) = 0.3333的
+//            //            let FI = CGFloat(i)
+//            
+//            let imgVScroller = UIScrollView()
+//            imgVScroller.delegate = self
+//            imgVScroller.multipleTouchEnabled = true
+//            imgVScroller.minimumZoomScale = 1.0
+//            imgVScroller.maximumZoomScale = 2.5
+//            
+//            imgVScroller.frame = CGRectMake(padding + (padding + imgWH) * CGFloat(i % 3) ,  50 + ((padding + imgWH) * CGFloat(i / 3)), imgWH, imgWH)
+//            imgVScroller.tag = i
+//            ary.append(imgVScroller)
+//            scroller.addSubview(imgVScroller)
+//        }
+        
+        
         
         // 3.
         for i in 0..<images.count {
@@ -114,6 +146,8 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
             // 根据图片尺寸确定ImgV的大小
             let imageW = imgV.image!.size.width
             let imageH = imgV.image!.size.height
+            
+            
             
             if imageW >= imageH { // 图片宽 >= 高
                 
@@ -138,12 +172,11 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
             imgV.bounds = CGRectMake(0,  0, imgVW, imgVH)
             imgV.center = CGPointMake(scroller.frame.width * CGFloat(i) + scroller.center.x, scroller.center.y)
             
-//            let coverBtn = UIButton()
-//            coverBtn.frame = CGRectMake(scroller.frame.width * CGFloat(i),  0, scroller.frame.width, scroller.frame.height)
-//            coverBtn.addTarget(self, action:  #selector(converBtnAction), forControlEvents: .TouchUpInside)
+            
+            
             
             scroller.addSubview(imgV)
-//            scroller.addSubview(coverBtn)
+            
             scrollerImageViews.append(imgV)
             
             if tapImgV.tag == imgV.tag { // scroller将要显示的图片
@@ -164,6 +197,7 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
         kwindow?.addSubview(scroller)
         scroller.superview!.addSubview(scrollerCountLab)
     
+        
         // 5. 手势
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(tapScrollerAction))
         // 捏合
@@ -172,8 +206,8 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
         let rotate = UIRotationGestureRecognizer.init(target: self, action: #selector(rotateScrollerAction))
         
         scroller.addGestureRecognizer(tap)
-        scroller.addGestureRecognizer(pinch)
-        scroller.addGestureRecognizer(rotate)
+//        scroller.addGestureRecognizer(pinch)
+//        scroller.addGestureRecognizer(rotate)
         
     }
     
@@ -234,7 +268,7 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
                 }
                 
             }
-            
+//            scroller.setZoomScale(scale, animated: false)
         case .Ended:
             
             if scale <= 0.5 { // 最小倍数
@@ -328,8 +362,25 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
         
         scrollerCountLab.text = String(format: "%d/%d", page, images.count)
         
+//        let scaleImgV = imageViews[currentImgVScroller.tag]
+//        scaleImgV.frame = CGRectMake(0, 0, 50, 50)
+        
     }
     
+    
+    // MARK: 
+    func scrollViewDidZoom(scrollView: UIScrollView) {
+        currentImgVScroller = scrollView
+    }
+    
+    // MARK:  需要
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+        if scroller != scrollView {
+            return currentScrollerImageView
+        }
+        return nil
+    }
+
     
 }
 

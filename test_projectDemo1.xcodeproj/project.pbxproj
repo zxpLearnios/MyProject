@@ -77,6 +77,7 @@
 		546F7F491D51FA2100B9565C /* MyDefaultCameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F7F481D51FA2100B9565C /* MyDefaultCameraVC.swift */; };
 		54738EB91D92853800C58AB4 /* MyBaseXibViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54738EB81D92853800C58AB4 /* MyBaseXibViewController.swift */; };
 		5473DD981D90E52600304277 /* QLCreditCertificateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5473DD971D90E52600304277 /* QLCreditCertificateVC.swift */; };
+		547729CB1D95110B007596F6 /* app.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 547729CA1D95110B007596F6 /* app.entitlements */; };
 		547B08F31D66AF14000FFA08 /* pushByfirstVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547B08F11D66AF14000FFA08 /* pushByfirstVC.swift */; };
 		547B08F41D66AF14000FFA08 /* pushByfirstVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 547B08F21D66AF14000FFA08 /* pushByfirstVC.xib */; };
 		547D05E71D66A16700A5DE56 /* testVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547D05E61D66A16700A5DE56 /* testVC.swift */; };
@@ -210,6 +211,7 @@
 		546F7F481D51FA2100B9565C /* MyDefaultCameraVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyDefaultCameraVC.swift; sourceTree = "<group>"; };
 		54738EB81D92853800C58AB4 /* MyBaseXibViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBaseXibViewController.swift; sourceTree = "<group>"; };
 		5473DD971D90E52600304277 /* QLCreditCertificateVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QLCreditCertificateVC.swift; sourceTree = "<group>"; };
+		547729CA1D95110B007596F6 /* app.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = app.entitlements; sourceTree = "<group>"; };
 		547B08F11D66AF14000FFA08 /* pushByfirstVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pushByfirstVC.swift; sourceTree = "<group>"; };
 		547B08F21D66AF14000FFA08 /* pushByfirstVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = pushByfirstVC.xib; sourceTree = "<group>"; };
 		547D05E61D66A16700A5DE56 /* testVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testVC.swift; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 				5465D2421CFBDBE20012A314 /* Info.plist */,
 				546F7F391D51F4A400B9565C /* Localizable.strings */,
 				546F7F341D51F28C00B9565C /* InfoPlist.strings */,
+				547729CA1D95110B007596F6 /* app.entitlements */,
 			);
 			path = test_projectDemo1;
 			sourceTree = "<group>";
@@ -750,6 +753,7 @@
 				5460F1551D58921700F4E304 /* data.json in Resources */,
 				545CE1501D4065DA007A3DE0 /* 背叛情歌.mp3 in Resources */,
 				54B9CE321D42176F005D7EC2 /* MyAlbumTableViewCell.xib in Resources */,
+				547729CB1D95110B007596F6 /* app.entitlements in Resources */,
 				545CE14F1D4065DA007A3DE0 /* 本地视频.mov in Resources */,
 				5462C3701D52DB9B00A3CAEF /* MyDefaultCameraVC.xib in Resources */,
 			);
