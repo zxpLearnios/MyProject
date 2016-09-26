@@ -264,7 +264,7 @@ class Part: NSObject {
  1. 大部分更改语言设置的建议都是在info.plist文件(即项目的info选项)中设置Localization native development region的字段
  该字段默认为en即英文，改为china即可将该app内的软件设为中文；然而，有些app无效……网上很多地方也没有解答和说明，找了很久终于发现，还要在项目的PROJECT -> Info -> Localizations中添加语言包才可以。
  
- 
+ 2. 像手机输入框等在（ios8.0） 5上有问题， 但在5s，6，6s没问题， 不知道为啥
  
  */
 
