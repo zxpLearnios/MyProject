@@ -54,15 +54,16 @@ UINavigationControllerDelegate {
             print("没有相册权限，请到设置->隐私中开启本程序相册权限")
         }else{ // 进入相册
             
-            let picker = MyImagePickerController.getSelf(nil)  // UIImagePickerController
-//            picker.delegate = self
-            
+            let picker = UIImagePickerController() //MyImagePickerController.getSelf(nil)  // UIImagePickerController
+            picker.delegate = self
             //指定图片控制器类型
-//            picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-            let vc = MyAlbumViewController()
-            let nav = MyCustomNav.init(rootViewController: vc)
-            nav.pushViewController(picker, animated: false)
-            self.presentViewController(nav, animated: true, completion: nil)
+            picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            
+            
+//            let vc = MyAlbumViewController()
+//            let nav = MyCustomNav.init(rootViewController: vc)
+//            nav.pushViewController(picker, animated: false)
+//            self.presentViewController(nav, animated: true, completion: nil)
         }
         
     }
@@ -169,28 +170,33 @@ UINavigationControllerDelegate {
     }
     
     // MARK: ------  UIImagePickerControllerDelegate -----
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    // 使用真机调试没问题, 模拟器选iphone5s及以上设备也是可以检测到的。
+    // MARK: 从UIImagePickerController选择完图片后就调用（拍照完毕或者选择相册图片完毕）
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        //获取选择的原图
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         
         // 从所选中的图片中读取二维码
         let ciImage  = CIImage(image:image)!
         
         // 探测器
-        let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: nil, options: nil)
+        let context = CIContext.init(options: nil)
+        let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: context, options: [CIDetectorAccuracy:CIDetectorAccuracyHigh])
+        
         let features = detector.featuresInImage(ciImage)
         
         //遍历所有的二维码  && 取出探测到的数据
         for feature in features {
             let qrCodeFeature = feature as! CIQRCodeFeature
-            showScanResultInViewController(qrCodeFeature.messageString, InViewController: picker)
-            print(qrCodeFeature.messageString)
+            debugPrint(qrCodeFeature.messageString)
         }
         
-//        let resultVC = MyQrCodeScanResultVC()
-//        resultVC.image = image
-//        picker.presentViewController(resultVC, animated: true, completion: nil)
+        //        let resultVC = MyQrCodeScanResultVC()
+        //        resultVC.image = image
+        //        picker.presentViewController(resultVC, animated: true, completion: nil)
         
         
     }
-    
+
     
 }

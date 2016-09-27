@@ -72,6 +72,12 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
     
     // MARK: 初始化
     private func doInit(){
+        // -1. 获取 权限下
+        let authStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+        if authStatus == .Restricted || authStatus == .Denied{
+            print("请在“设置”-“隐私”-“相机”功能中，打开本app的相机访问权限")
+            return
+        }
         
         if device == nil {
             print("可能是模拟器,故无法获取硬件信息！")
@@ -88,12 +94,6 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
 //            return
 //        }
         
-        // -1. 获取 权限下
-        let authStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
-        if authStatus == .Restricted || authStatus == .Denied{
-            print("请在“设置”-“隐私”-“相机”功能中，打开本app的相机访问权限")
-            return
-        }
         
         // 0. 设备
         self.clipsToBounds = true // 使超出碰撞边界后的效果看不见
