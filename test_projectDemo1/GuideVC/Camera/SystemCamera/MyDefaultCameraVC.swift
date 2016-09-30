@@ -370,31 +370,3 @@ class MyDefaultCameraVC: UIViewController {
     
 }
 
-
-
-/**
-*   系统拍照的使用
- */
-class MySystemCamareVC: UIImagePickerController {
-    
-    convenience init(){
-        self.init()
-        
-    }
-    
-    private func doThing(){
-        
-        //        self.delegate = self
-        self.allowsEditing = true
-        self.sourceType = .Camera //
-        //        cameraView.mediaTypes =  [kUTTypeImage as String]
-        self.cameraCaptureMode = .Photo // 拍照 ;   .Vedio
-        //        impVC.cameraFlashMode = .Auto  // 也是默认的值
-        self.cameraDevice = .Rear
-        let preView = UIView()
-        preView.backgroundColor = UIColor.redColor()
-        self.cameraOverlayView = preView
-    }
-    
-    
-}

@@ -22,7 +22,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     var qrCodeView:MyQrCodeCreatView! // 二维码生成view
     var qrCodeScanView:MyQrCodeScanView! // 二维码扫描
     
-      var  cameraView:MyDefaultCameraVC! // 拍照  MyCameraView MyDefaultCameraVC
+      var  cameraView:MySystemCamareVC! // 拍照  MyCameraView MyDefaultCameraVC  MySystemCamareVC
     
     var request:MyBaseNetWorkRequest!
     
@@ -248,7 +248,8 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         let frame = CGRectMake(0, 64, kwidth, kheight - 64)
         //       cameraView =  NSBundle.mainBundle().loadNibNamed("MyCameraView", owner: nil, options: nil).last as! MyCameraView
         
-        cameraView = MyDefaultCameraVC() // MyCameraView.getSelf(withFrame: frame) MyDefaultCameraVC()
+        cameraView = MySystemCamareVC() // MyCameraView.getSelf(withFrame: frame) MyDefaultCameraVC()
+        cameraView.doThing()
 //        self.view.addSubview(cameraView)
         self.presentViewController(cameraView, animated: true, completion: nil)
     }
