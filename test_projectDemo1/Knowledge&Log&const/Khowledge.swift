@@ -234,7 +234,10 @@ class Part: NSObject {
      5  let hdImage = orginalImage.imageByApplyingTransform(transform)
  
  
- 26. 不要layoutSubViews，在drawRect方法里，frame也是正确的
+ 26. 不要layoutSubViews，只要是在drawRect方法里，frame就是正确的
+ 
+ 
+ 
  */
 
 
