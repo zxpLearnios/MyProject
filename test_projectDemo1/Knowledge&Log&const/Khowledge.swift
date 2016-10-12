@@ -112,7 +112,7 @@ class Part: NSObject {
 }
 
 
-/*
+/*  ***************  1. *******************
  1. warn_unused_result你可以为方法添加这个属性，这样当你对函数不正确调用，或者调用该方法却没有使用它的结果时，就会获得提醒。message 参数用来提供当你调用方法却没使用结果时编译器给出的警告。mutable_varient 用来提供你所使用的non mutating 方法的mutating 版本方法的名字。
     比如，Swift标准库里面提供mutating 方法SortInPlace() 和 non mutating方法 sort() 如果你调用sort() 但却并没有用到它的结果，编译器就会猜测你想用的是SortInPlace()。
  
@@ -234,7 +234,7 @@ class Part: NSObject {
      5  let hdImage = orginalImage.imageByApplyingTransform(transform)
  
  
- 26. 不要layoutSubViews，只要是在drawRect方法里，frame就是正确的
+ 
  
  
  
@@ -263,16 +263,25 @@ class Part: NSObject {
  */
 
 
-/**  *****************************   项目其他东西 *******************************
+/**  ********************   2.项目其他东西 ***************
  1. 大部分更改语言设置的建议都是在info.plist文件(即项目的info选项)中设置Localization native development region的字段
  该字段默认为en即英文，改为china即可将该app内的软件设为中文；然而，有些app无效……网上很多地方也没有解答和说明，找了很久终于发现，还要在项目的PROJECT -> Info -> Localizations中添加语言包才可以。
  
  2. 像手机输入框等在（ios8.0） 5上有问题， 但在5s，6，6s没问题， 不知道为啥
  
+ 3. UIViewController通过xib或sb创建的，里加scroller（自定义或系统自带），scroller里加textfield后 ，不会自适应键盘的弹出隐藏，除非自定义的scroller里面做了处理；sb创建的tvc 或纯代码写的，cell里加的（让cell成为textfield的代理）或自己view里加的（让控制器成为textfield的代理）textfield都会自适应键盘的。
+ 
+ 4. 不要layoutSubViews，只要是在drawRect方法里，frame就是正确的
+ 
+ 5.  imgV.image = UIImage.init(contentsOfFile: "xx.png") // 此法只会加载图片一次，故引导图用此法
+ 
+ 
+ 
+ 
  */
 
 
-/* *****************************  初级的总结 *******************************
+/* *****************************  3. 初级的总结 *******************************
  1. 不同于 C 和 Objective-C，Swift 中是可以对浮点数进行取余。
  
  2.  Swift 也提供恒等 === 和不恒等 !== 这两个比较符来判断两个对象是否引用同一个对象实例。即特征相等运算符
