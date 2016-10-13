@@ -31,6 +31,8 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
        
+        
+        
         let date0 = NSDate()
         let date1 = date0.dateByAddingTimeInterval(10)
         let date2 = date0.dateByAddingTimeInterval(20)

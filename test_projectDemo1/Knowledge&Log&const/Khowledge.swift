@@ -273,10 +273,28 @@ class Part: NSObject {
  
  4. 不要layoutSubViews，只要是在drawRect方法里，frame就是正确的
  
- 5.  imgV.image = UIImage.init(contentsOfFile: "xx.png") // 此法只会加载图片一次，故引导图用此法
+5.  使用 imageNamed: 和 imageWithContentsOfFile 获取本地图片，
+    一。 须将图片拖入到 1.OC下的Supporting Files文件夹中，  2. swift下的***Tests（项目test）文件里  3.不要拖到.xcassets文件里  4. 或者将图片发到NSBundle下即可)
+   二。此法因此对于较大的图片以及使用情况较少时，那就可以用该方法，降低内存消耗，图片使用结束以后，直接释放掉，bu再继续占内存了。  此法只会加载图片一次，故引导图用此法；因此序列帧动画（testImgV.animationImages = ）也用此法设置图片，则内存问题就全部解决了。
+    三。 实例代码如下：
+        // 放到1.OC下的Supporting Files文件夹中，  2. swift下的***Tests（项目test）文件里 时
+       3.1 let fileName = NSBundle.mainBundle().pathForResource("imageName", ofType: "png")
+        let testImg = UIImage.init(contentsOfFile: fileName!)
+        let testImgV = UIImageView.init(image: testImg)
+        
+        testImgV.animationImages = //
  
+      // 直接发到NSBundle下时
+    3.2 let imgName = String.init(format: "/guideImage%d", i) // /Resource
+     let path = kbundlePath.stringByAppendingString(imgName) //    /Resource/GuideImage
+     
+     let imageView = UIImageView.init(frame: CGRectMake(kwidth*(CGFloat(Float(i))-1), 0, kwidth, kheight))
+     //            imageView.image = UIImage.init(named: imgName)
+     // 此法只加载一次图片，故引导图用之
+     imageView.image = UIImage.init(contentsOfFile: path)
  
- 
+ 四。imageNamed:和imageWithContentsOfFile:的区别
+   项目完成以后，所有的图片资源会被一起打包成ipa文件发布到AppStore，拖入Assets.xcassets文件夹中的图片最后会被打包成一个Assets.car文件，我们不能根据路径读取图片。而拖入Supporting Files文件夹中的图片可以根据路径读取。另外，从某种程度上讲，拖入Assets.xcassets文件夹中的图片因为被打包成了Assets.car文件，可以得到一定程度上的保护，以防止盗图(之所以说是一定程度，是因为我们依然可以通过其他手段解压相关图片)。而拖入Supporting Files文件夹中的图片则直接暴露在外面。
  
  */
 
