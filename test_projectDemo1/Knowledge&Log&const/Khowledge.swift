@@ -296,6 +296,32 @@ class Part: NSObject {
  四。imageNamed:和imageWithContentsOfFile:的区别
    项目完成以后，所有的图片资源会被一起打包成ipa文件发布到AppStore，拖入Assets.xcassets文件夹中的图片最后会被打包成一个Assets.car文件，我们不能根据路径读取图片。而拖入Supporting Files文件夹中的图片可以根据路径读取。另外，从某种程度上讲，拖入Assets.xcassets文件夹中的图片因为被打包成了Assets.car文件，可以得到一定程度上的保护，以防止盗图(之所以说是一定程度，是因为我们依然可以通过其他手段解压相关图片)。而拖入Supporting Files文件夹中的图片则直接暴露在外面。
  
+ 6. @objc protocol QLGPVerityDelegate: NSObjectProtocol {
+        optional func verityGLSuccessWithResults(results:AnyObject)
+   }
+  // 注意这里:delegate前面必须有weak修饰, 如果没有weak修饰就会造成内存泄露, 而可以加weak的前提是, 这个协议必须继承 NSObjectProtocol, 这是我试验出来的!
+ weak var delegate: QLGPVerityDelegate?
+ 
+ 7.  常见错误：
+ 
+ 1）
+ Undefined symbols for architecture x86_64:
+ "_OBJC_CLASS_$_CameraPreviewController", referenced from:
+ objc-class-ref in LivenessDetectionViewController.o。 必须要支持64的设备，然后自己赶紧进行相关的适应，出现了类似标题的问题，解决方法如下: 【1、查看Build Phases下的 Link Binary With Libraries是否缺少相应地类库（或者是iOS自带的或者外部第三方的，注：外部第三方的先通过右键Add Files to 添加到项目中，然后再在Add Other中选择项目中存在的framework）
+     2、查看Build Settings下的Library Search Paths的引入文件是否是相对路径，把路径不对的或者不存在的都进行清除
+     3、就是代码错误，你导入了新的第三方，但是新的第三方已经不支持你以前写的代码，需要将最新的替换以前的就代码，非常不好找，所以要仔细细心的去解决。（我遇到的就是这个问题，以前的支付宝支付这块不支持64，然后导入了最新的支持64位报如上错）
+     这是支付宝64位不支持的支付接口 [AlixLibServicepayOrder:orderString AndScheme:appSchemeseletor:_resulttarget:self];替换掉】
+ 
+ 2） i386 错误的：
+    1. 可能是没有相关的库
+    2. 如何检查你的第三方库文是否支持模拟器，找到你的库文件所在地址，使用命令行，cd到该文件所在文件夹下，然后检测：使用如下命令 sudo lipo －info <这里填写你的第三方库文件名> ,如：sudo lipo －info wxSDK.a，然后看看你的东西支不支持i386,如果不支持，没关系这不是什么大事，只是不支持模拟器而已，看看你的东西支不支持armv7,arm64（arm为指令集，真机的，模拟器只能是x86，详见2.1），如果支持那就好办，用真机开发就OK了如果还不支持，告诉你的服务商，赶紧提供编译器支持的版本
+ 
+    2.1. 苹果常见移动设备处理器指令集 armv6、armv7、armv7s及arm64 ： http://www.cocoachina.com/ios/20140915/9620.html
+ 2.2 只有在目标设备上，才会执行设备对应的指令集。
+    如果在工程Build Setting的Architectures 中的“Build Active Architecture Only”选择为YES，则即使你设置成armv7 , armv7s同时支持，也只会编译对应指令集的包；若选择NO，则编译器会整合两个指令集到一起，此时的包比较大，但是能在iPhone5上使用armv7s的优化，同时也能适配老的设备。一般都是Debug时“Build Active Architecture Only”选择YES，用当前的架构看代码逻辑是否有问题；而在Release时选择NO，来适配不同的设备。
+    此外，模拟器并不运行arm代码，软件会被编译成x86可以运行的指令。所以生成静态库时都是会先生成两个.a，一个是i386的用于在模拟器运行，另一个是在真实设备上运行的，然后再用命令将两个.a合并成一个。
+ 
+ 
  */
 
 
