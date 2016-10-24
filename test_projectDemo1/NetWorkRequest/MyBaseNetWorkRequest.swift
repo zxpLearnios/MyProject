@@ -634,37 +634,40 @@ class MyBaseNetWorkRequest: NSObject {
         return newImage
     }
     
-    // -----------------------  8. 下拉、上拉加载数据 --------------------- //
-    // 加载数据 模式
-    // 1. 获取消息列表, index:消息类型 , 下拉、上拉
+   
+}
+
+// -----------------------  8. 下拉、上拉加载数据 --------------------- //
+// 加载数据 模式
+// 1. 获取消息列表, index:消息类型 , 下拉、上拉
 //    func getMsgList(index:Int, isLoadMoreData:Bool)  {
-//        
+//
 //        var  msgType = MsgType.LendingNotice // index == 0
-//        
+//
 //        if index  == 1{
 //            msgType = .OverdueNotice
 //        }else if index == 2{
 //            msgType = .BackWarnNotice
 //        }
-//        
+//
 //        var loadPage = 0
 //        if !isLoadMoreData {
 //            loadPage = 1
 //        }else{
 //            loadPage = page
 //        }
-//        
+//
 //        request.informationListWith(msgtype: msgType, pageno: loadPage, successClosure: { (bodyObject) in
 //            if bodyObject.isKindOfClass(NSError){
 //                return
 //            }
-//            
+//
 //            let dic = bodyObject as! [String:AnyObject]
 //            let listAry = dic["list"] as! [[String:AnyObject]]
-//            
+//
 //            if isLoadMoreData { // 在加载更多数据
 //                self.vc.messageArr += listAry
-//                
+//
 //                if listAry.count == 0{ // 无过多数据， 可以是page 恢复
 //                    self.vc.tableView.endFooterRefreshingWithNoMoreData()
 //                    self.page -= 1
@@ -673,17 +676,17 @@ class MyBaseNetWorkRequest: NSObject {
 //            }else{
 //                self.vc.messageArr = listAry
 //            }
-//            
-//            
+//
+//
 //            self.vc.tableView.reloadData()
-//            
+//
 //            self.vc.tableView.endHeaderRefreshing()
 //            if self.vc.messageArr.count < self.countLimit{
 //                self.vc.tableView.endFooterRefreshingWithNoMoreData()
 //            }else{
 //                self.vc.tableView.endFooterRefreshing()
 //            }
-//            
+//
 //        }) { (error) in
 //            self.vc.tableView.endHeaderRefreshing()
 //            if self.vc.messageArr.count % self.countLimit == self.countLimit{
@@ -695,43 +698,133 @@ class MyBaseNetWorkRequest: NSObject {
 //                self.page -= 1
 //            }
 //        }
-//        
+//
 //        debugPrint("当前消息Page==\(page)")
-//        
+//
 //    }
-//    
+//
 //    // 2. 标记已读消息
 //    func markingHaveReadMsg(withMid mid:String) {
 //        request.tagInformationWith(mid: mid, successClosure: { (bodyObject) in
 //            if bodyObject.isKindOfClass(NSError){
 //                return
 //            }
-//            
+//
 //        }) { (error) in
 //            print("标记已读失败\(error)")
 //        }
 //    }
-//    
+//
 //    // 3. 刷新
 //    func setupHeaderAndFooter()  {
 //        vc.tableView.setUpHeaderRefresh { [weak self] in
 //            self?.page = 1 // 恢复
 //            self!.getMsgList(self!.vc.index, isLoadMoreData: false)
-//            
+//
 //        }
 //        vc.tableView.beginHeaderRefreshing()
-//        
-//        
+//
+//
 //        vc.tableView.setUpFooterRefresh { [weak self] in
-//            
+//
 //            self!.page += 1
 //            self!.getMsgList(self!.vc.index, isLoadMoreData: true)
 //        }
-//        
+//
 //    }
 
-    
-}
+/*   总的请求示例
+ 
+ func loadPOSTRequestWith(operationPath operationPath:String, params:NSDictionary?,successAction:QLResSuccessClosure,failAction:QLResFailClosure) -> Void {
+ 
+ resSuccessClosure = successAction
+ resFailClosure = failAction
+ 
+ _operationPath = operationPath
+ _paramDict = params
+ 
+ UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+ if self._showHUD{
+ khud.showLoadingProgress()
+ }
+ 
+ let url = QLAPIURL
+ 
+ Alamofire.request(.POST, url+_operationPath!, parameters: (_paramDict as! [String : AnyObject]),encoding:.JSON).responseJSON { response in
+ 
+ UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+ if self._showHUD {
+ khud.hidden(0.0)
+ }
+ self._showHUD = true
+ 
+ switch response.result {
+ case Result.Success:
+ 
+ //把得到的JSON数据转为字典
+ let jsonObject = response.result.value as? NSDictionary
+ 
+ if jsonObject==nil || !jsonObject!.isKindOfClass(NSDictionary)
+ {
+ if self.resSuccessClosure != nil {
+ // self.resSuccessClosure!(bodyObject:"")
+ let error:NSError = NSError.init(domain:"", code: 0, userInfo: nil)
+ self.resSuccessClosure!(bodyObject:error)
+ }
+ Config.showAlert(withMessage:"请求数据格式有误！")
+ return
+ }
+ 
+ // 请求成功回调：
+ if self.resSuccessClosure != nil {
+ let resStatus = jsonObject![RESPONSESTATUS] as? String
+ if resStatus != nil && resStatus!.uppercaseString != "OK"{
+ //说明有错误,给提示,并回调Error
+ let errorMsg = jsonObject![ERRORMESSAGE] as? String
+ var errorStr:String = ""
+ if errorMsg != nil { errorStr = errorMsg! }
+ 
+ Config.showAlert(withMessage:errorStr)
+ 
+ let error:NSError = NSError.init(domain:errorStr, code: 0, userInfo: nil)
+ self.resSuccessClosure!(bodyObject:error)
+ 
+ return
+ }
+ 
+ 
+ let bodyObj = jsonObject![BODY] as? String
+ if bodyObj != nil {
+ let bodyDict = try! NSJSONSerialization
+ .JSONObjectWithData(bodyObj!.dataUsingEncoding(NSUTF8StringEncoding)!, options:NSJSONReadingOptions.AllowFragments) as! Dictionary<String,AnyObject>
+ self.resSuccessClosure!(bodyObject:bodyDict)
+ }
+ else{
+ //                            let error:NSError = NSError.init(domain: "", code: 0, userInfo: nil)
+ //                            self.resSuccessClosure!(bodyObject:error)
+ 
+ self.resSuccessClosure!(bodyObject:"")
+ }
+ }
+ 
+ break
+ 
+ case Result.Failure(let error):
+ print(error)
+ khud.showPromptText(error.localizedDescription)
+ // 请求失败回调：
+ if (self.resFailClosure != nil){
+ self.resFailClosure!(error:error)
+ }
+ 
+ break
+ 
+ }
+ 
+ }
+ }
+ */
+
 
 class  downloadRequest:NSObject {
 

@@ -321,6 +321,24 @@ class Part: NSObject {
     如果在工程Build Setting的Architectures 中的“Build Active Architecture Only”选择为YES，则即使你设置成armv7 , armv7s同时支持，也只会编译对应指令集的包；若选择NO，则编译器会整合两个指令集到一起，此时的包比较大，但是能在iPhone5上使用armv7s的优化，同时也能适配老的设备。一般都是Debug时“Build Active Architecture Only”选择YES，用当前的架构看代码逻辑是否有问题；而在Release时选择NO，来适配不同的设备。
     此外，模拟器并不运行arm代码，软件会被编译成x86可以运行的指令。所以生成静态库时都是会先生成两个.a，一个是i386的用于在模拟器运行，另一个是在真实设备上运行的，然后再用命令将两个.a合并成一个。
  
+ 8.  NSUserDefault不能存储用户自定义类型， 
+  8.1 用setValue来存储Nsdate时，用   var dic = kUserDefaults.dictionaryRepresentation()
+         for key in dic.keys {
+             if key == ksaveEnterBgDateKey {
+                 dic.removeValueForKey(key)
+             }
+         }
+ kUserDefaults.synchronize()  无效； 
+ 
+ 需用下面的：
+ kUserDefaults.setValue(nil, forKey: ksaveEnterBgDateKey)
+ kUserDefaults.synchronize()
+ 
+ 8.2  NSArchive归档时不能存储nil只能存储NSNull来充当nil，
+ 
+ 
+ 9.  延迟  NSThread.sleepForTimeInterval(0.3)    sleep(Int) 
+ 
  
  */
 
