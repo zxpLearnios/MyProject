@@ -258,7 +258,47 @@ class Part: NSObject {
  将要执行的任务封装到一个 NSOperation 对象中。
  将此任务添加到一个 NSOperationQueue 对象中。
 
+ 3. NSOperationQueue  ：
  
+ 
+ // 创建一个队列
+ NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+ 
+ // 设置最大线程数
+ queue.maxConcurrentOperationCount = 1;
+ 
+ // 创建一个A操作
+ NSBlockOperation *operationA = [NSBlockOperation blockOperationWithBlock:^{
+ [self loadDetailData];
+ }];
+ 
+ // 创建一个B操作
+ NSBlockOperation *operationB = [NSBlockOperation blockOperationWithBlock:^{
+ [self loadHotCommentData];
+ }];
+ // 创建一个C操作
+ NSBlockOperation *operationC = [NSBlockOperation blockOperationWithBlock:^{
+ [self loadOtherCommentData];
+ }];
+ // 创建一个D操作
+ NSBlockOperation *operationD = [NSBlockOperation blockOperationWithBlock:^{
+ [self loadPhotoData];
+ }];
+ 
+ / /添加依赖
+ [operationB addDependency:operationA];
+ [operationC addDependency:operationB];
+ [operationD addDependency:operationC];
+ 
+ // 分别加入到队列中
+ [queue addOperation:operationA];
+ [queue addOperation:operationB];
+ [queue addOperation:operationC];
+ [queue addOperation:operationD];
+ 
+ 
+ 
+ 4. 
  
  */
 
