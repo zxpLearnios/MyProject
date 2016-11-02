@@ -264,7 +264,8 @@ class Part: NSObject {
  // 创建一个队列
  NSOperationQueue *queue = [[NSOperationQueue alloc]init];
  
- // 设置最大线程数
+ NSOperationQueue *queue1 = [[NSOperationQueue mainQueue];
+ // 设置最大并发数: 不是线程的数量，而是同时执行操作的数量
  queue.maxConcurrentOperationCount = 1;
  
  // 创建一个A操作
@@ -285,7 +286,7 @@ class Part: NSObject {
  [self loadPhotoData];
  }];
  
- / /添加依赖
+ / /添加依赖    注意不要出现循环依赖 ;//依赖关系，可以跨队列
  [operationB addDependency:operationA];
  [operationC addDependency:operationB];
  [operationD addDependency:operationC];
@@ -294,13 +295,261 @@ class Part: NSObject {
  [queue addOperation:operationA];
  [queue addOperation:operationB];
  [queue addOperation:operationC];
- [queue addOperation:operationD];
+ // [queue addOperation:operationD];
+ [queue1 addOperation:operationD];
  
  
  
- 4. 
+ 4. 多线程详解：
+ GCD是最常用的管理并行代码和执行异步操作的Unix系统层的API。GCD构造和管理队列中的任务。
+ 
+ 队列是什么?
+ 队列是按先进先出(FIFO)管理对象的数据结构。
+ 调度队列！
+ 调度队列是一种简单的异步和同步任务的方法。
+ 串行队列！
+ 当你选择创建一个串行队列，队列一次只能执行一个任务。
+ 使用串行队列的优点是：
+ 1.保证序列化访问共享资源，避免竞态条件。
+ 2.任务的执行顺序是可预测的。当你提交任务到一个串行调度队列，它们将按插入的顺序执行。
+ 3.你可以创建任意数量的串行队列。
+ 并行队列!
+ 顾名思义，并行队列可以并行执行多个任务。
+ 使用队列
+ 1、并行队列
+ 默认情况下，系统为每个应用提供了一个串行队列和四个并行队列。
+ 使用一个全局并行队列，你必须得到队列的引用，使用函数dispatch_get_global_queue，它的第一个参数是：
+ 
+ DISPATCH_QUEUE_PRIORITY_HIGH
+ DISPATCH_QUEUE_PRIORITY_DEFAULT
+ DISPATCH_QUEUE_PRIORITY_LOW
+ DISPATCH_QUEUE_PRIORITY_BACKGROUND
+ 2、串行队列
+ 解决滞后问题的备用方法是使用串行队列。每个应用都有一个默认的串行队列，这实际上是用于UI的主队列。所以记住当使用串行队列时，你必须创建一个新队列，否则会在应用试图执行更新UI的任务的时候执行你的任务。这将导致错误和延迟，破坏用户体验。你可以使用函数dispatch_queue_create来创建一个新队列，
+ dispatch_queue_create("com.app.www", DISPATCH_QUEUE_SERIAL);
+ 操作队列
+ 不同于GCD，它们不按先进先出的顺序。下面是操作队列和调度队列的不同点：
+ 1.不遵循先进先出：在操作队列中，你可以设置一个操作的执行优先级，你可以添加操作之间的依赖关系，这意味着你可以定义一些操作完成后才会执行其他操作。这就是为什么它们不遵循先进先出。
+ 2.默认情况下，它们同时操作：然而你不能把它的类型改变成串行队列。通过使用操作之间的依赖关系，在操作队列还存在一个工作区来依次执行任务。
+ 3.操作队列是类NSOperationQueue的实例，其任务封装在NSOperation的实例里。
+ 
+ NSOperation
+ 任务以NSOperation实例的形式提交到操作队列。
+ 1.NSBlockOperation——使用这个类来用一个或多个block初始化操作。操作本身可以包含多个块。当所有block被执行操作将被视为完成。
+ 2.NSInvocationOperation——使用这个类来初始化一个操作，它包括指定对象的调用selector。
+ 下面贴上我简单的示例代码
+ 
+ // NSBlockOperation直接操作队列执行任务
+ // 通过它最关键的是设置任务被执行完后还能执行block
+ // 可以取消任务，关联任务（依赖）
+ - (void)blockOperation
+ {
+ // 创建队列
+ NSOperationQueue *queue = [NSOperationQueue currentQueue];
+ // 创建任务
+ NSBlockOperation *blockOperation = [NSBlockOperation blockOperationWithBlock:^{
+ NSLog(@"我创建了第一个任务");
+ }];
+ // 任务执行完毕后的回调方法
+ blockOperation.completionBlock = ^(){
+ NSLog(@"任务执行完毕");
+ };
+ // 往队列中添加任务
+ [queue addOperation:blockOperation];
+ 
+ // 取消任务
+ [queue cancelAllOperations];
+ 
+ NSBlockOperation *dependencyBlock = [NSBlockOperation blockOperationWithBlock:^{
+ NSLog(@"我先执行");
+ }];
+ // 创建依赖
+ [blockOperation addDependency:dependencyBlock];
+ }
+ 
+ // 操作队列（NSOpreationQueue）
+ - (void)opreationQueue
+ {
+ // 创建一个单元队列(NSOperationQueue是OC对象,
+ // 是苹果封装了GCD而设计的一套框架)
+ NSOperationQueue *queue = [NSOperationQueue currentQueue];
+ // 向队列中提交任务，可以提交多个，当所有的任务被执行完
+ // 才算是这一次操作被执行完毕
+ [queue addOperationWithBlock:^{
+ NSLog(@"我是第一个操作");
+ // 在更新UI时，我们可以使用它提交到系统的主队列
+ [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+ NSLog(@"更新UI界面");
+ }];
+ }];
+ }
+ 
+ // GCD的应用
+ - (void)dispatch_async
+ {
+ // 并行队列(系统有4种不同类型的并行队列)
+ dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+ 
+ // 串行队列(系统默认的串行队列)
+ //    dispatch_queue_t DefaultQueue = dispatch_get_main_queue();
+ 
+ // 提交并发任务到queue中（我们可以创建多个并发任务以及串行任务，
+ // 任务之间是相互不影响的，只有在开始顺序以及执行顺序上
+ // 会有些许不同）
+ dispatch_async(queue, ^{
+ NSLog(@"我是并发任务");
+ });
+ 
+ // 提交串行任务到defaultQueue中
+ // 这样在其实应该是更新UI时，而执行了下列方法，因而
+ // 我们可以创建一个队列，然后将其提交至串行队列中
+ // DISPATCH_QUEUE_SERIAL表明是串行队列（一连串的）
+ //    dispatch_queue_t newQueue = dispatch_queue_create(@"com.app.www", DISPATCH_QUEUE_SERIAL);
+ // 因为这是C语言代码，所以应该是“”
+ dispatch_queue_t newQueue = dispatch_queue_create("com.app.www", DISPATCH_QUEUE_SERIAL);
+ dispatch_sync(newQueue, ^{
+ NSLog(@"我是串行任务");
+ });
+ 
+ //    dispatch_async与dispatch_sync是指添加任务到队列中的方式，有同步跟异步，同步是指等添加进队列中的任务执行完再添加下一个任务，异步是无需等待，直接添加
+ }
+ 此文章参考了：http://www.cocoachina.com/ios/20160201/15179.html
+ 
+ 文／婷空万里（简书作者）
+ 原文链接：http://www.jianshu.com/p/a39123e8e7aa
+ 著作权归作者所有，转载请联系作者获得授权，并标注“简书作者”。
+ 
+ GCD是最常用的管理并行代码和执行异步操作的Unix系统层的API。GCD构造和管理队列中的任务。
+ 
+ 队列是什么?
+ 队列是按先进先出(FIFO)管理对象的数据结构。
+ 调度队列！
+ 调度队列是一种简单的异步和同步任务的方法。
+ 串行队列！
+ 当你选择创建一个串行队列，队列一次只能执行一个任务。
+ 使用串行队列的优点是：
+ 1.保证序列化访问共享资源，避免竞态条件。
+ 2.任务的执行顺序是可预测的。当你提交任务到一个串行调度队列，它们将按插入的顺序执行。
+ 3.你可以创建任意数量的串行队列。
+ 并行队列!
+ 顾名思义，并行队列可以并行执行多个任务。
+ 使用队列
+ 1、并行队列
+ 默认情况下，系统为每个应用提供了一个串行队列和四个并行队列。
+ 使用一个全局并行队列，你必须得到队列的引用，使用函数dispatch_get_global_queue，它的第一个参数是：
+ 
+ DISPATCH_QUEUE_PRIORITY_HIGH
+ DISPATCH_QUEUE_PRIORITY_DEFAULT
+ DISPATCH_QUEUE_PRIORITY_LOW
+ DISPATCH_QUEUE_PRIORITY_BACKGROUND
+ 2、串行队列
+ 解决滞后问题的备用方法是使用串行队列。每个应用都有一个默认的串行队列，这实际上是用于UI的主队列。所以记住当使用串行队列时，你必须创建一个新队列，否则会在应用试图执行更新UI的任务的时候执行你的任务。这将导致错误和延迟，破坏用户体验。你可以使用函数dispatch_queue_create来创建一个新队列，
+ dispatch_queue_create("com.app.www", DISPATCH_QUEUE_SERIAL);
+ 操作队列
+ 不同于GCD，它们不按先进先出的顺序。下面是操作队列和调度队列的不同点：
+ 1.不遵循先进先出：在操作队列中，你可以设置一个操作的执行优先级，你可以添加操作之间的依赖关系，这意味着你可以定义一些操作完成后才会执行其他操作。这就是为什么它们不遵循先进先出。
+ 2.默认情况下，它们同时操作：然而你不能把它的类型改变成串行队列。通过使用操作之间的依赖关系，在操作队列还存在一个工作区来依次执行任务。
+ 3.操作队列是类NSOperationQueue的实例，其任务封装在NSOperation的实例里。
+ 
+ NSOperation
+ 任务以NSOperation实例的形式提交到操作队列。
+ 1.NSBlockOperation——使用这个类来用一个或多个block初始化操作。操作本身可以包含多个块。当所有block被执行操作将被视为完成。
+ 2.NSInvocationOperation——使用这个类来初始化一个操作，它包括指定对象的调用selector。
+ 下面贴上我简单的示例代码
+ 
+ // NSBlockOperation直接操作队列执行任务
+ // 通过它最关键的是设置任务被执行完后还能执行block
+ // 可以取消任务，关联任务（依赖）
+ - (void)blockOperation
+ {
+ // 创建队列
+ NSOperationQueue *queue = [NSOperationQueue currentQueue];
+ // 创建任务
+ NSBlockOperation *blockOperation = [NSBlockOperation blockOperationWithBlock:^{
+ NSLog(@"我创建了第一个任务");
+ }];
+ // 任务执行完毕后的回调方法
+ blockOperation.completionBlock = ^(){
+ NSLog(@"任务执行完毕");
+ };
+ // 往队列中添加任务
+ [queue addOperation:blockOperation];
+ 
+ // 取消任务
+ [queue cancelAllOperations];
+ 
+ NSBlockOperation *dependencyBlock = [NSBlockOperation blockOperationWithBlock:^{
+ NSLog(@"我先执行");
+ }];
+ // 创建依赖
+ [blockOperation addDependency:dependencyBlock];
+ }
+ 
+ // 操作队列（NSOpreationQueue）
+ - (void)opreationQueue
+ {
+ // 创建一个单元队列(NSOperationQueue是OC对象,
+ // 是苹果封装了GCD而设计的一套框架)
+ NSOperationQueue *queue = [NSOperationQueue currentQueue];
+ // 向队列中提交任务，可以提交多个，当所有的任务被执行完
+ // 才算是这一次操作被执行完毕
+ [queue addOperationWithBlock:^{
+ NSLog(@"我是第一个操作");
+ // 在更新UI时，我们可以使用它提交到系统的主队列
+ [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+ NSLog(@"更新UI界面");
+ }];
+ }];
+ }
+ 
+ // GCD的应用
+ - (void)dispatch_async
+ {
+ // 并行队列(系统有4种不同类型的并行队列)
+ dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+ 
+ // 串行队列(系统默认的串行队列)
+ //    dispatch_queue_t DefaultQueue = dispatch_get_main_queue();
+ 
+ // 提交并发任务到queue中（我们可以创建多个并发任务以及串行任务，
+ // 任务之间是相互不影响的，只有在开始顺序以及执行顺序上
+ // 会有些许不同）
+ dispatch_async(queue, ^{
+ NSLog(@"我是并发任务");
+ });
+ 
+ // 提交串行任务到defaultQueue中
+ // 这样在其实应该是更新UI时，而执行了下列方法，因而
+ // 我们可以创建一个队列，然后将其提交至串行队列中
+ // DISPATCH_QUEUE_SERIAL表明是串行队列（一连串的）
+ //    dispatch_queue_t newQueue = dispatch_queue_create(@"com.app.www", DISPATCH_QUEUE_SERIAL);
+ // 因为这是C语言代码，所以应该是“”
+ dispatch_queue_t newQueue = dispatch_queue_create("com.app.www", DISPATCH_QUEUE_SERIAL);
+ dispatch_sync(newQueue, ^{
+ NSLog(@"我是串行任务");
+ });
+ 
+ //    dispatch_async与dispatch_sync是指添加任务到队列中的方式，有同步跟异步，同步是指等添加进队列中的任务执行完再添加下一个任务，异步是无需等待，直接添加
+ }
+ 此文章参考了：http://www.cocoachina.com/ios/20160201/15179.html
+ 
+ 文／婷空万里（简书作者）
+ 原文链接：http://www.jianshu.com/p/a39123e8e7aa
+ 著作权归作者所有，转载请联系作者获得授权，并标注“简书作者”。
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  */
+
+
+
 
 
 /**  ********************   2.项目其他东西 ***************
@@ -379,6 +628,9 @@ class Part: NSObject {
  
  9.  延迟  NSThread.sleepForTimeInterval(0.3)    sleep(Int) 
  
+ 
+ 10. 缓存策略：减少对同一url的多次请求，参看：http://www.cnblogs.com/MJP334414/p/5893670.html
+    NSURLCache、 NSURLRequest的缓存策略
  
  */
 
