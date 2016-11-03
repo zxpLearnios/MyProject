@@ -632,6 +632,8 @@ class Part: NSObject {
  10. 缓存策略：减少对同一url的多次请求，参看：http://www.cnblogs.com/MJP334414/p/5893670.html
     NSURLCache、 NSURLRequest的缓存策略
  
+ 五。 日志打印 ：      项目运行时，command + “/” 开启日志打印信息
+ 
  */
 
 
