@@ -29,10 +29,11 @@ class LaunchVC: UIViewController {
 //        imgV.animationImages = [UIImage]() // 帧动画图片
         
         
-        let fileName = NSBundle.mainBundle().pathForResource("contenImg", ofType: "png")
+        
         imgV.image = UIImage(named: "流星") // 此法会将所加载的图片进行缓存
         self.view.addSubview(imgV)
         
+        let fileName = NSBundle.mainBundle().pathForResource("contenImg", ofType: "png")
         let testImg = UIImage.init(contentsOfFile: fileName!)
         let testImgV = UIImageView.init(image: testImg)
         view.addSubview(testImgV)
@@ -59,5 +60,6 @@ class LaunchVC: UIViewController {
         // 测试
 //        hud.showSuccessText("成功彩色法尔", successImage: UIImage(named: "progress_circular")!)
     }
+    
 
 }

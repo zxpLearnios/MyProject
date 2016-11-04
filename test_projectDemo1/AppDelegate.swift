@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
         dispatch_after(time, dispatch_get_main_queue()) {
             // 2.是否时最新的
-            let guideVC = GuideVC()
+            let guideVC = UINavigationController.init(rootViewController: GuideVC())
             if self.isFirstLatestUse() { // 先进入引导页, 再进首页
                 self.window?.rootViewController = guideVC
                 
@@ -154,7 +154,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         // 3.3 自定义串行 并行队列
-//      let customeQueues =  dispatch_queue_create("", DISPATCH_QUEUE_CONCURRENT) // DISPATCH_QUEUE_SERIAL  DISPATCH_QUEUE_CONCURRENT()
+        
         
         // 4. 其他多线程知识、
        // 4.1   performSelector 和 GCD中的dispatch_after实现的延时的区别：
@@ -164,44 +164,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
 //        dispatch_after(time, dispatch_get_main_queue()) {
-//            self.test() // 此法会被调用
+//            self.test() // 此法里的selector会被调用
 //        }
         
-//        self.performSelector(#selector(test), withObject: nil, afterDelay: 2) // 此法会被调用
+//        self.performSelector(#selector(test), withObject: nil, afterDelay: 2) // 此法里的selector会被调用
         
-        let ccQueue = dispatch_queue_create("quue_name", DISPATCH_QUEUE_CONCURRENT)
+        let ccQueue = dispatch_queue_create("quue_name", DISPATCH_QUEUE_CONCURRENT) // 并行队列
+        let csQueue =  dispatch_queue_create("", DISPATCH_QUEUE_SERIAL) // 串行队列
+        
+        
 //        dispatch_sync(ccQueue) {
-//             self.performSelector(#selector(self.test), withObject: nil, afterDelay: 2)  // 此法会被调用, 因为并行队列的同步操作在主线程进行(单线程)，主线程默认自带runloop和timer
+//             self.performSelector(#selector(self.test), withObject: nil, afterDelay: 2)  // 此法里的selector会被调用, 因为并行队列的同步操作在主线程进行(单线程)，主线程默认自带runloop和timer
 //        }
         
 //        dispatch_async(ccQueue) {
-//            self.performSelector(#selector(self.test), withObject: nil, afterDelay: 2)  // 此法不会被调用, 因为并行队列的异步操作在其他线程进行（此时是多线程, 开辟了新的线程）
+//            self.performSelector(#selector(self.test), withObject: nil, afterDelay: 2)  // 此法里的selector不会被调用, 因为并行队列的异步操作在其他线程进行（此时是多线程, 开辟了新的线程）
 //        }
         
 //        dispatch_async(ccQueue) {
 //            dispatch_after(time, dispatch_get_main_queue()) {
 //                    self.test()
-//            } // 此法会被调用，因为此时仍在主线程里
+//            } // 此法里的selector会被调用，因为此时仍在主线程里
 //        }
         
         
-        
         // 4.2 以下两个方法均是多线程方法
-        // 1. performSelectorOnMainThread 不论哪种队列哪种操作，都在主线程执行；参数waitUntilDone 很多说这个参数在主线程无效，这样的说法是错误的，当这个参数为YES,时表示当前runloop循环中的时间马上响应这个事件，如果为NO则runloop会将这个事件加入runloop队列在合适的时间执行这个事件
-        dispatch_sync(ccQueue) {
-//             self.performSelectorInBackground(#selector(self.test), withObject: nil) // 会开启新的线程，会被调用
-//            self.performSelectorOnMainThread(#selector(self.test), withObject: nil, waitUntilDone: false) //此法会被调用
-        }
+        // 1. performSelectorOnMainThread 不论哪种队列哪种操作，都在主线程执行；参数waitUntilDone 很多说这个参数在主线程无效，这样的说法是错误的，当这个参数为YES时表示当前runloop循环中的时间马上响应这个事件，如果为NO则runloop会将这个事件加入runloop队列在合适的时间执行这个事件
+//        dispatch_sync(ccQueue) {
+////             self.performSelectorInBackground(#selector(self.test), withObject: nil) // 会开启新的线程，selector会被调用
+////            self.performSelectorOnMainThread(#selector(self.test), withObject: nil, waitUntilDone: false) //此法里的selector会被调用
+//        }
+//        
+//        dispatch_async(ccQueue) {
+//            
+//            self.performSelectorInBackground(#selector(self.test), withObject: nil) // 会开启新的线程，selector会被调用
+////            self.performSelectorOnMainThread(#selector(self.test), withObject: nil, waitUntilDone: false) // waitUntilDone 好
+//            //此法里的selector会被调用, 仍会在主线程
+//        }
+//        
+        
+//        dispatch_sync(csQueue) {
+//             self.performSelectorInBackground(#selector(self.test), withObject: nil) // 会开启新的线程，selector会被调用
+//            self.performSelectorOnMainThread(#selector(self.test), withObject: nil, waitUntilDone: false) //此法里的selector会被调用。主线程
+            
+//        }
         
         dispatch_async(ccQueue) {
             
-            self.performSelectorInBackground(#selector(self.test), withObject: nil) // 会开启新的线程，会被调用
-//            self.performSelectorOnMainThread(#selector(self.test), withObject: nil, waitUntilDone: false) // waitUntilDone 好
-            //此法会被调用, 仍会在主线程
+//            self.performSelectorInBackground(#selector(self.test), withObject: nil) // 会开启新的线程，selector会被调用
+                self.performSelectorOnMainThread(#selector(self.test), withObject: nil, waitUntilDone: false) //此法里的selector会被调用, 仍会在主线程
         }
-        
-        
-        
         
         
         

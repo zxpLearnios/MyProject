@@ -19,6 +19,18 @@ class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
     
     let mTexts = ["计划", "函数几号的", "客户萨尔那块", "弄好塞飞洛", "看发货", "看红方", "告诉你的"]
     
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.alpha = 1
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.navigationController?.navigationBar.alpha = 1
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()

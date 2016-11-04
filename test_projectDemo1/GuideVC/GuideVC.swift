@@ -27,6 +27,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     var request:MyBaseNetWorkRequest!
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
@@ -325,23 +326,24 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     // MARK: 约束
     func constaintsAction()  {
         // 测试约束
-//        let constranitVC = ConstraintVC()
-//        self.presentViewController(constranitVC, animated: true, completion: nil)
-        
-        
-        // 测试图片浏览器
-        var ary = [UIImage]()
-        for i in 0...7{
-            let str = "0" + String(i)
-            let img = UIImage.init(named: str)!
-            ary.append(img)
-        }
+        let constranitVC = ConstraintVC()
+        self.navigationController?.pushViewController(constranitVC, animated: true)
 
         
         
-        let view = MyPhotoBrowser.init(frame: kbounds)
-        view.images = ary
-        self.view.addSubview(view)
+//        // 测试图片浏览器
+//        var ary = [UIImage]()
+//        for i in 0...7{
+//            let str = "0" + String(i)
+//            let img = UIImage.init(named: str)!
+//            ary.append(img)
+//        }
+//
+//        
+//        
+//        let view = MyPhotoBrowser.init(frame: kbounds)
+//        view.images = ary
+//        self.view.addSubview(view)
         
     }
     
@@ -449,9 +451,13 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         musicPlayer = MyMusicPlayer.init()
     }
     
+    
     // 动画须在此做
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        self.navigationController?.navigationBar.alpha = 0
+        
 //        self.view.backgroundColor = UIColor.redColor()
 //        
 //        self.view.transitionWithType(AnimationType.PageCurl.rawValue, withSubType: kCATransitionFromRight, forView: self.view)
@@ -529,5 +535,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
            
         }
     }
+    
+    
     
 }
