@@ -156,7 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 3.3 自定义串行 并行队列
         
         
-        // 4. 其他多线程知识、
+        // 4. 其他多线程知识
        // 4.1   performSelector 和 GCD中的dispatch_after实现的延时的区别：
         // 1 区别：若在主线程，即不是在多线程的情况下，用performSelector可以，因为主线程默认运行了个runloop，并且有timer，普通的子线程是没有这些的；这个方法在调用的时候会设置当前runloop中timer；若在子线程里，由于子线程里没有自带的runloop和timer，故里面的selector永远不会被调用。此时需要用GCD中的dispatch_after
         // 2 联系： 这两种方式都一个共同的前提，就是当前线程里面需要有一个运行的runloop并且这个runloop里面有一个timer
@@ -216,7 +216,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         
+        let c = "" // c.characters.count == 0
+        let c1 = " " //c1.characters.count == 1
         
+        let c2:String? // 不能这样，因为nil的都不能直接被访问 （c2.characters.count）
+        
+        // 比较是否相等
+        let a = "123asd"
+        let b = "123asd"
+          // a的内存地址为 \unsafeAddressOf(a)
+        debugPrint("a == b \(a==b)")
+     
+        
+        
+        // 3. 简单的2种延迟：
+        // 定时器延迟加载
+        
+        // 线程延迟加载
+//        NSThread.sleepForTimeInterval(0.4)
+//        sleep(1)
         
     }
     

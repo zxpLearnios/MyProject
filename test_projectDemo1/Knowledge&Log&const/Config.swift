@@ -17,7 +17,8 @@ enum SystemSetting:String {
 }
 
 class Config: NSObject {
-
+    
+   
     /**
      0. 弹框提醒，只有文字
      */
@@ -72,7 +73,7 @@ class Config: NSObject {
         range.location = 4
         let bString = (cString as NSString).substringWithRange(range)
         
-        var r: UInt32 = 0x0
+        var r: UInt32 = 0x0 // 默认的内存地址0x00
         var g: UInt32 = 0x0
         var b: UInt32 = 0x0
         NSScanner.init(string: rString).scanHexInt(&r)
