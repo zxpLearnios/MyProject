@@ -9,7 +9,7 @@
 import UIKit
 
 @objc protocol QLSystemCamareVCDelegate {
-    optional func didFinishSelectImage(withResultImage image: UIImage)
+    @objc optional func didFinishSelectImage(withResultImage image: UIImage)
 }
 
 /**
@@ -27,20 +27,20 @@ class MySystemCamareVC: UIImagePickerController, UIImagePickerControllerDelegate
         
         self.delegate = self
         self.allowsEditing = true
-        self.sourceType = .Camera //
+        self.sourceType = .camera //
         //        cameraView.mediaTypes =  [kUTTypeImage as String]
-        self.cameraCaptureMode = .Photo // 拍照 ;   .Vedio
+        self.cameraCaptureMode = .photo // 拍照 ;   .Vedio
         //        impVC.cameraFlashMode = .Auto  // 也是默认的值
-        self.cameraDevice = .Rear
+        self.cameraDevice = .rear
         let preView = UIView()
-        preView.backgroundColor = UIColor.redColor()
+        preView.backgroundColor = UIColor.red
         self.cameraOverlayView = preView
     }
     
     
     
     // MARK: 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         

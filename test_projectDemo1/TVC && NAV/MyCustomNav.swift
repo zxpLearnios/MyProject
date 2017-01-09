@@ -27,7 +27,7 @@ class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
         super.init(coder: aDecoder)
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -36,26 +36,26 @@ class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
         
         // 对于statusBar和navBar颜色不一致，可以用图片、在nav上加一颜色view等
         let statusBg = UILabel.init(frame: kApplication.statusBarFrame)
-        statusBg.backgroundColor = UIColor.orangeColor()
+        statusBg.backgroundColor = UIColor.orange
         self.view.addSubview(statusBg)
-        self.navigationBar.barTintColor = UIColor.purpleColor()
+        self.navigationBar.barTintColor = UIColor.purple
         
         // 所有push出的控制器的title的属性设置
-        let textAttibute = [NSFontAttributeName: UIFont.systemFontOfSize(20), NSForegroundColorAttributeName: UIColor.greenColor()]
+        let textAttibute = [NSFontAttributeName: UIFont.systemFont(ofSize: 20), NSForegroundColorAttributeName: UIColor.green]
         self.navigationBar.titleTextAttributes = textAttibute
         
         
         // 所有的push出的控制器左右item的 属性设置, 但item最好不要拖入，因为长按会变暗
         var  navBaritem = UIBarButtonItem()
         if #available(iOS 9.0, *) {
-            navBaritem = UIBarButtonItem.appearanceWhenContainedInInstancesOfClasses([MyCustomNav.self])
+            navBaritem = UIBarButtonItem.appearance(whenContainedInInstancesOf: [MyCustomNav.self])
         } else {
             navBaritem = UIBarButtonItem.appearance()
         }
        
-        let itemAttribute = [NSFontAttributeName: UIFont.systemFontOfSize(10), NSForegroundColorAttributeName: UIColor.orangeColor()]
-        navBaritem.setTitleTextAttributes(itemAttribute, forState: .Normal)
-        navBaritem.setTitleTextAttributes(itemAttribute, forState: .Highlighted) //  Selected Focused Reserved Highlighted
+        let itemAttribute = [NSFontAttributeName: UIFont.systemFont(ofSize: 10), NSForegroundColorAttributeName: UIColor.orange]
+        navBaritem.setTitleTextAttributes(itemAttribute, for: UIControlState())
+        navBaritem.setTitleTextAttributes(itemAttribute, for: .highlighted) //  Selected Focused Reserved Highlighted
         
 //        navBaritem.setBackgroundImage(UIImage(named: "2"), forState: .Normal, barMetrics: .Default)
 //        navBaritem.setBackgroundImage(UIImage(named: "2"), forState: .Highlighted, barMetrics: .CompactPrompt)
@@ -101,15 +101,15 @@ class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
     }
     
     // MARK: 重写此法以拦截所有push的控制器
-    override func pushViewController(viewController: UIViewController, animated: Bool) {
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
        
         if self.childViewControllers.count > 0 { // 非第一批控制器时 的情况
             
             // 左边的按钮
-            let leftBtn = UIButton.init(frame: CGRectMake(0, 0, 25, 25))
-            leftBtn.setImage(UIImage(named: "navigationbar_back"), forState: .Normal)
-            leftBtn.setImage(UIImage(named: "navigationbar_back"), forState: .Highlighted)
-            leftBtn.addTarget(self, action: #selector(back), forControlEvents: .TouchUpInside)
+            let leftBtn = UIButton.init(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+            leftBtn.setImage(UIImage(named: "navigationbar_back"), for: UIControlState())
+            leftBtn.setImage(UIImage(named: "navigationbar_back"), for: .highlighted)
+            leftBtn.addTarget(self, action: #selector(back), for: .touchUpInside)
             viewController.navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: leftBtn)
             
             // 右边的按钮
@@ -125,9 +125,9 @@ class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
         
         if rtvc != nil { // 说明rootViewController已经变为MyCustomTVC， 而非GuideVC
             // 隐藏tabbar ,需在tabbarVC将要显示时再次显示之
-            UIView.animateWithDuration(aniTime) {
-                self.rtvc.tabBar.transform = CGAffineTransformMakeTranslation(0, 50)
-            }
+            UIView.animate(withDuration: aniTime, animations: {
+                self.rtvc.tabBar.transform = CGAffineTransform(translationX: 0, y: 50)
+            }) 
         }
         
             super.pushViewController(viewController, animated: animated)
@@ -136,7 +136,7 @@ class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
     
     // MARK: 返回
     func back() {
-        self.popToRootViewControllerAnimated(true)
+        self.popToRootViewController(animated: true)
         
         // 点击返回按钮返回时有效，但滑动返回时无效, 因为滑动返回时不进入此法，故直接写到nav的didShowViewController里即可
 //        if self.rtvc != nil {
@@ -155,18 +155,18 @@ class MyCustomNav: UINavigationController, UINavigationControllerDelegate {
     
     // MARK:  ---------------------   UINavigationControllerDelegate    -------------- //
     // 将要显示某控制器时， 此时此控制器虽然还没显示但已经是它的topViewController了
-    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
     
     }
     
     // 将要显示某控制器时， 此时此控制器已经显示，它更是此nav的topViewController了
-    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         
         // 即此时只有一个（根）控制器, 第一次进入时rVc==nil，故不能用!
         if self.viewControllers.count == 1 {
-            UIView.animateWithDuration(aniTime) {
-                self.rtvc?.tabBar.transform = CGAffineTransformIdentity
-            }
+            UIView.animate(withDuration: aniTime, animations: {
+                self.rtvc?.tabBar.transform = CGAffineTransform.identity
+            }) 
          
         }
 //        

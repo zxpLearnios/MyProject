@@ -98,6 +98,8 @@
 		549488801D61A52700C1E3A8 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5494887F1D61A52700C1E3A8 /* String+extension.swift */; };
 		549488821D61AC8100C1E3A8 /* MySystemRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549488811D61AC8100C1E3A8 /* MySystemRequest.swift */; };
 		549911841D7431C5000ABDA2 /* ConstraintVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549911831D7431C5000ABDA2 /* ConstraintVC.swift */; };
+		54A85D9E1DFA593B005428AC /* QRCodeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A85D9D1DFA593B005428AC /* QRCodeImage.m */; };
+		54B721241DE7EA5D002F2154 /* TESTStatic.m in Sources */ = {isa = PBXBuildFile; fileRef = 54B721231DE7EA5D002F2154 /* TESTStatic.m */; };
 		54B9CE2C1D41F655005D7EC2 /* MyImagePickerController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54B9CE2B1D41F655005D7EC2 /* MyImagePickerController.storyboard */; };
 		54B9CE2E1D421731005D7EC2 /* MyAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9CE2D1D421731005D7EC2 /* MyAlbumViewController.swift */; };
 		54B9CE311D42176F005D7EC2 /* MyAlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9CE2F1D42176F005D7EC2 /* MyAlbumTableViewCell.swift */; };
@@ -238,6 +240,10 @@
 		5494887F1D61A52700C1E3A8 /* String+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		549488811D61AC8100C1E3A8 /* MySystemRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySystemRequest.swift; sourceTree = "<group>"; };
 		549911831D7431C5000ABDA2 /* ConstraintVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintVC.swift; sourceTree = "<group>"; };
+		54A85D9C1DFA593B005428AC /* QRCodeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeImage.h; sourceTree = "<group>"; };
+		54A85D9D1DFA593B005428AC /* QRCodeImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeImage.m; sourceTree = "<group>"; };
+		54B721221DE7EA5D002F2154 /* TESTStatic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TESTStatic.h; sourceTree = "<group>"; };
+		54B721231DE7EA5D002F2154 /* TESTStatic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TESTStatic.m; sourceTree = "<group>"; };
 		54B9CE2B1D41F655005D7EC2 /* MyImagePickerController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MyImagePickerController.storyboard; sourceTree = "<group>"; };
 		54B9CE2D1D421731005D7EC2 /* MyAlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAlbumViewController.swift; sourceTree = "<group>"; };
 		54B9CE2F1D42176F005D7EC2 /* MyAlbumTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAlbumTableViewCell.swift; sourceTree = "<group>"; };
@@ -324,6 +330,8 @@
 		541CAFBB1D41BAA000A8EC88 /* QrCode */ = {
 			isa = PBXGroup;
 			children = (
+				54A85D9C1DFA593B005428AC /* QRCodeImage.h */,
+				54A85D9D1DFA593B005428AC /* QRCodeImage.m */,
 				541CAFBC1D41BAA000A8EC88 /* MyQrCodeCreatView.swift */,
 				541CAFBD1D41BAA000A8EC88 /* MyQrCodeScanResultVC.swift */,
 				541CAFBE1D41BAA000A8EC88 /* MyQrCodeScanResultVC.xib */,
@@ -452,6 +460,7 @@
 		5465D2351CFBDBE20012A314 /* test_projectDemo1 */ = {
 			isa = PBXGroup;
 			children = (
+				5465D2421CFBDBE20012A314 /* Info.plist */,
 				5460F1541D58921700F4E304 /* data.json */,
 				5460F1431D586E7200F4E304 /* test.gif */,
 				548B80F61D79201B00D3517F /* demo.html */,
@@ -459,6 +468,8 @@
 				548B80F41D791F7C00D3517F /* lantinghei.TTF */,
 				5460F1451D58752900F4E304 /* test1.gif */,
 				54878C301D88FC04006AF203 /* scanQrCodeCompleteSound.wav */,
+				54B721221DE7EA5D002F2154 /* TESTStatic.h */,
+				54B721231DE7EA5D002F2154 /* TESTStatic.m */,
 				5465D2361CFBDBE20012A314 /* AppDelegate.swift */,
 				542A51DD1D48B2840020D722 /* test_projectDemo1-Bridging-Header.h */,
 				54738EB71D92852E00C58AB4 /* Tools */,
@@ -475,7 +486,6 @@
 				5465D23D1CFBDBE20012A314 /* Assets.xcassets */,
 				545E33CB1D07B456006768C6 /* Images.xcassets */,
 				5465D23F1CFBDBE20012A314 /* LaunchScreen.storyboard */,
-				5465D2421CFBDBE20012A314 /* Info.plist */,
 				546F7F391D51F4A400B9565C /* Localizable.strings */,
 				546F7F341D51F28C00B9565C /* InfoPlist.strings */,
 				547729CA1D95110B007596F6 /* app.entitlements */,
@@ -711,6 +721,8 @@
 				TargetAttributes = {
 					5465D2321CFBDBE20012A314 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = QQLB9MPJWR;
+						LastSwiftMigration = 0810;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -719,10 +731,12 @@
 					};
 					5465D2461CFBDBE20012A314 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0810;
 						TestTargetID = 5465D2321CFBDBE20012A314;
 					};
 					5465D2511CFBDBE20012A314 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0810;
 						TestTargetID = 5465D2321CFBDBE20012A314;
 					};
 				};
@@ -886,7 +900,9 @@
 				546117521CFEC459008C48DB /* MyTopScrollView.swift in Sources */,
 				5460F1421D58698A00F4E304 /* UIWebView+extension.swift in Sources */,
 				545CE14D1D4065DA007A3DE0 /* GuideVC.swift in Sources */,
+				54B721241DE7EA5D002F2154 /* TESTStatic.m in Sources */,
 				5465395E1D01213900BD2F87 /* MySuperVC.swift in Sources */,
+				54A85D9E1DFA593B005428AC /* QRCodeImage.m in Sources */,
 				5460F1501D58855100F4E304 /* MyGifWebView.swift in Sources */,
 				547D05E71D66A16700A5DE56 /* testVC.swift in Sources */,
 				549488821D61AC8100C1E3A8 /* MySystemRequest.swift in Sources */,
@@ -1001,7 +1017,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1048,7 +1065,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1077,6 +1095,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = QQLB9MPJWR;
 				INFOPLIST_FILE = test_projectDemo1/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1084,6 +1103,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "test_projectDemo1/test_projectDemo1-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "";
 				"USER_HEADER_SEARCH_PATHS[arch=*]" = "";
 			};
@@ -1097,12 +1117,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = QQLB9MPJWR;
 				INFOPLIST_FILE = test_projectDemo1/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quarkfinai.test-projectDemo1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "test_projectDemo1/test_projectDemo1-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
@@ -1115,6 +1137,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quarkfinai.test-projectDemo1Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/test_projectDemo1.app/test_projectDemo1";
 			};
 			name = Debug;
@@ -1127,6 +1150,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quarkfinai.test-projectDemo1Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/test_projectDemo1.app/test_projectDemo1";
 			};
 			name = Release;
@@ -1138,6 +1162,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quarkfinai.test-projectDemo1UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = test_projectDemo1;
 			};
 			name = Debug;
@@ -1149,6 +1174,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quarkfinai.test-projectDemo1UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = test_projectDemo1;
 			};
 			name = Release;

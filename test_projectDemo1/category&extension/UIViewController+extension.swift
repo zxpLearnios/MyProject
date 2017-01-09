@@ -23,7 +23,7 @@ extension UIViewController {
     func creatViewController(withControllerName controllerName: String) -> UITableViewController? {
         
         // 1.获取命名空间
-        guard let clsName = NSBundle.mainBundle().infoDictionary!["CFBundleExecutable"] else {
+        guard let clsName = Bundle.main.infoDictionary!["CFBundleExecutable"] else {
             debugPrint("命名空间不存在")
             return nil
         }
@@ -47,7 +47,7 @@ extension UIViewController {
      */
     class func load<T>(withStoryBoardName name:String) -> T {
         let sb = UIStoryboard.init(name: name, bundle: nil)
-        let vc = sb.instantiateViewControllerWithIdentifier(name) as! T
+        let vc = sb.instantiateViewController(withIdentifier: name) as! T
         return vc
     }
     
@@ -61,11 +61,11 @@ class  QLBaseViewController:UIViewController {
     // 在swift里 控制器的init（构造器）发福利时无法加载xib的， 找不到。
     convenience init(){
         
-        let type = NSStringFromClass(self.dynamicType)
-        let name = type.componentsSeparatedByString(".").last!
+        let type = NSStringFromClass(type(of: self))
+        let name = type.components(separatedBy: ".").last!
         
-        let nib = NSBundle.mainBundle().pathForResource(name, ofType: "xib")
-        let xx = NSBundle.mainBundle().loadNibNamed(name, owner: nil, options: nil).last
+        let nib = Bundle.main.path(forResource: name, ofType: "xib")
+        let xx = Bundle.main.loadNibNamed(name, owner: nil, options: nil)?.last
         debugPrint("dfdfdfgdrgdfrgdg")
         if nib == nil {
             self.init(nibName: nil, bundle: nil)

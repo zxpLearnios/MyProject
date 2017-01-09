@@ -46,11 +46,30 @@ extension String{
      *  去掉前后所有的空格
      */
     static func deleteBlankFromHeadAndTail(primordailStr str:String) -> String {
-        let newStr = str.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let newStr = str.trimmingCharacters(in: CharacterSet.whitespaces)
         return newStr
     }
-
     
+    /**
+     将纯数字的字符串不足2位小数的补充，其余的不管。
+     */
+    static func toNewFormatr(_ str:String) -> String{
+        var lastStr = ""
+        let comp = str.components(separatedBy: ".")
+        if comp.count == 1{
+            lastStr = ".00"
+        }else{
+            if comp.last?.characters.count == 0 { // 防止 1.显示的数据出现
+                lastStr = "00"
+            }else if comp.last?.characters.count == 1{
+                lastStr = "0"
+            }else{
+                lastStr = ""
+            }
+        }
+
+        return str + lastStr
+    }
     
 //    var md5: String! {
 //        let str = self.cStringUsingEncoding(NSUTF8StringEncoding)

@@ -9,10 +9,10 @@ import PKHUD
 
 class MyHUD: NSObject {
     
-    private let timeOut = 2.0
+    fileprivate let timeOut = 2.0
     
     // MARK: 单例, static:表示类用
-    private static let shareInstanceObj = MyHUD()
+    fileprivate static let shareInstanceObj = MyHUD()
     static let shareInstance:MyHUD = {
         return shareInstanceObj
     }()
@@ -27,11 +27,11 @@ class MyHUD: NSObject {
     /**
      1. 展示成功或失败，只有图片
      */
-    func showSuccessOrErrorByImage(isSuccess:Bool) {
+    func showSuccessOrErrorByImage(_ isSuccess:Bool) {
         if isSuccess {
-            HUD.flash(.Success, delay: timeOut)
+            HUD.flash(.success, delay: timeOut)
         }else{
-            HUD.flash(.Error, delay: timeOut)
+            HUD.flash(.error, delay: timeOut)
         }
         
     }
@@ -39,18 +39,18 @@ class MyHUD: NSObject {
     /**
      2. 展示提醒文字
      */
-    func showPromptText(text:String) {
-         HUD.flash(.Label(text), delay: timeOut)
+    func showPromptText(_ text:String) {
+         HUD.flash(.label(text), delay: timeOut)
     }
     
     /**
      3. 展示提示文字和静态图片, 成功、失败的图片在里面已设置好了， // progress实际上是一个PDF，PDF竟然也可以这样用
      */
-    func showPromptText(isSuccess:Bool, text: String) {
+    func showPromptText(_ isSuccess:Bool, text: String) {
         if isSuccess {
-            HUD.flash(.LabeledImage(image: UIImage(named: "progress"), title: "", subtitle: text), delay: timeOut)
+            HUD.flash(.labeledImage(image: UIImage(named: "progress"), title: "", subtitle: text), delay: timeOut)
         }else{
-             HUD.flash(.LabeledImage(image: UIImage(named: "progress"), title: "", subtitle: text), delay: timeOut)
+             HUD.flash(.labeledImage(image: UIImage(named: "progress"), title: "", subtitle: text), delay: timeOut)
         }
         
     }
@@ -62,7 +62,7 @@ class MyHUD: NSObject {
         // 它默认的菊花进度
 //        HUD.flash(.Progress, delay: timeOut)
         
-        HUD.show(.LabeledRotatingImage(image: UIImage(named: "progress"), title: "", subtitle: "正在加载..."))
+        HUD.show(.labeledRotatingImage(image: UIImage(named: "progress"), title: "", subtitle: "正在加载..."))
         
         // 默认会 消失
 //        HUD.flash(.LabeledRotatingImage(image: UIImage(named: "progress"), title: "", subtitle: "正在加载..."))
@@ -71,11 +71,11 @@ class MyHUD: NSObject {
     /**
      *  5. 展示成功或失败时的文字和动态图片，外部传入文字
      */
-    func showSuccessOrError(isSuccess:Bool, text: String) {
+    func showSuccessOrError(_ isSuccess:Bool, text: String) {
         if isSuccess {
-            HUD.flash(.LabeledSuccess(title: "", subtitle: text), delay: timeOut)
+            HUD.flash(.labeledSuccess(title: "", subtitle: text), delay: timeOut)
         }else{
-            HUD.flash(.LabeledError(title: "", subtitle: text), delay: timeOut)
+            HUD.flash(.labeledError(title: "", subtitle: text), delay: timeOut)
         }
         
     }
@@ -83,7 +83,18 @@ class MyHUD: NSObject {
     /**
      *  6. 隐藏
      */
-    func hidden(afterDelay: Double) {
+    func hidden(_ afterDelay: Double) {
         HUD.hide(afterDelay: afterDelay, completion: nil)
     }
+}
+
+class testPrivate:NSObject {
+    override init() {
+        super.init()
+        
+        let obj = MyHUD()
+        obj.timeOut
+        
+    }
+
 }

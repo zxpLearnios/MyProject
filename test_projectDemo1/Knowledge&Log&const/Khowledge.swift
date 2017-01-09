@@ -16,12 +16,12 @@ final class Khowledge: NSObject {
      public internal(set) var isKeyPresent = false  
      */
     
-    private(set) var isKeyPresent = false // 对外部只读，对内可读写
+    fileprivate(set) var isKeyPresent = false // 对外部只读，对内可读写
     override init() {
         // 2. map 映射  filter
-        var numbers = [1,2,3,4]
+        let numbers = [1,2,3,4]
         
-        numbers.sort()
+        numbers.sorted()
         let result = numbers.map { $0 + 2 }
         print(result)  // [3,4,5,6]
         
@@ -246,6 +246,18 @@ class Part: NSObject {
  
  3. class :   class var bar: Int? (目前如此设置存储属性会报错，须用static；）目前swift只能在类里 用 class 关键字声明方法和计算属性，static关键字拥有类型存储属性了）
  class var bar = 0.0 （计算属性）不直接存储值，而是提供一个getter和一个可选的setter来间接获取、设置其他属性和变量的值
+ 
+ 
+ 
+ 27. 在默认的情况下，NSObject提供的isEqual:方法判断两个对象相等的标准和==运算符是一样的，都是要求两个指针指向同一块儿内存地址，只有两个指针变量的地址都是指向同一块儿内存地址的时候，才会返回布尔值真。
+ NSString已经重写了NSObject:的isEqual:方法，NSString的isEqual：方法判断两个字符串是否相等的标准是：只要这两个字符串所包含的字符串的内容相同，那么通过isEqual:方法比较就返回真，否则返回假
+ NSString中isEqual:方法和isEqualToStirng:方法是一样的，没有区别
+ 
+ 
+ 28.   Java，ios中
+  多态的2歌重要实现方式：
+      重载（overloading）：类里同名的方法，但参数不同\返回类型不同
+      重写（overriding）： 不同的子类继承同一个父类，重写父类的方法，实现多种形态，即重写时多态的一个重要表现
  
  
  
@@ -645,6 +657,12 @@ class Part: NSObject {
     NSURLCache、 NSURLRequest的缓存策略
  
  五。 日志打印 ：      项目运行时，command + “/” 开启日志打印信息
+ 
+ 
+ 
+ 六：  cocopods 的一些东西
+   1.  执行pod search AFNetworking 时出现Creating search index for spec repo 'master'..，说明 此时由于缺失搜索文件而正在创建搜索文件。
+ 2. 执行pod search AFNetworking 时出现搜索不到的提示， 这是因为之前pod search的时候生成了缓存文件，search_index.json， 执行rm ~/Library/Caches/CocoaPods/search_index.json来删除该文件，然后再次输入pod search AFNetworking进行搜索， 这时会提示Creating search index for spec repo 'master'..， 等待一会将会出现搜索结果如下
  
  */
 

@@ -12,9 +12,9 @@ import UIKit
 
 class MyTabBar: UITabBar {
 
-    private let totalCount:CGFloat = 4 // 必须自己来修改,这样其实会更方便
+    fileprivate let totalCount:CGFloat = 4 // 必须自己来修改,这样其实会更方便
     var   buttonW:CGFloat = 0.0 // 方便外界的加号按钮来设置
-    var onceToken:dispatch_once_t = 0
+    var onceToken:Int = 0
     
     // MARK: 初始化
     override init(frame: CGRect) {
@@ -28,7 +28,7 @@ class MyTabBar: UITabBar {
     }
     
     
-    private func doInit() {
+    fileprivate func doInit() {
         
     }
 
@@ -48,11 +48,11 @@ class MyTabBar: UITabBar {
                 
                 var buttonX  = index * self.buttonW
                 // 只找出 所有的UITabBarItem,
-                if item.isKindOfClass(UIControl.classForCoder()) {
+                if item.isKind(of: UIControl.classForCoder()) {
                     if index > 0 {
                         buttonX = (index + 1) * self.buttonW
                     }
-                    item.frame = CGRectMake(buttonX, buttonY, self.buttonW, buttonH)
+                    item.frame = CGRect(x: buttonX, y: buttonY, width: self.buttonW, height: buttonH)
                     index += 1
                     
                     // 最后一个加的控制器多对应的item， 此时将此item放在第二个的位置处；
@@ -61,7 +61,7 @@ class MyTabBar: UITabBar {
                         if rVC.isCompleteAnimate { // 在按钮动画结束后， 移除并加新的按钮
                             rVC.plusBtn.removeFromSuperview()
                             buttonX = self.buttonW
-                            item.frame = CGRectMake(buttonX, buttonY, self.buttonW, buttonH)
+                            item.frame = CGRect(x: buttonX, y: buttonY, width: self.buttonW, height: buttonH)
                         }
                         
                         

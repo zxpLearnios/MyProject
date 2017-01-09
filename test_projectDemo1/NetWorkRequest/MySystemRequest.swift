@@ -13,20 +13,20 @@ import UIKit
 
 class MySystemRequest: NSObject {
 
-    let request = NSMutableURLRequest.init()
-    let session = NSURLSession.sharedSession()
+    var request:URLRequest!
+    let session = URLSession.shared
     
-    private var  currentTask:NSURLSessionDataTask!
-    let operationQueue = NSOperationQueue.init()
+    fileprivate var  currentTask:URLSessionDataTask!
+    let operationQueue = OperationQueue.init()
     
-    private let queueName = "operationQueue_system_01"
+    fileprivate let queueName = "operationQueue_system_01"
     
 //    private struct completeAction{
 //        static let completeAction = Selector.init("result")
 //    }
-    typealias  SucceedAction = (responseObject:AnyObject, code:String) -> ()
-    typealias  FailedAction = (error:String, code:String) -> ()
-    typealias CompletedAction = (responseObject:AnyObject, code:String) -> ()
+    typealias  SucceedAction = (_ responseObject:AnyObject, _ code:String) -> ()
+    typealias  FailedAction = (_ error:String, _ code:String) -> ()
+    typealias CompletedAction = (_ responseObject:AnyObject, _ code:String) -> ()
     
     struct  CompletedStruct {
         var successAction:SucceedAction?
@@ -68,12 +68,12 @@ class MySystemRequest: NSObject {
         defaultSets()
     }
     
-    private func defaultSets(){
+    fileprivate func defaultSets(){
         // 1.
         request.timeoutInterval = 30
         request.allHTTPHeaderFields = ["":""]
         // 缓存模式
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         // 设置http头部
         request.allHTTPHeaderFields = ["":""]
         
@@ -92,48 +92,48 @@ class MySystemRequest: NSObject {
      - parameter params:          参数
      - parameter completeHandler: 回调
      */
-    func request(byMethod method:RequestMethod, withPath path:String, params:[String:AnyObject], completeHandler: CompletedAction) ->  NSURLSessionTask? {
+    func request(byMethod method:RequestMethod, withPath path:String, params:[String:AnyObject], completeHandler: CompletedAction) ->  URLSessionTask? {
     
         
         // 1. 请求方式
         switch method {
             
         case .get:
-            request.HTTPMethod = RequestMethod.get.rawValue
+            request.httpMethod = RequestMethod.get.rawValue
         case .post:
-            request.HTTPMethod = RequestMethod.post.rawValue
+            request.httpMethod = RequestMethod.post.rawValue
         case .delete:
-            request.HTTPMethod = RequestMethod.delete.rawValue
+            request.httpMethod = RequestMethod.delete.rawValue
         case .insert:
-            request.HTTPMethod = RequestMethod.insert.rawValue
+            request.httpMethod = RequestMethod.insert.rawValue
             
             
         }
 
         
         // 2. url地址
-        let url = NSURL.init(string: path)
+        let url = URL.init(string: path)
         if url == nil {
             debugPrint("\(method)请求，url有误！")
             return nil
         }
-        request.URL = url
+        request.url = url
         
         // 3. task
-        let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) in
-           
+        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+            
             // 5. 判断请求失败或成功
-//            let result = String.init(data: data!, encoding: NSUTF8StringEncoding)
+            //            let result = String.init(data: data!, encoding: NSUTF8StringEncoding)
             
             if  false { // 失败
                 
-//                getFailResult(error!, code: "")
+                //                getFailResult(error!, code: "")
             }else{ // 成功
-//              let successObj = getSuccessResutlt(response!, code: "")
+                //              let successObj = getSuccessResutlt(response!, code: "")
             }
             
             // 3.1 失败、成功都  回调
-//            completeHandler(responseObject: response!, code: "")
+            //            completeHandler(responseObject: response!, code: "")
             
         })
         
@@ -141,7 +141,7 @@ class MySystemRequest: NSObject {
         
         // 4. 开始
         // 创建NSOperation， 将操作加入其中，再将此NSOperation加入NSOperationQueue
-        let operation = NSBlockOperation.init {
+        let operation = BlockOperation.init {
               task.resume()
         }
         operationQueue.addOperation(operation)
@@ -168,7 +168,7 @@ class MySystemRequest: NSObject {
     }
     
     // MARK: 获取请求结果 成功的
-    func getSuccessResutlt(responseObject:AnyObject, code:String) -> [String: AnyObject] {
+    func getSuccessResutlt(_ responseObject:AnyObject, code:String) -> [String: AnyObject] {
         // 转换为字典
         
         let dic = responseObject as! [String: AnyObject]
@@ -177,7 +177,7 @@ class MySystemRequest: NSObject {
     }
     
      // MARK: 获取请求结果 失败的
-    func getFailResult(error:String, code:String) {
+    func getFailResult(_ error:String, code:String) {
         // 主要是对错误信息的处理
         
     }

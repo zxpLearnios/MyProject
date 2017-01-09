@@ -22,11 +22,11 @@ class firstChildVC: UIViewController, UIScrollViewDelegate, MyTopScrollViewDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.automaticallyAdjustsScrollViewInsets = false
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: "push", style: .Done, target: self, action: #selector(leftItemAction))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "更多", style: .Plain, target: self, action: #selector(rightAction))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: "push", style: .done, target: self, action: #selector(leftItemAction))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "更多", style: .plain, target: self, action: #selector(rightAction))
         
         // 顶部scroller
         self.setupTopScroller()
@@ -35,13 +35,13 @@ class firstChildVC: UIViewController, UIScrollViewDelegate, MyTopScrollViewDeleg
         self.setupContentScroller()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         rtvc = (kwindow?.rootViewController as? MyCustomTVC)
 //        rtvc.addPlusButton()
         
-        rtvc.plusBtn.frame = CGRectMake(100, 0, 50, 50)
+        rtvc.plusBtn.frame = CGRect(x: 100, y: 0, width: 50, height: 50)
         
 //            rtvc.tabBar.addSubview(rtvc.plusBtn)
 //
@@ -53,23 +53,23 @@ class firstChildVC: UIViewController, UIScrollViewDelegate, MyTopScrollViewDeleg
     }
     
     // scroller
-    private func setupTopScroller(){
+    fileprivate func setupTopScroller(){
         topScroller.topScrollViewDelegate = self
-        topScroller.frame = CGRectMake(0, 64, kwidth, 20)
+        topScroller.frame = CGRect(x: 0, y: 64, width: kwidth, height: 20)
         view.addSubview(topScroller)
         
     }
-    private func setupContentScroller(){
+    fileprivate func setupContentScroller(){
         // 1. 内容scroller和topScroller底部必须有所靠近，否则没有穿透效果
         let y:CGFloat =  64
         contentScroller.delegate = self
         contentScroller.bounces = false
-        contentScroller.pagingEnabled = true
+        contentScroller.isPagingEnabled = true
         contentScroller.showsHorizontalScrollIndicator = false
-        contentScroller.frame = CGRectMake(0, y, kwidth, kheight - y)
-        contentScroller.contentSize = CGSizeMake(kwidth * CGFloat(topScroller.titles.count), 0)
+        contentScroller.frame = CGRect(x: 0, y: y, width: kwidth, height: kheight - y)
+        contentScroller.contentSize = CGSize(width: kwidth * CGFloat(topScroller.titles.count), height: 0)
         self.view.addSubview(contentScroller)
-        self.view.bringSubviewToFront(topScroller)
+        self.view.bringSubview(toFront: topScroller)
         
         // 2. 必须加为childVC, 默认加的第一个子控制器
         topScroller.layoutIfNeeded() // 主动layOutSubViews
@@ -98,19 +98,19 @@ class firstChildVC: UIViewController, UIScrollViewDelegate, MyTopScrollViewDeleg
     }
  
     // MARK: MyTopScrollViewDelegate
-    func didSelectButtonAtIndex(index: NSInteger) {
+    func didSelectButtonAtIndex(_ index: NSInteger) {
          isTapButtonScroll = true
         let newI = CGFloat(index)
-        contentScroller.setContentOffset(CGPointMake(kwidth * newI, 0), animated: true)
+        contentScroller.setContentOffset(CGPoint(x: kwidth * newI, y: 0), animated: true)
     }
    
     // MARK: UIScrollViewDelegate
     // 1. 滚动时
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         isTapButtonScroll = false // 必须设置回来
     }
     // 2.
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if isTapButtonScroll { // 点击按钮滚动的, 不处理，即不缩放等
             return
@@ -185,14 +185,14 @@ class firstChildVC: UIViewController, UIScrollViewDelegate, MyTopScrollViewDeleg
     }
     
     // 3. 用户滚动结束后
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
 
         self.scrollViewDidEndScrollingAnimation(scrollView)
        
     }
     
     //  3.1 系统自动滚动结束后
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         let offsetX = scrollView.contentOffset.x
         
         let page = Int(offsetX/kwidth)
@@ -218,7 +218,7 @@ class firstChildVC: UIViewController, UIScrollViewDelegate, MyTopScrollViewDeleg
    
     
     // 创建子控制器, 实际中肯定是初始化了n个控制器，然后在合适的时候加为子控制器
-    private func creatChildViewController(page:NSInteger){
+    fileprivate func creatChildViewController(_ page:NSInteger){
         let newIndex = CGFloat(page)
         
         if childVCIndexs.count == 0 { // 默认加的子控制器
@@ -232,10 +232,10 @@ class firstChildVC: UIViewController, UIScrollViewDelegate, MyTopScrollViewDeleg
         }else{ // 之后加的子控制器
             
             // 1.
-            let find = childVCIndexs.indexOf(page)
+            let find = childVCIndexs.index(of: page)
             if find == nil {
                 let childVC = MySuperVC()
-                childVC.view.frame = CGRectMake(kwidth*newIndex, 0, kwidth, contentScroller.frame.height)
+                childVC.view.frame = CGRect(x: kwidth*newIndex, y: 0, width: kwidth, height: contentScroller.frame.height)
                 contentScroller.addSubview(childVC.view)
                 self.addChildViewController(childVC)
                 

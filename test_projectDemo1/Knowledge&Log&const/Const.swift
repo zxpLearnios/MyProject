@@ -25,34 +25,34 @@ let appBundleVersionKey  = "CFBundleVersion" // app build版本 大的版本号
 /** 外层temp目录 */
  let temp = NSTemporaryDirectory() // NSHomeDirectory + "/tmp"
 /** 外层documents目录 */
-let documents = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) // NSHomeDirectory() + "/Documents"
+let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) // NSHomeDirectory() + "/Documents"
 /** 外层library下的caches目录 */
-let caches = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true) // NSHomeDirectory() + "/Library/Caches"
+let caches = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true) // NSHomeDirectory() + "/Library/Caches"
 /** 外层library下的preference目录 */
 let preferences = "" // 通过 NSUserDefaults 存储直接到此目录下 ; NSHomeDirectory() + "/Library/Preferences"
 
 
 /** 不管横竖屏，kwidth   kheight  都是第一次屏幕的情况 */
-let kwidth = UIScreen.mainScreen().bounds.width
-let kheight =  UIScreen.mainScreen().bounds.height
-let kwindow = UIApplication.sharedApplication().keyWindow
+let kwidth = UIScreen.main.bounds.width
+let kheight =  UIScreen.main.bounds.height
+let kwindow = UIApplication.shared.keyWindow
 
 
-let kFileManager =  NSFileManager.defaultManager()
-let kUserDefaults = NSUserDefaults.standardUserDefaults()
-let kNotificationCenter = NSNotificationCenter.defaultCenter()
+let kFileManager =  FileManager.default
+let kUserDefaults = UserDefaults.standard
+let kNotificationCenter = NotificationCenter.default
 /** 当前正在makeKeyAndVisible的window，即当前正在显示且离用户最近的window；注意MyProgressHUD的第二种方式 */
-let currentWindow = UIApplication.sharedApplication().windows.last
+let currentWindow = UIApplication.shared.windows.last
 /** 当前正在makeKeyAndVisible的window的 上面的那个window；对比MyProgressHUD的第二种方式 */
 let beforWindow = getWindowBeforeOfKeyWindow()
-let kDevice = UIDevice.currentDevice()
+let kDevice = UIDevice.current
 /** 屏幕方向 */
 //let kOrientation = UIDevice.currentDevice().orientation
 /** 屏幕状态栏方向 */
-let kStatusDirection = UIApplication.sharedApplication().statusBarOrientation
+let kStatusDirection = UIApplication.shared.statusBarOrientation
 
 /** 旋转角度， 0--360 */
-func rotateRadius(radius:Double) -> Double {
+func rotateRadius(_ radius:Double) -> Double {
     return radius * M_PI / 180
 }
 //private var _kRotation = 0.0
@@ -67,31 +67,32 @@ func rotateRadius(radius:Double) -> Double {
 
 
 /** 全局的代理 */
-let kApplication = UIApplication.sharedApplication()
-let kAppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
-let kcenter = CGPointMake(kwidth/2, kheight/2)
-let kbounds = UIScreen.mainScreen().bounds
+let kApplication = UIApplication.shared
+let kAppDelegate = (UIApplication.shared.delegate as! AppDelegate)
+let kcenter = CGPoint(x: kwidth/2, y: kheight/2)
+let kbounds = UIScreen.main.bounds
 
 
 let hud = MyProgressHUD.init(superView: kwindow!)
 //let hud = MyProgressHUD.sharedInstance
 
 /** 图片数组保存路径 */
-let totalImagesSavePath =  kBundleDocumentPath().stringByAppendingString("totalImages.plist")
+let totalImagesSavePath =  kBundleDocumentPath() + "totalImages.plist"
 
 /** 全局函数，获取 KeyWindow的上一个window，以解决 MyProgressHUD的第二种方式时的主窗口的就问题 */
 func getWindowBeforeOfKeyWindow() -> UIWindow {
-    let windows = UIApplication.sharedApplication().windows
+    let windows = UIApplication.shared.windows
     
     var beforWindowOfKeyWindow:UIWindow!
     
     for subW in windows {
         
         if subW.windowLevel == UIWindowLevelAlert {
-            let index = windows.indexOf(subW)!
+            let index = windows.index(of: subW)!
             if index >= 1 {
                 beforWindowOfKeyWindow = windows[index - 1]
             }
+            
             
         }
         
@@ -101,17 +102,17 @@ func getWindowBeforeOfKeyWindow() -> UIWindow {
 
 
 /** 系统版本号 */
-let kSystemVersion = (UIDevice.currentDevice().systemVersion as NSString).doubleValue
-let kios7 = ((UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 7.0) ? true : false
+let kSystemVersion = (UIDevice.current.systemVersion as NSString).doubleValue
+let kios7 = ((UIDevice.current.systemVersion as NSString).doubleValue >= 7.0) ? true : false
 let kios8:Bool = {
-    return (UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 8.0
+    return (UIDevice.current.systemVersion as NSString).doubleValue >= 8.0
 }()
 //let kiosx = {return (UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 8.0} // 相当于定义了一个函数， kiosx就是那个函数，且只是定义了并未执行
 
-let kios9 = ((UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 9.0) ? true : false
-func kIS_IOS7() ->Bool { return (UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 7.0 }
-func kIS_IOS8() -> Bool { return (UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 8.0 }
-func KIS_IOS9() -> Bool  { return (UIDevice.currentDevice().systemVersion as NSString).doubleValue >= 8.0 }
+let kios9 = ((UIDevice.current.systemVersion as NSString).doubleValue >= 9.0) ? true : false
+func kIS_IOS7() ->Bool { return (UIDevice.current.systemVersion as NSString).doubleValue >= 7.0 }
+func kIS_IOS8() -> Bool { return (UIDevice.current.systemVersion as NSString).doubleValue >= 8.0 }
+func KIS_IOS9() -> Bool  { return (UIDevice.current.systemVersion as NSString).doubleValue >= 8.0 }
 
 // App沙盒路径
 func kAppPath() -> String! {
@@ -119,17 +120,17 @@ func kAppPath() -> String! {
 }
 // Documents路径
 func kBundleDocumentPath() -> String! {
-    return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+    return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
 }
 
 //Cache
 func kCachesPath() -> String! {
-    return NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first!
+    return NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first!
 }
 
 
 /** 打印 */
-func MyLog<T>(message: T, file: NSString = #file, method: String = #function, line: Int = #line)
+func MyLog<T>(_ message: T, file: NSString = #file, method: String = #function, line: Int = #line)
 {
     #if DEBUG
         print("\(method)[\(line)]: \(message)")

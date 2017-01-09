@@ -13,20 +13,20 @@ import AVFoundation
 
 class MyMusicPlayer: AVPlayer {
 
-    private var  musicPlayer:AVAudioPlayer!, voicePlayer:AVPlayer!, playeItem:AVPlayerItem!
+    fileprivate var  musicPlayer:AVAudioPlayer!, voicePlayer:AVPlayer!, playeItem:AVPlayerItem!
     
     
     override init() {
         super.init()
         // 1.
         let str = "http://m2.music.126.net/feplW2VPVs9Y8lE_I08BQQ==/1386484166585821.mp3" // http://v1.mukewang.com/a45016f4-08d6-4277-abe6-bcfd5244c201/L.mp4
-        let onlineUrl = NSURL.init(string: str)
-        playeItem = AVPlayerItem.init(URL: onlineUrl!)
-        voicePlayer = AVPlayer.init(URL: onlineUrl!) // 播放网络音频
+        let onlineUrl = URL.init(string: str)
+        playeItem = AVPlayerItem.init(url: onlineUrl!)
+        voicePlayer = AVPlayer.init(url: onlineUrl!) // 播放网络音频
         
         // 2.
-        let path = NSBundle.mainBundle().pathForResource("背叛情歌.mp3", ofType: nil)
-        let localUrl = NSURL.fileURLWithPath(path!)
+        let path = Bundle.main.path(forResource: "背叛情歌.mp3", ofType: nil)
+        let localUrl = URL(fileURLWithPath: path!)
 //        musicPlayer = try! AVAudioPlayer.init(contentsOfURL: localUrl) // 播放本地音频
 //        voicePlayer = AVPlayer( localUrl) // 播放本地音频
     }

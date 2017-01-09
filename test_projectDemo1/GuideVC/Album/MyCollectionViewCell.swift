@@ -30,9 +30,9 @@ class MyCollectionViewCell: UICollectionViewCell {
     }
     
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet{
-            selectView.hidden = !selected
+            selectView.isHidden = !isSelected
         }
         
     }

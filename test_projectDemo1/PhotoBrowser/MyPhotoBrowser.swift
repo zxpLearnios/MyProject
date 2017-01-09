@@ -23,7 +23,7 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
     
      var scroller:UIScrollView!
     
-     private var scale:CGFloat = 0
+     fileprivate var scale:CGFloat = 0
     
     var images = [UIImage](){
         
@@ -37,7 +37,7 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
     // MARK: 初始化
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.lightGrayColor()
+        self.backgroundColor = UIColor.lightGray
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -46,7 +46,7 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
     
 
     // MARK: 根据图片来添加ImageView
-    private func doInitImageViews(){
+    fileprivate func doInitImageViews(){
     
         let imgWH:CGFloat = 60
         let padding = (self.frame.size.width - 3*60) / 4
@@ -56,12 +56,12 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
 //            let FI = CGFloat(i)
             
             let imgV = UIImageView()
-            imgV.frame = CGRectMake(padding + (padding + imgWH) * CGFloat(i % 3) ,  50 + ((padding + imgWH) * CGFloat(i / 3)), imgWH, imgWH)
+            imgV.frame = CGRect(x: padding + (padding + imgWH) * CGFloat(i % 3) ,  y: 50 + ((padding + imgWH) * CGFloat(i / 3)), width: imgWH, height: imgWH)
             imgV.image = images[i]
             imgV.tag = i
             
             let tap = UITapGestureRecognizer.init(target: self, action: #selector(tapAction))
-            imgV.userInteractionEnabled = true
+            imgV.isUserInteractionEnabled = true
             imgV.addGestureRecognizer(tap)
             
             imageViews.append(imgV)
@@ -73,10 +73,10 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
     }
     
     // 和图片一样大小的scroller
-    private  var imgVScrollers = [UIScrollView]()
+    fileprivate  var imgVScrollers = [UIScrollView]()
     
     // MARK: 点击view里的图片
-    @objc private func tapAction(tap:UITapGestureRecognizer) {
+    @objc fileprivate func tapAction(_ tap:UITapGestureRecognizer) {
         
         let tapImgV = tap.view as! UIImageView
         currentTapImageView = tapImgV
@@ -84,15 +84,15 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
       
         if scroller == nil {
             scroller = UIScrollView.init(frame: kbounds)
-            scroller.pagingEnabled = true
+            scroller.isPagingEnabled = true
             scroller.zoomScale = scroller.minimumZoomScale
          
             scrollerCountLab = UILabel()
-            scrollerCountLab.font = UIFont.systemFontOfSize(30)
-            scrollerCountLab.textColor = UIColor.redColor()
-            scrollerCountLab.textAlignment = .Center
-            scrollerCountLab.bounds =  CGRectMake(0, 0, scroller.frame.width, 30)
-            scrollerCountLab.center = CGPointMake(scroller.center.x, scroller.frame.height - 40)
+            scrollerCountLab.font = UIFont.systemFont(ofSize: 30)
+            scrollerCountLab.textColor = UIColor.red
+            scrollerCountLab.textAlignment = .center
+            scrollerCountLab.bounds =  CGRect(x: 0, y: 0, width: scroller.frame.width, height: 30)
+            scrollerCountLab.center = CGPoint(x: scroller.center.x, y: scroller.frame.height - 40)
            
         }
         
@@ -103,7 +103,7 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
 //        }
         
         // 1.
-        scroller.contentSize = CGSizeMake(scroller.frame.width * CGFloat(images.count), 0)
+        scroller.contentSize = CGSize(width: scroller.frame.width * CGFloat(images.count), height: 0)
         
         // 2. 
         for subV in scroller.subviews {
@@ -169,8 +169,8 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
                 imgVW = imgVH / (imageH / imageW)
             }
             
-            imgV.bounds = CGRectMake(0,  0, imgVW, imgVH)
-            imgV.center = CGPointMake(scroller.frame.width * CGFloat(i) + scroller.center.x, scroller.center.y)
+            imgV.bounds = CGRect(x: 0,  y: 0, width: imgVW, height: imgVH)
+            imgV.center = CGPoint(x: scroller.frame.width * CGFloat(i) + scroller.center.x, y: scroller.center.y)
             
             
             
@@ -186,12 +186,12 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
         }
         
         // 4
-        scroller.pagingEnabled = true
+        scroller.isPagingEnabled = true
         scroller.delegate = self
-         scroller.userInteractionEnabled = true
-        scroller.backgroundColor = UIColor.whiteColor()
+         scroller.isUserInteractionEnabled = true
+        scroller.backgroundColor = UIColor.white
         // 滚动至需要显示的图片处
-        scroller.setContentOffset(CGPointMake(kwidth * CGFloat(tapImgV.tag), 0), animated: false)
+        scroller.setContentOffset(CGPoint(x: kwidth * CGFloat(tapImgV.tag), y: 0), animated: false)
         scroller.frame = kbounds
         
         kwindow?.addSubview(scroller)
@@ -213,34 +213,34 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
     
     
     // MARK: 点击scroller上的图片
-    @objc private func tapScrollerAction(tap:UITapGestureRecognizer) {
-        scroller.userInteractionEnabled = false
+    @objc fileprivate func tapScrollerAction(_ tap:UITapGestureRecognizer) {
+        scroller.isUserInteractionEnabled = false
         
         let currentScrollerImageViewFrame = currentScrollerImageView.frame
         currentScrollerImageView.removeFromSuperview()
         
         // 安按照她在scroller上的位置加到view上一样的位置
         self.addSubview(currentScrollerImageView)
-        currentScrollerImageView.frame = CGRectMake(0, currentScrollerImageViewFrame.origin.y, currentScrollerImageViewFrame.width, currentScrollerImageViewFrame.height)
+        currentScrollerImageView.frame = CGRect(x: 0, y: currentScrollerImageViewFrame.origin.y, width: currentScrollerImageViewFrame.width, height: currentScrollerImageViewFrame.height)
         
         //        scroller.zoomToRect(CGRectMake(10, 10, 100, 100), animated: true)
         //        self.scroller.setZoomScale(self.scroller.minimumZoomScale, animated: true)
         
-        UIView.animateWithDuration(1, animations: {
-            self.scroller.backgroundColor = UIColor.clearColor()
+        UIView.animate(withDuration: 1, animations: {
+            self.scroller.backgroundColor = UIColor.clear
             self.currentScrollerImageView.frame = self.currentTapImageView.frame
-        }) { (fl) in
+        }, completion: { (fl) in
             self.scrollerCountLab.removeFromSuperview()
             self.scroller.removeFromSuperview()
             self.scroller.addSubview(self.currentScrollerImageView)
-        }
+        }) 
 
     }
     
    
     
     // MARK: 捏合scroller上的图片
-    @objc private func pinchScrollerAction(pinch:UIPinchGestureRecognizer){
+    @objc fileprivate func pinchScrollerAction(_ pinch:UIPinchGestureRecognizer){
             debugPrint(pinch.scale)
     
         var scale = pinch.scale
@@ -252,24 +252,24 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
         
         switch pinch.state {
             
-        case .Changed:
+        case .changed:
             
             if self.scale == 0 {
-                currentScrollerImageView.transform = CGAffineTransformMakeScale(scale, scale)
+                currentScrollerImageView.transform = CGAffineTransform(scaleX: scale, y: scale)
             }else{
                 
                 if pinch.scale < 1 {
                     let x = abs(self.scale - (1 - pinch.scale))
-                    currentScrollerImageView.transform = CGAffineTransformMakeScale(x, x)
+                    currentScrollerImageView.transform = CGAffineTransform(scaleX: x, y: x)
                 }else{
                     
                     let x = self.scale + (pinch.scale - 1)
-                    currentScrollerImageView.transform = CGAffineTransformMakeScale(x, x)
+                    currentScrollerImageView.transform = CGAffineTransform(scaleX: x, y: x)
                 }
                 
             }
 //            scroller.setZoomScale(scale, animated: false)
-        case .Ended:
+        case .ended:
             
             if scale <= 0.5 { // 最小倍数
                 scale = 0.5
@@ -281,7 +281,7 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
             
             self.scale = scale
             
-            currentScrollerImageView.transform = CGAffineTransformMakeScale(scale, scale)
+            currentScrollerImageView.transform = CGAffineTransform(scaleX: scale, y: scale)
             
 //            currentTapImageView.bounds = CGRectMake(0, 0, currentScrollerImageViewW * scale, currentScrollerImageViewH * scale)
             
@@ -294,7 +294,7 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
     }
     
     // MARK: 旋转scroller上的图片
-    @objc private func rotateScrollerAction(rotate:UIRotationGestureRecognizer){
+    @objc fileprivate func rotateScrollerAction(_ rotate:UIRotationGestureRecognizer){
     
         
     }
@@ -327,7 +327,7 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
     
     
     // MARK: UIScrollViewDelegate
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         //        self.scrollViewDidEndScrollingAnimation(scrollView)
         
         let page = Int(scrollView.contentOffset.x / scrollView.frame.width)
@@ -337,12 +337,12 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
     }
     
     // 用户滚动结束后
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.scrollViewDidEndScrollingAnimation(scrollView)
     }
     
     //   系统自动滚动结束后
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         
 //        let lastPage = kUserDefaults.integerForKey("currentPage")
         
@@ -369,12 +369,12 @@ class MyPhotoBrowser: UIView, UIScrollViewDelegate{
     
     
     // MARK: 
-    func scrollViewDidZoom(scrollView: UIScrollView) {
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
         currentImgVScroller = scrollView
     }
     
     // MARK:  需要
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         if scroller != scrollView {
             return currentScrollerImageView
         }

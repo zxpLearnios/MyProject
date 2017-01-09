@@ -33,32 +33,32 @@ enum Method: String {
 }
 
 class MyBaseNetWorkRequest: NSObject {
-    typealias  completeColsureType = ((result:AnyObject, code:String) -> Void) // 非optional即外界必须有相应的回调  ，由于请求返回的数据结果是个字典。    常如：{"BODY":"{\"RESULT\":false}","RESPONSE_STATUS":"OK","ELAPSE_TIME":"18","ERROR_CODE":null,"ERROR_MESSAGE":null}
+    typealias  completeColsureType = ((_ result:AnyObject, _ code:String) -> Void) // 非optional即外界必须有相应的回调  ，由于请求返回的数据结果是个字典。    常如：{"BODY":"{\"RESULT\":false}","RESPONSE_STATUS":"OK","ELAPSE_TIME":"18","ERROR_CODE":null,"ERROR_MESSAGE":null}
     
     
-    private var manager:Manager!
+    fileprivate var manager:SessionManager!
     
     /**  用于停止下载时，保存已下载的部分 */
-    private var cancelledData: NSData?
+    fileprivate var cancelledData: Data?
     /** 下载请求对象 */
-    private var downloadRequest: Request?
+    fileprivate var downloadRequest: Request?
     /** 主请求对象 */
-    private var mainRequest:Request?
+    fileprivate var mainRequest:Request?
     
     /** HTTP Headers */
-    private let headers = Alamofire.Manager.defaultHTTPHeaders // 必须 是 [String: String]
+    fileprivate let headers = Alamofire.SessionManager.defaultHTTPHeaders // 必须 是 [String: String]
 //    let headers = [
 //        "Authorization": "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==",
 //        "Accept": "application/json",
 //        "text/html; charset=utf-8": "Content-Type"
 //    ]
     /** 目的地 下载的文件被保存的地址 */
-    private let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+    fileprivate let destination = Alamofire.DownloadRequest.suggestedDownloadDestination(for: .documentDirectory, in: .userDomainMask)  // Alamofire.Request.suggestedDownloadDestination(directory: .documentDirectory, domain: .userDomainMask)
     // 设置请求的超时时间
-    private let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-    private let requestTimeOut = 30
-    private let operationQueue = NSOperationQueue.init()
-     private let queueName = "operationQueue_mybaserquest_001"
+    fileprivate let config = URLSessionConfiguration.default
+    fileprivate let requestTimeOut = 30
+    fileprivate let operationQueue = OperationQueue.init()
+     fileprivate let queueName = "operationQueue_mybaserquest_001"
     
     override init() {
         super.init()
@@ -69,7 +69,8 @@ class MyBaseNetWorkRequest: NSObject {
         // 1.2
         config.timeoutIntervalForRequest = 30
         config.timeoutIntervalForResource = 30
-        manager = Manager.init(configuration: config)
+        manager =  Alamofire.SessionManager(configuration: config) //SessionManager.init(configuration: config, delegate: self, serverTrustPolicyManager: nil)
+//            .init(configuration: config)
         
         operationQueue.name = queueName
         //设置最大并发数
@@ -86,7 +87,7 @@ class MyBaseNetWorkRequest: NSObject {
      - parameter paramsEncoding:  请求参数编码方式
      - parameter completeClosure: 请求完成后的回调
      */
-    private func request(method:Method, path:String, params:[String:AnyObject], paramsEncoding:ParameterEncoding, completeClosure:completeColsureType) { // paramsT... 一个可变参数可以接受零个或多个值。
+    fileprivate func request(_ method:Method, path:String, params:[String:AnyObject], paramsEncoding:ParameterEncoding, completeClosure:@escaping completeColsureType) { // paramsT... 一个可变参数可以接受零个或多个值。
         
        
         
@@ -111,81 +112,71 @@ class MyBaseNetWorkRequest: NSObject {
             
         case .GET:
             
+           mainRequest =  manager.request(URL.init(string: path)!, method: .get, parameters: params, encoding: paramsEncoding, headers: headers).responseJSON(completionHandler: { (response) in
+            //                print(response.request)  // original URL request
+            //                print(response.response) // URL response
+            //                print(response.data)     // server data
+            //                print(response.result)   // result of response serialization
             
-           mainRequest = manager.request(.GET, path, parameters: params, encoding: paramsEncoding, headers: headers).responseJSON(completionHandler: { response in
+            
+            //                switch response.result{
+            //                case .Success:
+            //
+            //                    break
+            //                case .Failure(let error):
+            //                    print("网络请求失败！！！\(error)")
+            //                    break
+            //                }
+            //
+            //                completeClosure(result: response.result.value as! String, code: "")
+            
+            if let result = response.result.value as? String{
+                // 返回的数据的最外层往往是一个字典
                 
-                //                print(response.request)  // original URL request
-                //                print(response.response) // URL response
-                //                print(response.data)     // server data
-                //                print(response.result)   // result of response serialization
-                
-                
-//                switch response.result{
-//                case .Success:
-//                    
-//                    break
-//                case .Failure(let error):
-//                    print("网络请求失败！！！\(error)")
-//                    break
-//                }
-//                
-//                completeClosure(result: response.result.value as! String, code: "")
-                
-                if let result = response.result.value as? String{
-                    // 返回的数据的最外层往往是一个字典
+                let data = result.data(using: String.Encoding.utf8)
+                if data != nil {
+                    //  异常的处理、捕捉
                     
-                    let data = result.dataUsingEncoding(NSUTF8StringEncoding)
-                    if data != nil {
-                        //  异常的处理、捕捉
+                    do{
+                        let jsonObj = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                         
-                        do{
-                            let jsonObj = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+                        if let resultDic =  (jsonObj as? Dictionary<String,AnyObject>){ // 原数据是字典类型
+                            completeClosure(resultDic as AnyObject, "")
                             
-                            if let resultDic =  (jsonObj as? Dictionary<String,AnyObject>){ // 原数据是字典类型
-                                completeClosure(result: resultDic, code: "")
-                                
-                            }else{ // 说明 原数据不是字典类型
-                                if let resultAry =  (jsonObj as? [AnyObject]){
-                                    completeClosure(result: resultAry, code: "")
-                                }
-                                
+                        }else{ // 说明 原数据不是字典类型
+                            if let resultAry =  (jsonObj as? [AnyObject]){
+                                completeClosure(resultAry as AnyObject, "")
                             }
                             
-                        }catch let error {
-                            print(error)
                         }
                         
+                    }catch let error {
+                        print(error)
                     }
                     
-                    
-                }else{
-                    print("请求成功，但返回的结果为空！")
                 }
-
                 
-            })
-            break
-        case .POST:
-            Alamofire.request(.POST, " ", parameters: ["foo": "bar"])
-                .responseJSON { response in
-                    
-                    
+                
+            }else{
+                print("请求成功，但返回的结果为空！")
             }
+            
+            
+           })
+            break
+            
+        case .POST:
+//            Alamofire.request(.post, " ", parameters: ["foo": "bar"])
+//                .responseJSON { response in
+//                    
+//                    
+//            }
             break
         case .PUT:
-            Alamofire.request(.PUT, " ", parameters: ["foo": "bar"])
-                .responseJSON { response in
-                    
-                    
-            }
+//            }
             break
             
         case .DELETE:
-            Alamofire.request(.DELETE, " ", parameters: ["foo": "bar"])
-                .responseJSON { response in
-                    
-                    
-            }
             break
         }
         
@@ -199,10 +190,12 @@ class MyBaseNetWorkRequest: NSObject {
      - parameter params:          请求参数
      - parameter completeClosure: 请求完成后的回调\closure
      */
-    func getRequestWithPath(path:String, params:[String:AnyObject]?, completeClosure:completeColsureType) {
+    func getRequestWithPath(_ path:String, params:[String:AnyObject]?, completeClosure:@escaping completeColsureType) {
         
         if params != nil && path.characters.count != 0 {
-            request(.GET, path: path, params: params!, paramsEncoding: .JSON, completeClosure: completeClosure)
+            
+            let pe = URLEncoding.default
+            request(.GET, path: path, params: params!, paramsEncoding: pe, completeClosure: completeClosure)
         }else{ // 提示 参数为空、请求路径为空
             
         }
@@ -236,17 +229,18 @@ class MyBaseNetWorkRequest: NSObject {
      - parameter andRequestPath: 需要将文件上传的目的地 地址
      - parameter scriptName      服务器脚本字段名
      */
-    func uploadOneFile(withFileUrl fileUrl: NSURL, andUploadPath path: String, scriptName name: String) {
+    func uploadOneFile(withFileUrl fileUrl: URL, andUploadPath path: String, scriptName name: String) {
         // Alamofire manager
-        manager.upload(.POST, path, file: fileUrl).progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
+        manager.upload(fileUrl, to: path).uploadProgress { (p) in
             
             // 此处显示进度
-            dispatch_async(dispatch_get_main_queue()) {
-                debugPrint("Total bytes written on main queue: \(totalBytesWritten)")
+            DispatchQueue.main.async {
+                debugPrint("Total bytes written on main queue: \(p)")
             }
         }.validate().responseJSON { (response) in
             
         }
+        
         
     }
     
@@ -264,39 +258,40 @@ class MyBaseNetWorkRequest: NSObject {
         }
 //        let header = ["x":"x"]
         
-        // Alamofire manager
-        manager.upload(.POST, path, multipartFormData: { multipartFormData in
-            
-            let count = urls.count
-            // 设置 上传文件
-            for i in 0..<count{
-                let  url = urls[i]
-                if url is NSURL{
-                    multipartFormData.appendBodyPart(fileURL: url as! NSURL, name: names[i])
-                }else if url is NSData {
-                    multipartFormData.appendBodyPart(data: url as! NSData, name: names[i])
-                }
-                
-                
-            }
-//            multipartFormData.appendBodyPart(data: file1Data!, name: "file1", // data
-//                fileName: "h.png", mimeType: "image/png") // 图片
-//            multipartFormData.appendBodyPart(fileURL: file2URL!, name: "file2") // 文件, 即NSBundle.mainBundle().URLForResource("hangge", withExtension: "png")
-            
-            }, encodingCompletion: { encodingResult in
-                switch encodingResult {
-                    // PHP返回的json,Obj-C无法解析, 如下提示：Error Domain=NSCocoaErrorDomain Code=3840 \"Invalid value around character 0.\" UserInfo={NSDebugDescription=Invalid value around character 0.}
-                case .Success(let request, let isStreamingFromDisk, let streamFileURL):
-                    
-                    request.responseJSON { response in
-                        debugPrint("成功了\(response)")
-                    }
-                case .Failure(let encodingError):
-                    debugPrint("出错了\(encodingError)")
-                }
-            }
-        )
         
+        manager.upload(
+            multipartFormData: { multipartFormData in
+                let count = urls.count
+                // 设置 上传文件
+                for i in 0..<count{
+                    let  url = urls[i]
+                    if url is URL{
+                        
+                        multipartFormData.append(url as! URL, withName: names[i])
+                    }else if url is Data {
+                        multipartFormData.append(url as! Data, withName: names[i])
+                    }
+                    
+                    
+                }
+                
+                
+                //            multipartFormData.appendBodyPart(data: file1Data!, name: "file1", // data
+                //                fileName: "h.png", mimeType: "image/png") // 图片
+                //            multipartFormData.appendBodyPart(fileURL: file2URL!, name: "file2") // 文件, 即NSBundle.mainBundle().URLForResource("hangge", withExtension: "png")
+                
+        }, to: "https://httpbin.org/post", encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .success(let upload, _, _):
+                    upload.responseJSON { response in
+                        debugPrint(response)
+                    }
+                case .failure(let encodingError):
+                    print(encodingError)
+                }
+        })
+    
+    
     }
     
     /**
@@ -305,9 +300,9 @@ class MyBaseNetWorkRequest: NSObject {
      */
     func uploadOneFileByStream(urlPath path: String, fileTotalName name: String) {
         
-        let fileURL = NSBundle.mainBundle().URLForResource(name, withExtension: nil)
+        let fileURL = Bundle.main.url(forResource: name, withExtension: nil)
         // Alamofire manager
-        manager.upload(.POST, path, file: fileURL!)
+        manager.upload(fileURL!, to: path)
         
     }
     
@@ -318,24 +313,24 @@ class MyBaseNetWorkRequest: NSObject {
      - parameter fileNames:
      - parameter name:      服务器的脚本名
      */
-    func uploadMoreFile(withUrlString url: String, fileUrls: [NSURL], fileNames: [NSURL], name:String) {
+    func uploadMoreFile(withUrlString url: String, fileUrls: [URL], fileNames: [URL], name:String) {
         
         // 将需要上传的文件写入body中
         // Alamofire manager
-        manager.upload(.POST, url, multipartFormData: { multipartFormData in
+        manager.upload(multipartFormData: { multipartFormData  in
             
-            
-            }, encodingCompletion: { encodingResult in
-                switch encodingResult {
-                case .Success(let request, _, _):
-                    request.responseJSON { response in
-                        debugPrint(response)
-                    }
-                case .Failure(let encodingError):
-                    print(encodingError)
-                }
+        }, to: url, encodingCompletion:{ encodingResult in
+        
+            switch encodingResult {
+            case .success(let request, _, _):
+                request.responseJSON { response in
+                    debugPrint(response)
             }
-        )
+            case .failure(let encodingError):
+                print(encodingError)
+            }
+        })
+        
         
     }
     
@@ -350,33 +345,36 @@ class MyBaseNetWorkRequest: NSObject {
         // 将需要上传的文件写入body中
         
         // Alamofire manager
-        manager.upload(.POST, path, multipartFormData: { multipartFormData in
+        
+        manager.upload(multipartFormData: { multipartFormData  in
             
             for image in imageArrays {
                 let data = UIImageJPEGRepresentation(image, 1.0)
-//                UIImagePNGRepresentation(image) // 此法对引用的图片处理后要比UIImageJPEGRepresentation处理后的大，后者可对图片压缩质量进行控制，如：0.5
-                let imageName = String(NSDate()) + ".png"
-                multipartFormData.appendBodyPart(data: data!, name: "name", fileName: imageName, mimeType: "image/png")
+                //                UIImagePNGRepresentation(image) // 此法对引用的图片处理后要比UIImageJPEGRepresentation处理后的大，后者可对图片压缩质量进行控制，如：0.5
+                let imageName = String(describing: Date()) + ".png"
+                multipartFormData.append(data!, withName: "name", fileName: imageName, mimeType: "image/png")
+                
             }
             
             // 这里就是绑定参数的地方
             for (key, value) in params {
                 assert(value is String, "参数必须能够转换为NSData的类型，比如String")
-                multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key )
+                multipartFormData.append(value.data(using: String.Encoding.utf8.rawValue)!, withName: key )
             }
+
             
+        }, to: path, encodingCompletion:{ encodingResult in
             
-            }, encodingCompletion: { encodingResult in
-                switch encodingResult {
-                case .Success(let request, _, _):
-                    request.responseJSON { response in
-                        debugPrint(response)
-                    }
-                case .Failure(let encodingError):
-                    debugPrint(encodingError)
+            switch encodingResult {
+            case .success(let request, _, _):
+                request.responseJSON { response in
+                    debugPrint(response)
                 }
+            case .failure(let encodingError):
+                print(encodingError)
             }
-        )
+        })
+        
         
     }
 
@@ -387,75 +385,78 @@ class MyBaseNetWorkRequest: NSObject {
      3. 用默认的保存地址进行下载，无下载进度；下载下来保存到用户文档目录下（Documnets目录）,文件名不变
      - parameter path: 资源路径
      */
-    func downloadWithResourcePath(path:String) {
+    func downloadWithResourcePath(_ path:String) {
         // Alamofire manager
-        Alamofire.download(.GET, path) { temporaryURL, response in
-            
-            let fileManager = NSFileManager.defaultManager()
-            let directoryURL = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
-            let pathComponent = response.suggestedFilename
-            
-            // 下载后的文件 保存路径
-            let directoryPath = directoryURL.URLByAppendingPathComponent(pathComponent!)
-            print(directoryPath)
-            
-            return directoryPath
+        
+        let fileManager = FileManager.default
+        let directoryURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        
+        
+        // 下载后的文件 保存路径
+        let directoryPath = directoryURL.appendingPathComponent("")
+        
+        let url = URL.init(string: path)
+        if url == nil {
+            return
         }
+        
+        Alamofire.download(url!, to: nil).response { (response) in
+            
+            if response.error == nil, let imagePath = response.destinationURL?.path {
+                let image = UIImage(contentsOfFile: imagePath)
+            }
+        }
+        
+        
     }
     
     /**
      3.1  类似于3.2  但无下载进度;下载下来保存到用户文档目录下（Documnets目录）,文件名不变
      */
-    func downloadWithDefaultDownloadDestination(resourcePath:String) {
+    func downloadWithDefaultDownloadDestination(_ resourcePath:String) {
          // 下载后的文件保存路径
-        let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+        let destination = Alamofire.DownloadRequest.suggestedDownloadDestination(for: .documentDirectory, in: .userDomainMask)
         
         //Alamofire manager
-        Alamofire.download(.GET, resourcePath, destination: destination)
+       let _ = Alamofire.download(resourcePath, to: destination)
+
     }
     
     /**
      3.2 用默认的保存地址进行下载，有下载进度；下载下来保存到用户文档目录下（Documnets目录）,文件名不变
      */
-    func downloadResource(resourcePath:String) {
-        let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+    func downloadResource(_ resourcePath:String) {
+        let destination = Alamofire.DownloadRequest.suggestedDownloadDestination(for: .documentDirectory, in: .userDomainMask)
+        
         
         //Alamofire manager
-        Alamofire.download(.GET, resourcePath, destination: destination)
-            .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
-                print(totalBytesRead)
-                
-                // This closure is NOT called on the main queue for performance
-                // reasons. To update your ui, dispatch to the main queue.
-                dispatch_async(dispatch_get_main_queue()) {
-                    print("Total bytes read on main queue: \(totalBytesRead)")
-                }
+        Alamofire.download(resourcePath, to: destination).downloadProgress { (progress) in
+            DispatchQueue.main.async {
+                print("Total bytes read on main queue: \(progress)")
             }
-            .response { (resuest, response, data, error) in
-                if let error = error {
-                    print("Failed with error: \(error)")
-                } else {
-                    print("Downloaded file successfully")
-                }
+        }.response { (response) in
+            
         }
+        
         
     }
     
     /**
      3.3 用默认的保存地址进行下载，下载下来保存到用户文档目录下（Documnets目录）, 参数少功能小,下载失败时获取resumeData；还有点问题
      */
-    func downloadResourceWithPath(resourcePath:String) {
+    func downloadResourceWithPath(_ resourcePath:String) {
         
         //Alamofire manager
-        Alamofire.download(.GET, resourcePath, destination: destination)
-            .response { (request, response, data, error) in
-                if let data = data, resumeDataString = NSString(data: data, encoding: NSUTF8StringEncoding)
-                {
-                    print("Resume Data: \(resumeDataString)")
-                } else {
-                    print("Resume Data was empty")
-                }
+        Alamofire.download(resourcePath, to: destination).downloadProgress { (progress) in
+            DispatchQueue.main.async {
+                print("Total bytes read on main queue: \(progress)")
+            }
+            
+            }.response { (response) in
+                
         }
+        
+        
     }
     
     /**
@@ -464,44 +465,45 @@ class MyBaseNetWorkRequest: NSObject {
      */
     func downloadResourceByResumeData(resourcePath path:String) {
         
-        var download:Request!
+        var download:DownloadRequest!
         
         // 0. 根据数据是否缓存过 进行断点下载与否
         if cancelledData != nil { // 上面数据有过下载了
-            download = Alamofire.download(resumeData: cancelledData!, destination: destination)
+            download = Alamofire.download(resumingWith: cancelledData!, to: destination)
+            
         }else{
-            download = Alamofire.download(.GET, path, destination: destination)
+            download = Alamofire.download(path, to: destination)
         }
         
         // 1. 下载进度
-        download.progress {  bytesRead, totalBytesRead, totalBytesExpectedToRead in
+        download.downloadProgress(queue: DispatchQueue.main, closure: { p in
             
-            // This closure is NOT called on the main queue for performance
-            // reasons. To update your ui, dispatch to the main queue.
-            dispatch_async(dispatch_get_main_queue()) {
-                debugPrint("Total bytes read on main queue: \(totalBytesRead)")
-            }
-
-        }
+            debugPrint("Total bytes read on main queue: \(p)")
+        })
+        
         
         // 2. 对已下载的数据 在下载取消时进行及时的缓存
-        download.response { request, response, data, error in
+        download.response { (response) in
             
-            if let error = error { // 下载失败
-                
+            let error = response.error
+            let data = response.resumeData
+            let request = response.request
+            if error != nil{
                 debugPrint("下载中断了，因为\(error)")
-                self.cancelledData = data  // 意外终止的话，把已下载的数据储存起来
-//                if error.code == NSURLErrorCancelled { // NSURLErrorUnknown NSURLErrorUnknown NSURLErrorNetworkConnectionLost NSURLErrorTimedOut
-//                    self.cancelledData = data  // 意外终止的话，把已下载的数据储存起来
-//                } else {
-//                    print("Failed to download file: \(response) \(error)")
-//                }
                 
-            } else { // 下载成功
-                print("Successfully downloaded file: \(response)")
+                if data != nil { // NSURLErrorUnknown NSURLErrorUnknown NSURLErrorNetworkConnectionLost NSURLErrorTimedOut   NSURLErrorCancelled
+                    self.cancelledData = data  // 意外终止的话，把已下载的数据储存起来
+                } else {
+                    print("Failed to download file: \(response) \(error)")
+                }
+                
+            }else{
+                print("Succeed to download file: \(response) \(error)")
+
             }
-            
         }
+        
+        
         
         // -2. 和上面的作用一样
 //        downloadRequest = Alamofire.download(resumeData: NSData(), destination: destination)
@@ -509,8 +511,8 @@ class MyBaseNetWorkRequest: NSObject {
     }
     
     /**  3.5 下载停止响应（不管成功或者失败 */
-    private func downloadResponse(request: NSURLRequest?, response: NSHTTPURLResponse?,
-                                  data: NSData?, error:NSError?) {
+    fileprivate func downloadResponse(_ request: URLRequest?, response: HTTPURLResponse?,
+                                  data: Data?, error:NSError?) {
         if let error = error {
             if error.code == NSURLErrorCancelled {
                 self.cancelledData = data //意外终止的话，把已下载的数据储存起来
@@ -530,24 +532,44 @@ class MyBaseNetWorkRequest: NSObject {
      - parameter saveName: 保存后的名字
      */
     func downloadResource(withPath path:String, savePath:String, saveName:String)  {
-        Alamofire.download(.GET, path) {
-            temporaryURL, response in
+        
+        let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let fileURL = URL.init(string: savePath)!
             
-            let fileManager = NSFileManager.defaultManager()
-            let directoryURL = fileManager.URLsForDirectory(.DocumentDirectory,
-                                                            inDomains: .UserDomainMask)[0]
             
-            let folder = directoryURL.URLByAppendingPathComponent(savePath, isDirectory: true)
-            
-            // 判断文件夹是否存在，不存在则创建
-            let exist = fileManager.fileExistsAtPath(folder.path!)
-            if !exist {
-                try! fileManager.createDirectoryAtURL(folder, withIntermediateDirectories: true,
-                                                      attributes: nil)
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+        
+        Alamofire.download(path, to: destination).downloadProgress { (progress) in
+            DispatchQueue.main.async {
+                print("Total bytes read on main queue: \(progress)")
             }
             
-            return folder.URLByAppendingPathComponent(saveName)
+            }.response { (response) in
+                
         }
+        
+        
+        
+//        Alamofire.download(.GET, path) {
+//            temporaryURL, response in
+//            
+//            let fileManager = FileManager.default
+//            let directoryURL = fileManager.urls(for: .documentDirectory,
+//                                                            in: .userDomainMask)[0]
+//            
+//            let folder = directoryURL.appendingPathComponent(savePath, isDirectory: true)
+//            
+//            // 判断文件夹是否存在，不存在则创建
+//            let exist = fileManager.fileExists(atPath: folder.path!)
+//            if !exist {
+//                try! fileManager.createDirectory(at: folder, withIntermediateDirectories: true,
+//                                                      attributes: nil)
+//            }
+//            
+//            return folder.appendingPathComponent(saveName)
+//        }
         
         
     }
@@ -564,7 +586,7 @@ class MyBaseNetWorkRequest: NSObject {
     
     //    ---------------------------   private    ----------------------- //
     /** 5.  取消下载 */
-    private func cancleDownload()  {
+    fileprivate func cancleDownload()  {
 //        self.downloadRequest?.cancel()
     }
     
@@ -587,16 +609,16 @@ class MyBaseNetWorkRequest: NSObject {
      - parameter sizeLimit: 压缩后的图片最大为？M ，外界直接传入几M即可
      - returns: 压缩后的图片二进制数据
      */
-    func compressImage(image: UIImage, imageSizeLimit sizeLimit:Double) -> NSData? {
+    func compressImage(_ image: UIImage, imageSizeLimit sizeLimit:Double) -> Data? {
         let compressScale:[CGFloat] = [0.5, 0.1, 0.05, 0.01, 0.001] // 不同的压缩纬度
-        var imageData:NSData?
+        var imageData:Data?
         
         for i in 0..<compressScale.count {
             imageData = UIImageJPEGRepresentation(image, compressScale[i])
             
             if imageData != nil{
                 // 如果图片压缩后大小符合要求，则返回图片
-                if Double(imageData!.length) < sizeLimit * (1024.0 * 1024.0)  {
+                if Double(imageData!.count) < sizeLimit * (1024.0 * 1024.0)  {
                     return imageData
                 }
             }else{
@@ -614,16 +636,16 @@ class MyBaseNetWorkRequest: NSObject {
      8.  手动实现图片压缩，按照大小进行比例压缩，改变了图片的尺寸； 可以再调用 6. 对此中得到的图片进行压缩，返回压缩后的图片二进制数据
      - parameter scale: 压缩比例， 如由100*100压缩为10*10，则scale = 0.1
      */
-    func compressImage(image: UIImage, scale: CGFloat) -> UIImage {
+    func compressImage(_ image: UIImage, scale: CGFloat) -> UIImage {
     
         var newImage:UIImage!
-        let imageSize = CGSizeMake(image.size.width * scale, image.size.height * scale)
+        let imageSize = CGSize(width: image.size.width * scale, height: image.size.height * scale)
         
         if (image.size.width != imageSize.width || image.size.height != imageSize.height){
     
             UIGraphicsBeginImageContext(imageSize)
-            let imageRect = CGRectMake(0.0, 0.0, imageSize.width, imageSize.height)
-            image.drawInRect(imageRect)
+            let imageRect = CGRect(x: 0.0, y: 0.0, width: imageSize.width, height: imageSize.height)
+            image.draw(in: imageRect)
             
             newImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
@@ -829,24 +851,25 @@ class MyBaseNetWorkRequest: NSObject {
 class  downloadRequest:NSObject {
 
     // 用于停止下载时，保存已下载的部分
-    private var cancelledData: NSData?
+    fileprivate var cancelledData: Data?
     // 下载请求对象
-    private var downloadRequest: Request?
+    fileprivate var downloadRequest: Request?
     
     
-    private override init() {
+    fileprivate override init() {
         
     }
     
     convenience  init(request:Request) {
         self.init()
+//        downloadRequest!.
         
-        downloadRequest!.response(completionHandler: downloadResponse) //下载停止响应
+//        downloadRequest!.response(completionHandler: downloadResponse) //下载停止响应
     }
     
     // 下载停止响应（不管成功或者失败）
-    private func downloadResponse(request: NSURLRequest?, response: NSHTTPURLResponse?,
-                          data: NSData?, error:NSError?) {
+    fileprivate func downloadResponse(_ request: URLRequest?, response: HTTPURLResponse?,
+                          data: Data?, error:NSError?) {
         if let error = error {
             if error.code == NSURLErrorCancelled {
                 self.cancelledData = data //意外终止的话，把已下载的数据储存起来

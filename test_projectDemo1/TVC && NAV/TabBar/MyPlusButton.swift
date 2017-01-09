@@ -12,14 +12,14 @@ class MyPlusButton: UIButton {
 
     
     let buttonImageRatio:CGFloat = 0.7 // 比例
-    let normalColor = UIColor.redColor() // 默认字体颜色
-    let selectColor = UIColor.greenColor() // 选中时字体的颜色
+    let normalColor = UIColor.red // 默认字体颜色
+    let selectColor = UIColor.green // 选中时字体的颜色
     let fontSize:CGFloat = 10
     
     
     // 0. 高亮时图片。title皆不变
-    private var _highlighted = false
-    override var highlighted: Bool{
+    fileprivate var _highlighted = false
+    override var isHighlighted: Bool{
         get{
             return self._highlighted
         }
@@ -50,16 +50,16 @@ class MyPlusButton: UIButton {
         super.layoutSubviews()
     }
     
-    private func doInit(){
+    fileprivate func doInit(){
         self.adjustsImageWhenDisabled = false
-        self.setTitleColor(normalColor, forState: .Normal)
-        self.setTitleColor(selectColor, forState: .Selected)
-        self.titleLabel?.font = UIFont.systemFontOfSize(fontSize)
-        self.titleLabel?.textAlignment = .Center
+        self.setTitleColor(normalColor, for: UIControlState())
+        self.setTitleColor(selectColor, for: .selected)
+        self.titleLabel?.font = UIFont.systemFont(ofSize: fontSize)
+        self.titleLabel?.textAlignment = .center
     }
     
     // 设置 setImage时有用
-    override func imageRectForContentRect(contentRect: CGRect) -> CGRect {
+    override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
         
         var imgW:CGFloat = 49
         var imgH = imgW
@@ -71,17 +71,17 @@ class MyPlusButton: UIButton {
             imgH = 29
             imgY = 5
             imgX = self.frame.width/2 - imgW/2
-            return CGRectMake(imgX, imgY, imgH, imgH)
+            return CGRect(x: imgX, y: imgY, width: imgH, height: imgH)
         }
-        return  CGRectMake(imgX, imgY, imgW, imgH)
+        return  CGRect(x: imgX, y: imgY, width: imgW, height: imgH)
     }
     
-    override func titleRectForContentRect(contentRect: CGRect) -> CGRect {
+    override func titleRect(forContentRect contentRect: CGRect) -> CGRect {
         let titleY:CGFloat = contentRect.size.height * buttonImageRatio
         let titleW:CGFloat = contentRect.size.width
         let titleH:CGFloat = contentRect.size.height-titleY
         let titleX:CGFloat = 0
-        return CGRectMake(titleX, titleY, titleW, titleH)
+        return CGRect(x: titleX, y: titleY, width: titleW, height: titleH)
     }
     
    

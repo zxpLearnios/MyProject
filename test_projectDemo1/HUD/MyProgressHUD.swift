@@ -13,16 +13,16 @@ import UIKit
 
 class MyProgressHUD: NSObject {
 
-    private let view = UIView(), titleLab = UILabel(), imgV = UIImageView(), alertWindow = UIWindow.init(frame: kbounds), aniKey = "aniKey_rotation_forImageView"
+    fileprivate let view = UIView(), titleLab = UILabel(), imgV = UIImageView(), alertWindow = UIWindow.init(frame: kbounds), aniKey = "aniKey_rotation_forImageView"
     
-    private let width:CGFloat = 100, fontSize:CGFloat = 15
-    private var imgWH:CGFloat = 0, onceToken:dispatch_once_t = 0, isShow = false, ani:CAKeyframeAnimation!, isFirstMethod = false // 是否是第一种方式
+    fileprivate let width:CGFloat = 100, fontSize:CGFloat = 15
+    fileprivate var imgWH:CGFloat = 0, onceToken:Int = 0, isShow = false, ani:CAKeyframeAnimation!, isFirstMethod = false // 是否是第一种方式
     
     weak var superView:UIView!
     
     /** 第一种方式. 外部传入view非window，只在当前view中显示谈出框 */
     // 重写父类方法
-    private override init (){
+    fileprivate override init (){
         super.init()
     }
     
@@ -85,7 +85,7 @@ class MyProgressHUD: NSObject {
 //    }
     
     // 用于第一种方式的。
-    private func doInit(){
+    fileprivate func doInit(){
        
       //   0.
         isFirstMethod = true
@@ -101,23 +101,23 @@ class MyProgressHUD: NSObject {
 //            }
 //        }
         
-        view.frame = CGRectMake(UIScreen.mainScreen().bounds.width/2 - width/2, UIScreen.mainScreen().bounds.height/2 - width/2, width, width)
-        view.backgroundColor = UIColor.whiteColor()
+        view.frame = CGRect(x: UIScreen.main.bounds.width/2 - width/2, y: UIScreen.main.bounds.height/2 - width/2, width: width, height: width)
+        view.backgroundColor = UIColor.white
         view.layer.cornerRadius = 10
         
         // 2.
         view.addSubview(imgV)
         imgWH = width * 4 / 5
-        imgV.center = CGPointMake(width/2, 10 + imgWH/2)
-        imgV.bounds = CGRectMake(0, 0, imgWH, imgWH)
+        imgV.center = CGPoint(x: width/2, y: 10 + imgWH/2)
+        imgV.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
         imgV.image = UIImage(named: "progress_circular") // progress_circular 实际上是一个PDF，PDF竟然也可以这样用
         
         
        // 3.
         view.addSubview(titleLab)
-        titleLab.textAlignment = .Center
-        titleLab.textColor = UIColor.redColor()
-        titleLab.font = UIFont.systemFontOfSize(fontSize)
+        titleLab.textAlignment = .center
+        titleLab.textColor = UIColor.red
+        titleLab.font = UIFont.systemFont(ofSize: fontSize)
         titleLab.numberOfLines = 0
 //        titleLab.text = "最终加载最终加载最终加载"
 //        let bestSize = titleLab.sizeThatFits(CGSizeMake(width, width))
@@ -142,23 +142,23 @@ class MyProgressHUD: NSObject {
     /**
      只展示提示信息,  此时字体变大了、字居view的中间显示、隐藏了图片
      */
-    func showPromptText(text:String) {
+    func showPromptText(_ text:String) {
         
         // 全局并行队列(同步、异步都在主线程中，前者不会死锁)
-        let que = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        let que = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
         
-        dispatch_sync(que, { // 同步操作\同步任务
-            self.imgV.hidden = true
-            self.titleLab.hidden = false
+        que.sync(execute: { // 同步操作\同步任务
+            self.imgV.isHidden = true
+            self.titleLab.isHidden = false
             
-            self.titleLab.font = UIFont.systemFontOfSize(self.fontSize + 10)
+            self.titleLab.font = UIFont.systemFont(ofSize: self.fontSize + 10)
             self.titleLab.text = text
-            let bestSize = self.titleLab.sizeThatFits(CGSizeMake(kwidth - 20, CGFloat(MAXFLOAT)))
+            let bestSize = self.titleLab.sizeThatFits(CGSize(width: kwidth - 20, height: CGFloat(MAXFLOAT)))
             
             self.view.height = bestSize.height + 20
             self.view.width = bestSize.width + 20
-            self.titleLab.center = CGPointMake(self.view.width / 2, self.view.height / 2)
-            self.titleLab.bounds = CGRectMake(0, 0, bestSize.width, bestSize.height)
+            self.titleLab.center = CGPoint(x: self.view.width / 2, y: self.view.height / 2)
+            self.titleLab.bounds = CGRect(x: 0, y: 0, width: bestSize.width, height: bestSize.height)
             
 //            self.imgV.setNeedsLayout()
 //            self.view.setNeedsLayout()
@@ -174,21 +174,21 @@ class MyProgressHUD: NSObject {
     /**
      只展示图片, 图片居中、隐藏了titleLab，
      */
-    func showProgressImage(image:UIImage) {
+    func showProgressImage(_ image:UIImage) {
         
         // 和主线程同步执行且不会阻塞主线程
-        let que = dispatch_queue_create("myque1", DISPATCH_QUEUE_CONCURRENT) // 并行队列
+        let que = DispatchQueue(label: "myque1", attributes: DispatchQueue.Attributes.concurrent) // 并行队列
         
-        dispatch_sync(que, { // 同步操作\同步任务
-            self.titleLab.hidden = true
-            self.imgV.hidden = false
+        que.sync(execute: { // 同步操作\同步任务
+            self.titleLab.isHidden = true
+            self.imgV.isHidden = false
             
             self.imgV.image = image
             
             self.view.width = self.imgWH + 20
             self.view.height = self.imgWH + 20
             
-            self.imgV.center = CGPointMake(self.view.width/2, self.view.height/2)
+            self.imgV.center = CGPoint(x: self.view.width/2, y: self.view.height/2)
         })
         
         if !isShow {
@@ -200,21 +200,21 @@ class MyProgressHUD: NSObject {
     /**
      成功时的图片和文字,
      */
-    func showSuccessText(text:String, successImage image:UIImage) {
+    func showSuccessText(_ text:String, successImage image:UIImage) {
       
         // 和主线程同步执行且不会阻塞主线程
-        let que = dispatch_queue_create("myque2", DISPATCH_QUEUE_CONCURRENT) // 并行队列
+        let que = DispatchQueue(label: "myque2", attributes: DispatchQueue.Attributes.concurrent) // 并行队列
         
-        dispatch_sync(que, { // 同步操作\同步任务
+        que.sync(execute: { // 同步操作\同步任务
             
-            self.imgV.hidden = false
-            self.titleLab.hidden = false
+            self.imgV.isHidden = false
+            self.titleLab.isHidden = false
             
             self.imgV.image = image
             
             self.titleLab.text = text
-            let bestSize = self.titleLab.sizeThatFits(CGSizeMake(self.width, self.width))
-            self.titleLab.frame = CGRectMake(0, self.imgV.frame.maxY + 10, self.width, bestSize.height)
+            let bestSize = self.titleLab.sizeThatFits(CGSize(width: self.width, height: self.width))
+            self.titleLab.frame = CGRect(x: 0, y: self.imgV.frame.maxY + 10, width: self.width, height: bestSize.height)
             
             var  gap:CGFloat = 20 // 确保顶部、底部都有间距 10
             // 此时需增加view的高度
@@ -234,20 +234,20 @@ class MyProgressHUD: NSObject {
     /**
      失败时的图片和文字,
      */
-    func showFailedText(text:String, failedImage image:UIImage) {
+    func showFailedText(_ text:String, failedImage image:UIImage) {
         
-        let que = dispatch_queue_create("myque3", DISPATCH_QUEUE_CONCURRENT) // 并行队列
+        let que = DispatchQueue(label: "myque3", attributes: DispatchQueue.Attributes.concurrent) // 并行队列
         
-        dispatch_sync(que, { // 同步操作\同步任务
+        que.sync(execute: { // 同步操作\同步任务
             
-            self.imgV.hidden = false
-            self.titleLab.hidden = false
+            self.imgV.isHidden = false
+            self.titleLab.isHidden = false
             
             self.imgV.image = image
             
             self.titleLab.text = text
-            let bestSize = self.titleLab.sizeThatFits(CGSizeMake(self.width, self.width))
-            self.titleLab.frame = CGRectMake(0, self.imgV.frame.maxY + 10, self.width, bestSize.height)
+            let bestSize = self.titleLab.sizeThatFits(CGSize(width: self.width, height: self.width))
+            self.titleLab.frame = CGRect(x: 0, y: self.imgV.frame.maxY + 10, width: self.width, height: bestSize.height)
             
             var  gap:CGFloat = 20 // 确保顶部、底部都有间距 10
             // 此时需增加view的高度
@@ -266,7 +266,7 @@ class MyProgressHUD: NSObject {
     /**
      消失 ;  用于哪种方式的消失
      */
-    func dismiss(isForFirstMethod:Bool) {
+    func dismiss(_ isForFirstMethod:Bool) {
         self.isFirstMethod = isForFirstMethod
         self.doDismissAnimate(isKeyWindowEnable: true)
     }
@@ -276,7 +276,7 @@ class MyProgressHUD: NSObject {
      - parameter isForTitleLab: 为图片 还是 文字执行动画
      - parameter enable:        主窗口是否可与用户交互
      */
-    private func doShowAnimate(isForImageView:Bool, isKeyWindowEnable enable:Bool){
+    fileprivate func doShowAnimate(_ isForImageView:Bool, isKeyWindowEnable enable:Bool){
         
         isShow = true
         
@@ -284,23 +284,23 @@ class MyProgressHUD: NSObject {
             // 重新添加view
             superView.addSubview(view)
             // 主窗口不可交互
-            kwindow?.userInteractionEnabled = enable
+            kwindow?.isUserInteractionEnabled = enable
         }else{
             // 设置它无用, 也不用设置
 //            alertWindow.userInteractionEnabled = enable
             
             // 重新显示 alertWindow
-            self.alertWindow.hidden = false
+            self.alertWindow.isHidden = false
             // 主窗口不可交互
-            beforWindow.userInteractionEnabled = enable
+            beforWindow.isUserInteractionEnabled = enable
         }
         
-        view.transform = CGAffineTransformMakeScale(0.3, 0.3)
+        view.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
         
-        UIView.animateWithDuration(0.25, animations: {
-            self.view.transform = CGAffineTransformIdentity
+        UIView.animate(withDuration: 0.25, animations: {
+            self.view.transform = CGAffineTransform.identity
             
-            }) { (bl) in
+            }, completion: { (bl) in
                 
                 if isForImageView {
                     
@@ -315,18 +315,18 @@ class MyProgressHUD: NSObject {
                         self.ani.repeatCount = MAXFLOAT
                     }
                     
-                    self.imgV.layer.addAnimation(self.ani, forKey: self.aniKey)
+                    self.imgV.layer.add(self.ani, forKey: self.aniKey)
                     
                 }else{
                     // 2s后消失提示label、 成功图片加label、失败图片加label
-                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
-                    dispatch_after(time, dispatch_get_main_queue()) {
+                    let time = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                    DispatchQueue.main.asyncAfter(deadline: time) {
                         self.doDismissAnimate(isKeyWindowEnable: true)
                     }
                 }
                 
                 
-        }
+        }) 
     }
     
     /** 消失动画
@@ -334,34 +334,34 @@ class MyProgressHUD: NSObject {
      - parameter enable:        主窗口是否可与用户交互
      
      */
-    private func doDismissAnimate(isKeyWindowEnable enable:Bool){
+    fileprivate func doDismissAnimate(isKeyWindowEnable enable:Bool){
         
-        UIView.animateWithDuration(0.25, animations: {
-            self.view.transform = CGAffineTransformMakeScale(0.3, 0.3)
+        UIView.animate(withDuration: 0.25, animations: {
+            self.view.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
             
-        }) { (bl) in
+        }, completion: { (bl) in
             
             // 移除图片的旋转动画
-            self.imgV.layer.removeAnimationForKey(self.aniKey)
+            self.imgV.layer.removeAnimation(forKey: self.aniKey)
     
             if self.isFirstMethod {
                 // 主窗口可交互
-                kwindow?.userInteractionEnabled = enable
+                kwindow?.isUserInteractionEnabled = enable
                 
                 // 移除、主窗口恢复
                 self.view.removeFromSuperview()
             }else{
                 
-                beforWindow.userInteractionEnabled = enable
+                beforWindow.isUserInteractionEnabled = enable
                 // 上面此时只显示了提醒文字，故需要2s后自动消失；其他情况，都不消失的
-                if self.imgV.hidden {
-                    self.alertWindow.hidden = true
+                if self.imgV.isHidden {
+                    self.alertWindow.isHidden = true
                 }
             }
             
             // 消失动画完成后才可再次显示，避免不停地显示
             self.isShow = false
-        }
+        }) 
     }
     
     deinit{

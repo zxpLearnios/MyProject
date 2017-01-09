@@ -15,8 +15,8 @@ class MyTopicButton: UIButton {
     var green:CGFloat = 0.6
     var blue:CGFloat = 0.7
     
-    var normalColor = UIColor.redColor() // 默认字体颜色
-    var selectColor = UIColor.greenColor() // 选中时字体的颜色
+    var normalColor = UIColor.red // 默认字体颜色
+    var selectColor = UIColor.green // 选中时字体的颜色
     var bgColor = UIColor.init(red: 0.4, green: 0.6, blue: 0.7, alpha: 1)
     
     // r  g   b  a
@@ -26,7 +26,7 @@ class MyTopicButton: UIButton {
     var scrollDirection = 0 // 0 用户左滑
     /** 0---1 */
     
-    private var _colorProgress:CGFloat = 0.0
+    fileprivate var _colorProgress:CGFloat = 0.0
     var colorProgress:CGFloat {
         get{
             return self._colorProgress
@@ -45,7 +45,7 @@ class MyTopicButton: UIButton {
         }
     }
     
-    private var _scale:CGFloat = 0.0
+    fileprivate var _scale:CGFloat = 0.0
     var scale : CGFloat {
         get{
             return _scale
@@ -53,12 +53,12 @@ class MyTopicButton: UIButton {
         set{
             _scale = newValue
             
-             self.transform = CGAffineTransformMakeScale(1 + scale , 1 + scale) // [1  2]
+             self.transform = CGAffineTransform(scaleX: 1 + scale , y: 1 + scale) // [1  2]
         }
     }
     // 即可是高亮是的字体，图片状态不变
-    private var _highlighted = false
-    override var highlighted: Bool {
+    fileprivate var _highlighted = false
+    override var isHighlighted: Bool {
         get{
             return self._highlighted
         }
@@ -68,8 +68,8 @@ class MyTopicButton: UIButton {
     }
 
     // 不知道为啥，原来没事的。 现在，若重写此selected属性，则有关字体的颜色必须在此设置且在此设置也会出错，故此处调用了setNeedsDisplay
-    private var _selected = Bool()
-    override var selected: Bool{
+    fileprivate var _selected = Bool()
+    override var isSelected: Bool{
         get{
             return _selected
         }
@@ -77,10 +77,10 @@ class MyTopicButton: UIButton {
             _selected = newValue
             
             self.setNeedsDisplay()
-            if selected {
-                    self.transform = CGAffineTransformMakeScale(2, 2)
+            if isSelected {
+                    self.transform = CGAffineTransform(scaleX: 2, y: 2)
             }else{
-                self.transform = CGAffineTransformIdentity
+                self.transform = CGAffineTransform.identity
             }
         }
     }
@@ -94,17 +94,17 @@ class MyTopicButton: UIButton {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         self.doInit()
     }
     
-    private func doInit(){
+    fileprivate func doInit(){
         self.adjustsImageWhenDisabled = false
-        self.titleLabel?.textAlignment = .Center
-        self.setTitleColor(normalColor, forState: .Normal)
-        self.setTitleColor(selectColor, forState: .Selected)
-        self.titleLabel?.font = UIFont.systemFontOfSize(self.fontSize)
+        self.titleLabel?.textAlignment = .center
+        self.setTitleColor(normalColor, for: UIControlState())
+        self.setTitleColor(selectColor, for: .selected)
+        self.titleLabel?.font = UIFont.systemFont(ofSize: self.fontSize)
 //        self.backgroundColor = bgColor
     }
     

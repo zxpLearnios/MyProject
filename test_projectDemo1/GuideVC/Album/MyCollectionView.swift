@@ -11,11 +11,11 @@ import UIKit
 class MyCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout  {
 
     var totalCount = 0
-    private let cellId = "MyCollectionViewCell"
+    fileprivate let cellId = "MyCollectionViewCell"
     
     
     class func getSelf() -> MyCollectionView{
-        let view = NSBundle.mainBundle().loadNibNamed("MyCollectionView", owner: nil, options: nil).last as! MyCollectionView
+        let view = Bundle.main.loadNibNamed("MyCollectionView", owner: nil, options: nil)?.last as! MyCollectionView
         // 改变布局
 //        view.collectionViewLayout = MyCollectionViewLayout.init()
         return view
@@ -34,48 +34,48 @@ class MyCollectionView: UICollectionView, UICollectionViewDelegate, UICollection
         self.allowsMultipleSelection = true
         
         // 注册cell
-         self.registerNib(UINib.init(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
+         self.register(UINib.init(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         
         // 添加返回按钮
         let backBtn = UIButton.init()
-        backBtn.setImage(UIImage(named: "album_delete_btn"), forState: .Normal)
+        backBtn.setImage(UIImage(named: "album_delete_btn"), for: UIControlState())
         backBtn.width = 40
         backBtn.height = 20
-        backBtn.center = CGPointMake(40, 30)
+        backBtn.center = CGPoint(x: 40, y: 30)
         
-        backBtn.addTarget(self, action: #selector(backAction), forControlEvents: .TouchUpInside)
+        backBtn.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         self.addSubview(backBtn)
     }
     
     
     
     // 必须写，一确定cell的大小，否则就会用默认的; 每行展示3故 cell
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let width = (kwidth - 4 * 20)/3
-        return CGSizeMake(width, width)
+        return CGSize(width: width, height: width)
     }
     
     // MARK: UICollectionViewDelegate, UICollectionViewDataSource
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return totalCount + 5
     }
     
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as! MyCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MyCollectionViewCell
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         debugPrint("点击了\(indexPath.item)")
     }
 
     // private 
     
-    func backAction(btn:UIButton) {
+    func backAction(_ btn:UIButton) {
 //        self.
     }
 

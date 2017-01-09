@@ -1,6 +1,0 @@
-framework module QKLockView {
-  umbrella header "QKLockView-umbrella.h"
-
-  export *
-  module * { export * }
-}

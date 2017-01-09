@@ -10,6 +10,19 @@ import UIKit
 import GPUImage
 import Photos
 import AssetsLibrary
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 //import AVFoundation
 //import CoreMedia
@@ -30,24 +43,24 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     
     let cellId = "MyCaptureCell"
 //    private var camera:GPUImageVignetteFilter!
-    private var   videoCamera:GPUImageVideoCamera!, customFilter:GPUImageFilter!, filteredVideoView:GPUImageView!
-    private var   stillCamera:GPUImageStillCamera!, stillFilter:GPUImageBilateralFilter!, captrueView:GPUImageView!, filterGroup:GPUImageFilterGroup!
+    fileprivate var   videoCamera:GPUImageVideoCamera!, customFilter:GPUImageFilter!, filteredVideoView:GPUImageView!
+    fileprivate var   stillCamera:GPUImageStillCamera!, stillFilter:GPUImageBilateralFilter!, captrueView:GPUImageView!, filterGroup:GPUImageFilterGroup!
     
-    private var images = [UIImage](), timer:NSTimer!
+    fileprivate var images = [UIImage](), timer:Timer!
     
     lazy var focusView:UIView = {
         let fv = UIView()
-        fv.backgroundColor = UIColor.clearColor()
+        fv.backgroundColor = UIColor.clear
         fv.layer.borderWidth = 1
-        fv.frame = CGRectMake(0, 0, 120, 120)
-        fv.layer.borderColor = UIColor.orangeColor().CGColor
+        fv.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
+        fv.layer.borderColor = UIColor.orange.cgColor
         
         return fv
     }()
 
     
     class func getSelf(withFrame frame:CGRect) -> MyCameraView{
-        let  view = NSBundle.mainBundle().loadNibNamed("MyCameraView", owner: nil, options: nil).last as! MyCameraView
+        let  view = Bundle.main.loadNibNamed("MyCameraView", owner: nil, options: nil)?.last as! MyCameraView
         view.frame = frame
         view.collectionView.delegate = view
         view.collectionView.dataSource = view
@@ -57,8 +70,8 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC)))
-        dispatch_after(time, dispatch_get_main_queue()) {
+        let time = DispatchTime.now() + Double(Int64(0.3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
             self.doInitCaptrue()
         }
         
@@ -73,9 +86,9 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
 //        doInit()
     }
     
-    private func doInit(){
+    fileprivate func doInit(){
         
-        collectionView.registerNib(UINib.init(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
+        collectionView.register(UINib.init(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
     }
 //    private func doInitVedio ()  {
 //        
@@ -102,11 +115,11 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     
     
     
-    private func doInitCaptrue(){
+    fileprivate func doInitCaptrue(){
             
-        stillCamera = GPUImageStillCamera.init(sessionPreset: AVCaptureSessionPresetPhoto, cameraPosition: .Back)
+        stillCamera = GPUImageStillCamera.init(sessionPreset: AVCaptureSessionPresetPhoto, cameraPosition: .back)
         
-        stillCamera.outputImageOrientation = .Portrait
+        stillCamera.outputImageOrientation = .portrait
         
         stillFilter = GPUImageBilateralFilter.init()
         filterGroup = GPUImageFilterGroup.init()
@@ -118,7 +131,7 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
 //        stillCamera.addTarget(filterGroup)
 //        filterGroup.addTarget(stillFilter)
         
-        let  frame = CGRectMake(self.cameraView.x, self.cameraView.y, self.cameraView.width, self.cameraView.height)
+        let  frame = CGRect(x: self.cameraView.x, y: self.cameraView.y, width: self.cameraView.width, height: self.cameraView.height)
         captrueView = GPUImageView.init(frame: frame)
         captrueView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill
         self.addSubview(captrueView)
@@ -132,7 +145,7 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
         if !isGetCameraAccess() {
             debugPrint("无相机权限！")
         }else{
-            stillCamera.startCameraCapture()
+            stillCamera.startCapture()
         }
         
        
@@ -151,8 +164,8 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // MARK:  转换摄像头
-    @IBAction func rotateCameraAction(sender: UIButton) {
-        sender.selected = !sender.selected
+    @IBAction func rotateCameraAction(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
         
         if isGetCameraAccess() {
            stillCamera.rotateCamera()
@@ -164,34 +177,34 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // MARK: 开灯 不同于flashModel, 即这是直接就开了，而前者是拍照时才开灯的
-    @IBAction func openLightAction(sender: UIButton) {
+    @IBAction func openLightAction(_ sender: UIButton) {
         
         if !isGetCameraAccess() {
             print("没有相机权限，请到设置->隐私中开启本程序相机权限")
         }else{
-            sender.selected = !sender.selected
-            let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+            sender.isSelected = !sender.isSelected
+            let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
             if device == nil {
                 print("可能是模拟器,故无法获取硬件信息！")
                 return
             }
             
-            if device.hasTorch {
-                try!  device.lockForConfiguration()
+            if (device?.hasTorch)! {
+                try!  device?.lockForConfiguration()
                 
-                if (sender.selected) {
-                    device.torchMode = .On
+                if (sender.isSelected) {
+                    device?.torchMode = .on
                 }else {
-                    device.torchMode = .Off
+                    device?.torchMode = .off
                 }
-                device.unlockForConfiguration()
+                device?.unlockForConfiguration()
             }
             
         }
     }
     
     // MARK: 去相册
-    @IBAction func albumAction(sender: UIButton) {
+    @IBAction func albumAction(_ sender: UIButton) {
 //        if !isGetPhotoAccess() {
 //            print("没有相册权限，请到设置->隐私中开启本程序相册权限")
 //        }else{ // 进入相册
@@ -210,20 +223,20 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
 
     
     // MARK: 拍照 processedImage: 加工过的图片
-    private func takePhoto() {
+    fileprivate func takePhoto() {
         
         let currentFilter = stillCamera.targets().last as! GPUImageOutput
-        stillCamera.capturePhotoAsImageProcessedUpToFilter(currentFilter) { (processedImage, error) in
+        stillCamera.capturePhotoAsImageProcessedUp(toFilter: currentFilter) { (processedImage, error) in
             if error != nil {
                 print("takePhotoError:\(error)")
             } else {
                 if processedImage != nil {
                     self.currentImgV.image = processedImage
-                    self.images.append(processedImage)
+                    self.images.append(processedImage!)
                     
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         // 保存图片
-                        UIImageWriteToSavedPhotosAlbum(processedImage, self, #selector(self.saveImageToAlbum(_:didFinishSavingWithError:contextInfo:)), nil)
+                        UIImageWriteToSavedPhotosAlbum(processedImage!, self, #selector(self.saveImageToAlbum(_:didFinishSavingWithError:contextInfo:)), nil)
                     })
                     
                 }
@@ -234,15 +247,15 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
 
     // MARK: 点击事件
-   @objc private func tapAction(tap: UITapGestureRecognizer) {
+   @objc fileprivate func tapAction(_ tap: UITapGestureRecognizer) {
         
         switch tap.state {
             
-        case .Recognized:
-            let point = tap.locationInView(cameraView)
+        case .ended:
+            let point = tap.location(in: cameraView)
             doFocusToCurrentPoint(point)
             break
-        case .Ended, .Failed, .Cancelled:
+        case .ended, .failed, .cancelled:
             debugPrint("点击手势结束！")
             break
         default:
@@ -252,30 +265,30 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // MARK: 点击屏幕，聚焦；一定要先设置位置，再设置对焦模式。
-    private func doFocusToCurrentPoint(point:CGPoint){
+    fileprivate func doFocusToCurrentPoint(_ point:CGPoint){
         let  size = cameraView.bounds.size
-        let  focusPoint = CGPointMake(point.y / size.height, 1-point.x / size.width )
+        let  focusPoint = CGPoint(x: point.y / size.height, y: 1-point.x / size.width )
         
         do{
             let device = stillCamera.inputCamera
             
-            try device.lockForConfiguration()
+            try device?.lockForConfiguration()
             
             // 对焦模式和对焦点
-            if device.isFocusModeSupported(.AutoFocus){
+            if (device?.isFocusModeSupported(.autoFocus))!{
 //                device.setFocusModeLockedWithLensPosition(<#T##lensPosition: Float##Float#>, completionHandler: <#T##((CMTime) -> Void)!##((CMTime) -> Void)!##(CMTime) -> Void#>)
-                device.focusPointOfInterest = focusPoint
-                device.focusMode = .AutoFocus
+                device?.focusPointOfInterest = focusPoint
+                device?.focusMode = .autoFocus
         
             }
             
             // 曝光模式和曝光点
-            if device.isExposureModeSupported(.AutoExpose) {
-                device.exposurePointOfInterest = focusPoint
-                device.exposureMode = .AutoExpose
+            if (device?.isExposureModeSupported(.autoExpose))! {
+                device?.exposurePointOfInterest = focusPoint
+                device?.exposureMode = .autoExpose
             }
 
-            device.unlockForConfiguration()
+            device?.unlockForConfiguration()
             
         }catch{
         
@@ -288,16 +301,16 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
 
     // MARK: UICollectionViewDataSource
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 8
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
   
         updateFilterGroup(atIndex: indexPath.row)
     
@@ -306,11 +319,11 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     // ------------------------  private ------------------------ //
 
     //MARK: ---相机权限
-    private func isGetCameraAccess()-> Bool{
+    fileprivate func isGetCameraAccess()-> Bool{
 
-        let authStaus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+        let authStaus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
 
-        if authStaus != AVAuthorizationStatus.Denied{
+        if authStaus != AVAuthorizationStatus.denied{
             return true
         }else{
             return false
@@ -319,16 +332,16 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     
     
     //MARK: ----获取相册权限
-    private func isGetPhotoAccess()->Bool{
+    fileprivate func isGetPhotoAccess()->Bool{
         
         var result = false
-        if  Float(UIDevice.currentDevice().systemVersion) < 8.0{
-            if( ALAssetsLibrary.authorizationStatus() != ALAuthorizationStatus.Denied ){
+        if  Float(UIDevice.current.systemVersion) < 8.0{
+            if( ALAssetsLibrary.authorizationStatus() != ALAuthorizationStatus.denied ){
                 result = true
             }
         }else{
             
-            if ( PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.Denied ){
+            if ( PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.denied ){
                 result = true
             }
         }
@@ -337,7 +350,7 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // MARK: 更新图片总数
-    private func updateCountLabel(){
+    fileprivate func updateCountLabel(){
         
         if images.count == 0 {
             totalCount.text = ""
@@ -347,7 +360,7 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // MARK: 更新fliter
-    private func updateFilterGroup(atIndex index:Int){
+    fileprivate func updateFilterGroup(atIndex index:Int){
         
         
         stillCamera.removeAllTargets()
@@ -356,7 +369,7 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
         switch index {
         case 0:
             let  filter = GPUImageGaussianBlurFilter() // 高斯模糊, 此时和无效果差不多
-            filter.switchToVertexShader(kGPUImageVertexShaderString, fragmentShader: kGPUImagePassthroughFragmentShaderString)
+            filter.switch(toVertexShader: kGPUImageVertexShaderString, fragmentShader: kGPUImagePassthroughFragmentShaderString)
             stillCamera.addTarget(filter)
             filter.addTarget(captrueView)
 //            filterGroup.addTarget(filter)
@@ -405,7 +418,7 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // MARK: 保存图片到相册的结果
-    @objc private func saveImageToAlbum(image:UIImage, didFinishSavingWithError error:NSError?, contextInfo:UnsafeMutablePointer<Void>){
+    @objc fileprivate func saveImageToAlbum(_ image:UIImage, didFinishSavingWithError error:NSError?, contextInfo:UnsafeMutableRawPointer){
         if error != nil {
             hud.showPromptText("保存图片失败！")
         }else{
@@ -414,38 +427,38 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // MARK: 点击屏幕聚焦时的动画
-    private func doAnimateForFoucus(atPoint point:CGPoint){
+    fileprivate func doAnimateForFoucus(atPoint point:CGPoint){
         stopTimer()
         focusView.removeFromSuperview()
         
         startTimer()
-        self.focusView.transform = CGAffineTransformIdentity
+        self.focusView.transform = CGAffineTransform.identity
         
         captrueView.addSubview(focusView)
         focusView.center = point
         focusView.alpha = 0
         
-        UIView.animateWithDuration(1, animations: {
+        UIView.animate(withDuration: 1, animations: {
             self.focusView.alpha = 1
-            self.focusView.transform = CGAffineTransformMakeScale(0.75, 0.75)
+            self.focusView.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
             })
     }
     
     // MARK: 定时器的
-    @objc private func timeActionForFocus(){
+    @objc fileprivate func timeActionForFocus(){
         self.focusView.removeFromSuperview()
-        self.focusView.transform = CGAffineTransformIdentity
+        self.focusView.transform = CGAffineTransform.identity
     }
     
-    private func stopTimer(){
+    fileprivate func stopTimer(){
         if timer != nil {
             timer.invalidate()
             timer = nil
         }
        
     }
-    private func startTimer(){
-        timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: #selector(timeActionForFocus), userInfo: nil, repeats: false)
+    fileprivate func startTimer(){
+        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timeActionForFocus), userInfo: nil, repeats: false)
     }
     
     deinit{

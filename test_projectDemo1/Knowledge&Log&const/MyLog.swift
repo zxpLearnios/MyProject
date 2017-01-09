@@ -8,7 +8,7 @@
 
 import UIKit
 
-func MyLog(items: Any...) {
+func MyLog(_ items: Any...) {
     #if DEBUG
         debugPrint(items)
     #else

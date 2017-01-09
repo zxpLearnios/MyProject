@@ -23,17 +23,17 @@ class MyPresentMav: UINavigationController {
     
     
     // MARK:  -----------  在rootViewController里和需要旋转屏幕的VC里写 ------------------------- //
-    override func shouldAutorotate() -> Bool {
-        return (self.topViewController?.shouldAutorotate())!
+    override var shouldAutorotate : Bool {
+        return (self.topViewController?.shouldAutorotate)!
     }
 
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
 
-        return (self.topViewController?.supportedInterfaceOrientations())!
+        return (self.topViewController?.supportedInterfaceOrientations)!
     }
 
-    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
-        return (self.topViewController?.preferredInterfaceOrientationForPresentation())!
+    override var preferredInterfaceOrientationForPresentation : UIInterfaceOrientation {
+        return (self.topViewController?.preferredInterfaceOrientationForPresentation)!
     }
     
 }

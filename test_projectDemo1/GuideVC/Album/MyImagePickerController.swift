@@ -12,20 +12,20 @@ import Photos  // >= ios8用
 
 class MyImagePickerController:UICollectionViewController, UICollectionViewDelegateFlowLayout{
 
-    private let cellId = "MyCollectionViewCell"
-    private var totalGroups = [PHFetchResult]() // 存相册的数组
-    private var totalImages = [UIImage]() // 图片总数组
-    private var firstImgs = [UIImage]() // 每个相册的第一个图片
-    private var countOfGroup = [Int]() // 存放 每组相册的图片总数
+    fileprivate let cellId = "MyCollectionViewCell"
+    fileprivate var totalGroups = [PHFetchResult<AnyObject>]() // 存相册的数组
+    fileprivate var totalImages = [UIImage]() // 图片总数组
+    fileprivate var firstImgs = [UIImage]() // 每个相册的第一个图片
+    fileprivate var countOfGroup = [Int]() // 存放 每组相册的图片总数
     
-    private let notiName = "MyImagePickerController_post_"
-    private var images:[UIImage]? // 在MyAlbumViewController里点击了具体的相册后，进入此控制器以展示此相册所有的图片
+    fileprivate let notiName = "MyImagePickerController_post_"
+    fileprivate var images:[UIImage]? // 在MyAlbumViewController里点击了具体的相册后，进入此控制器以展示此相册所有的图片
     
-    class func  getSelf(currentImages:[UIImage]?) -> MyImagePickerController{
+    class func  getSelf(_ currentImages:[UIImage]?) -> MyImagePickerController{
         
         let name = "MyImagePickerController"
         let sb = UIStoryboard.init(name: name, bundle: nil)
-        let vc = sb.instantiateViewControllerWithIdentifier(name) as! MyImagePickerController
+        let vc = sb.instantiateViewController(withIdentifier: name) as! MyImagePickerController
         vc.images = currentImages
         return vc
     }
@@ -40,7 +40,7 @@ class MyImagePickerController:UICollectionViewController, UICollectionViewDelega
         
         
         // 注册cell
-        self.collectionView?.registerNib(UINib.init(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
+        self.collectionView?.register(UINib.init(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         
         addBackBtn()
         
@@ -70,16 +70,16 @@ class MyImagePickerController:UICollectionViewController, UICollectionViewDelega
         
     }
 
-    private func addBackBtn(){
+    fileprivate func addBackBtn(){
         
         // 添加返回按钮
         let backBtn = UIButton.init()
-        backBtn.setImage(UIImage(named: "album_delete_btn"), forState: .Normal)
+        backBtn.setImage(UIImage(named: "album_delete_btn"), for: UIControlState())
         backBtn.width = 20
         backBtn.height = 20
-        backBtn.center = CGPointMake(kwidth - 40, 30)
+        backBtn.center = CGPoint(x: kwidth - 40, y: 30)
         
-        backBtn.addTarget(self, action: #selector(backAction), forControlEvents: .TouchUpInside)
+        backBtn.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         self.view.addSubview(backBtn)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: backBtn)
 
@@ -90,13 +90,13 @@ class MyImagePickerController:UICollectionViewController, UICollectionViewDelega
         
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 //        if  images != nil { // 点击具体的相册进入此控制器，即从MyAlbumViewController进入
 //            let dic = ["firstImgs":firstImgs, "countOfGroup":countOfGroup]
 //            kNotificationCenter.postNotificationName(notiName, object: dic)
 //        }
-        let result = (totalImages as NSArray).writeToFile(totalImagesSavePath, atomically: true)
+        let result = (totalImages as NSArray).write(toFile: totalImagesSavePath, atomically: true)
         if !result {
             debugPrint("存储图片失败！")
         }
@@ -106,7 +106,7 @@ class MyImagePickerController:UICollectionViewController, UICollectionViewDelega
     /**
       1. 查询所有的相册
      */
-    private func getAssetsGroup(){
+    fileprivate func getAssetsGroup(){
         
 //        let pl = PHPhotoLibrary.sharedPhotoLibrary()
 //        let  status = PHPhotoLibrary.authorizationStatus()
@@ -142,21 +142,21 @@ class MyImagePickerController:UICollectionViewController, UICollectionViewDelega
 //            })
         
         // 遍历所有的自定义相册
-        let collectionResult0:PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .AlbumRegular, options: nil)
+        let collectionResult0:PHFetchResult = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: nil)
         
         for i in 0..<collectionResult0.count {
             
-            let collection = collectionResult0.objectAtIndex(i) as! PHAssetCollection
+            let collection = collectionResult0.object(at: i) 
             
             searchAllImagesInCollection(collection)
             
         }
         
         // 获得相机胶卷的图片
-        let collectionResult1 = PHAssetCollection.fetchAssetCollectionsWithType(.SmartAlbum, subtype: .AlbumRegular, options: nil)
+        let collectionResult1 = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: nil)
         
         for i in 0..<collectionResult1.count {
-            let collection = collectionResult1.objectAtIndex(i) as! PHAssetCollection
+            let collection = collectionResult1.object(at: i) 
             if !(collection.localizedTitle ==  "Camera Roll") {
                 continue
             }
@@ -165,8 +165,8 @@ class MyImagePickerController:UICollectionViewController, UICollectionViewDelega
         }
         
         // 获取存相册的 总数组
-        totalGroups.append(collectionResult0)
-        totalGroups.append(collectionResult1)
+        totalGroups.append(collectionResult0 as! PHFetchResult<AnyObject>)
+        totalGroups.append(collectionResult1 as! PHFetchResult<AnyObject>)
         
         
         
@@ -177,7 +177,7 @@ class MyImagePickerController:UICollectionViewController, UICollectionViewDelega
     /**
      2. 查询某个相册里面的所有图片
      */
-    private func searchAllImagesInCollection(collection: PHAssetCollection) {
+    fileprivate func searchAllImagesInCollection(_ collection: PHAssetCollection) {
     
 //        var assets = [ALAsset]()
 //        dispatch_async(dispatch_get_main_queue()) {
@@ -236,39 +236,39 @@ class MyImagePickerController:UICollectionViewController, UICollectionViewDelega
         var currentImgs = [UIImage]()
         // 采取同步获取图片（只获得一次图片）
         let imageOptions = PHImageRequestOptions.init()
-        imageOptions.synchronous = true
+        imageOptions.isSynchronous = true
         
         debugPrint("相册名字： \(collection.localizedTitle)")
         
         // 遍历这个相册中的所有图片
-        let assetResult = PHAsset.fetchAssetsInAssetCollection(collection, options: nil)
+        let assetResult = PHAsset.fetchAssets(in: collection, options: nil)
         
         // 并行队列同步操作
-        let myqueue = dispatch_queue_create("myImagePicker.album.testQueue", DISPATCH_QUEUE_CONCURRENT)
+        let myqueue = DispatchQueue(label: "myImagePicker.album.testQueue", attributes: DispatchQueue.Attributes.concurrent)
         
-        dispatch_sync(myqueue, {
+        myqueue.sync(execute: {
          for i  in 0..<assetResult.count {
-            let asset = assetResult[i] as! PHAsset
+            let asset = assetResult[i] 
             
             // 过滤非图片
-            if asset.mediaType != .Image {
+            if asset.mediaType != .image {
                 continue
             }
             
             // 图片原尺寸, 不用注释的代码，因为这样更快，不会死机(先固定此数，貌似越大越清晰,但越耗性能，启动越慢)
-            let  targetSize = CGSizeMake(50, 50) // CGSizeMake(CGFloat(asset.pixelWidth), CGFloat(asset.pixelHeight))
+            let  targetSize = CGSize(width: 50, height: 50) // CGSizeMake(CGFloat(asset.pixelWidth), CGFloat(asset.pixelHeight))
             
             // 请求图片
-            let imgManager = PHImageManager.defaultManager()
+            let imgManager = PHImageManager.default()
             
-            imgManager.requestImageForAsset(asset, targetSize: targetSize, contentMode: .AspectFill, options: imageOptions, resultHandler: { (result, infoDic) in
+            imgManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: imageOptions, resultHandler: { (result, infoDic) in
                 
                 if result != nil{
 //                    currentImgs.append(result!) // 总的图片，图片顺序为默认的即最先拍的在最前面
-                    currentImgs.insert(result!, atIndex: 0) // 总的图片，图片顺序为距现在最近拍的图片放在最前面
+                    currentImgs.insert(result!, at: 0) // 总的图片，图片顺序为距现在最近拍的图片放在最前面
                     
 //                    self.totalImages.append(result!) // 总的图片，图片顺序为默认的即最先拍的在最前面
-                    self.totalImages.insert(result!, atIndex: 0) // 总的图片，图片顺序为距现在最近拍的图片放在最前面
+                    self.totalImages.insert(result!, at: 0) // 总的图片，图片顺序为距现在最近拍的图片放在最前面
                 }
             })
             
@@ -287,15 +287,15 @@ class MyImagePickerController:UICollectionViewController, UICollectionViewDelega
     
     
     // 必须写，一确定cell的大小，否则就会用默认的; 每行展示3故 cell
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let width = (kwidth - 4 * 20)/3
-        return CGSizeMake(width, width)
+        return CGSize(width: width, height: width)
     }
     
     // MARK: UICollectionViewDelegate, UICollectionViewDataSource
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         var  count = 0
         if images == nil {
@@ -307,8 +307,8 @@ class MyImagePickerController:UICollectionViewController, UICollectionViewDelega
     }
     
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as! MyCollectionViewCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MyCollectionViewCell
         
         if images == nil {
             cell.image = totalImages[indexPath.item]
@@ -319,7 +319,7 @@ class MyImagePickerController:UICollectionViewController, UICollectionViewDelega
         return cell
     }
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         debugPrint("点击了\(indexPath.item)")
     }
@@ -327,8 +327,8 @@ class MyImagePickerController:UICollectionViewController, UICollectionViewDelega
     // ------------------------  private  ----------------------------- //
     
     // 右边的关闭按钮
-    func backAction(btn:UIButton) {
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+    func backAction(_ btn:UIButton) {
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
     

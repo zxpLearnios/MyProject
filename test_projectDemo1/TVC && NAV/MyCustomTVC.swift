@@ -9,13 +9,13 @@
 import UIKit
 
 
-class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
+class MyCustomTVC: UITabBarController, UITabBarControllerDelegate, CAAnimationDelegate {
     
     
     var childVCs = [UIViewController]()
     var customTabBar = MyTabBar()
     var plusBtn = MyPlusButton() // 真正的和其他item平均分占了tabbar，如在自定义的tabbar里加plusBtn，则最左边的item的有效范围始终会挡住plusBtn的左半部
-    var toPoint = CGPointZero
+    var toPoint = CGPoint.zero
     var isCompleteAnimate = false
     
     // MARK: xib\代码  都会调之，但此类型只会调一次
@@ -28,11 +28,11 @@ class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
         
         // 所有的字控制器的tabbarItem的 字体属性
         let tabbarItem = UITabBarItem.appearance() // 不能用UIBarButtonItem
-        let itemAttributeNormal = [NSFontAttributeName: UIFont.systemFontOfSize(10), NSForegroundColorAttributeName: UIColor.redColor()]
-        let itemAttributeHighlight = [NSFontAttributeName: UIFont.systemFontOfSize(10), NSForegroundColorAttributeName: UIColor.greenColor()]
+        let itemAttributeNormal = [NSFontAttributeName: UIFont.systemFont(ofSize: 10), NSForegroundColorAttributeName: UIColor.red]
+        let itemAttributeHighlight = [NSFontAttributeName: UIFont.systemFont(ofSize: 10), NSForegroundColorAttributeName: UIColor.green]
         
-        tabbarItem.setTitleTextAttributes(itemAttributeNormal, forState: .Normal)
-        tabbarItem.setTitleTextAttributes(itemAttributeHighlight, forState: .Selected) // 用highlight无效
+        tabbarItem.setTitleTextAttributes(itemAttributeNormal, for: UIControlState())
+        tabbarItem.setTitleTextAttributes(itemAttributeHighlight, for: .selected) // 用highlight无效
         
         //   此处设置tabbarItem的图片无效(估计纯代码情况下也是无效)
         //        tabBarItem.image = UIImage(named: "Customer_select")
@@ -47,7 +47,7 @@ class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
         
         // 0. 以便子控制器的view做转场动画时看到白色
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
        
         // 1， 加子控制器
         let fistVC = firstChildVC()
@@ -66,8 +66,8 @@ class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
         // 4.设置tabbaralpha
         self.tabBar.alpha = 0.8
         
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-        dispatch_after(time, dispatch_get_main_queue()) {
+        let time = DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
             self.addPlusButton()
         }
        
@@ -76,12 +76,12 @@ class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
         
         // 5. 屏幕旋转通知
         kDevice.beginGeneratingDeviceOrientationNotifications()
-        kNotificationCenter.addObserver(self, selector: #selector(orientationDidChange), name: UIDeviceOrientationDidChangeNotification, object: nil)
+        kNotificationCenter.addObserver(self, selector: #selector(orientationDidChange), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         
         
     }
 
-   override func viewWillAppear(animated: Bool) {
+   override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        for item in self.tabBar.subviews {
 //            if item.isKindOfClass(UIControl) {
@@ -98,7 +98,7 @@ class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
     }
     
     // 横屏变竖屏后，会再次调用之，故须做处理, 即不能在此处加加号按钮了，因为横屏变竖屏显示testVC后，就会进入此法，此时加号按钮会显示在testVC底部，且进入TabbarVC后plusBtn的位置也不对, 故在viewDidLoad里加plusBtn但需要延迟等viewDidAppear后才可以加，确保只会执行一次; 此时屏幕还是横着的
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
     
@@ -109,13 +109,13 @@ class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
     
     
     // MARK: 屏幕旋转了
-    @objc private func orientationDidChange(){
+    @objc fileprivate func orientationDidChange(){
         
-         if kDevice.orientation == .Portrait {
+         if kDevice.orientation == .portrait {
             
          }
         
-        if kDevice.orientation == .LandscapeRight || kDevice.orientation == .LandscapeLeft {
+        if kDevice.orientation == .landscapeRight || kDevice.orientation == .landscapeLeft {
             
         }
         
@@ -129,34 +129,34 @@ class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
         self.tabBar.addSubview(plusBtn)
 //
         let width = self.view.width / 4 // customTabBar.buttonW
-        plusBtn.bounds = CGRectMake(0, 0, width, 50)
-        plusBtn.setImage(UIImage(named: "tabBar_publish_icon"), forState: .Normal)
+        plusBtn.bounds = CGRect(x: 0, y: 0, width: width, height: 50)
+        plusBtn.setImage(UIImage(named: "tabBar_publish_icon"), for: UIControlState())
 //        plusBtn.setTitle("加号", forState: .Normal)
-        plusBtn.addTarget(self, action: #selector(btnAction), forControlEvents: .TouchUpInside)
+        plusBtn.addTarget(self, action: #selector(btnAction), for: .touchUpInside)
         
         
         // 动画
-        let tabbarCenter = self.view.convertPoint(self.tabBar.center, toView: self.tabBar)
+        let tabbarCenter = self.view.convert(self.tabBar.center, to: self.tabBar)
         let ani = CABasicAnimation.init(keyPath: "position")
         ani.duration = 0.5
-        ani.fromValue = NSValue.init(CGPoint: CGPointMake(kwidth * 0.2, -kheight * 0.7))
+        ani.fromValue = NSValue.init(cgPoint: CGPoint(x: kwidth * 0.2, y: -kheight * 0.7))
         
-        toPoint = CGPointMake(width * 1.5, tabbarCenter.y)
-        ani.toValue = NSValue.init(CGPoint: toPoint)
+        toPoint = CGPoint(x: width * 1.5, y: tabbarCenter.y)
+        ani.toValue = NSValue.init(cgPoint: toPoint)
         ani.delegate = self
         
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-        dispatch_after(time, dispatch_get_main_queue()) {
-            self.plusBtn.hidden = false
-            self.plusBtn.layer.addAnimation(ani, forKey: "")
+        let time = DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            self.plusBtn.isHidden = false
+            self.plusBtn.layer.add(ani, forKey: "")
         }
         
         
     }
     
     
-    func btnAction(plusBtn:MyPlusButton) {
-        plusBtn.selected = !plusBtn.selected
+    func btnAction(_ plusBtn:MyPlusButton) {
+        plusBtn.isSelected = !plusBtn.isSelected
         print("点击了加号按钮")
     }
     
@@ -165,9 +165,9 @@ class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
     }
     
     // MARK: 添加子控制器
-    private func addChildViewControllers(viewController:UIViewController, title:String, itemImage:UIImage?, itemSelectedImage:UIImage?){
+    fileprivate func addChildViewControllers(_ viewController:UIViewController, title:String, itemImage:UIImage?, itemSelectedImage:UIImage?){
        
-        let newItemSelectdImg = itemSelectedImage?.imageWithRenderingMode(.AlwaysOriginal)
+        let newItemSelectdImg = itemSelectedImage?.withRenderingMode(.alwaysOriginal)
         
         if self.viewControllers?.count == 3 {
             // 只有图片的tabbaritem
@@ -189,13 +189,13 @@ class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
     }
     
     // MARK: UITabBarControllerDelegate
-    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
-        let index = self.viewControllers?.indexOf(viewController)
+        let index = self.viewControllers?.index(of: viewController)
         
         if index != nil {
             if index == 3 {
-                self.performSelector(#selector(btnAction), withObject: plusBtn, afterDelay: 0)
+                self.perform(#selector(btnAction), with: plusBtn, afterDelay: 0)
 //                viewController.tabBarItem.selectedImage = nil // 可以在此处设置点击item时的选中图片，因为点击item选中控制器被禁止了
 //                self.selectedIndex = 3  // 因为这样会选中并显示控制器
                 
@@ -209,8 +209,8 @@ class MyCustomTVC: UITabBarController, UITabBarControllerDelegate {
         
     }
     
-    
-    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         
         if flag {
             plusBtn.center = toPoint

@@ -17,17 +17,17 @@ class MyLabel: UILabel {
     }
 
     
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         
     }
     
-    private func doInit(){
+    fileprivate func doInit(){
         self.layer.cornerRadius = self.frame.width / 4
-        self.font = UIFont.systemFontOfSize(12)
-        self.textAlignment = .Center
-        self.textColor = UIColor.whiteColor()
-        self.backgroundColor = UIColor.redColor()
+        self.font = UIFont.systemFont(ofSize: 12)
+        self.textAlignment = .center
+        self.textColor = UIColor.white
+        self.backgroundColor = UIColor.red
         self.layer.masksToBounds = true // 须加。  UILabel和其他的view不一样
     }
     

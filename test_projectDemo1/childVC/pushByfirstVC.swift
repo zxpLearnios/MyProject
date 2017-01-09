@@ -12,7 +12,7 @@ import PullToRefreshKit
 
 class pushByfirstVC: UIViewController {
     
-    private var direction = UIInterfaceOrientationMask.init(rawValue: 0)
+    fileprivate var direction = UIInterfaceOrientationMask.init(rawValue: 0)
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -28,7 +28,7 @@ class pushByfirstVC: UIViewController {
         
         self.title = "pushByFirstVC"
         
-        self.view.backgroundColor = UIColor.whiteColor() // 不设置的话，滑动返回时会出现透明现象
+        self.view.backgroundColor = UIColor.white // 不设置的话，滑动返回时会出现透明现象
         
         //        self.tableView.setUpHeaderRefresh {
         //
@@ -45,15 +45,15 @@ class pushByfirstVC: UIViewController {
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if UIDevice.currentDevice().orientation == .Portrait {
+        if UIDevice.current.orientation == .portrait {
              //强制横屏
-            kApplication.setStatusBarOrientation(.LandscapeRight, animated: true)
+            kApplication.setStatusBarOrientation(.landscapeRight, animated: true)
             
             if kSystemVersion >= 8.2 {
-                kDevice.setValue(UIDeviceOrientation.LandscapeRight.rawValue, forKey: "orientation")
+                kDevice.setValue(UIDeviceOrientation.landscapeRight.rawValue, forKey: "orientation")
             }
             
             //iOS9 填坑方案
@@ -68,9 +68,9 @@ class pushByfirstVC: UIViewController {
 
         }else{
             //强制竖屏
-            kApplication.setStatusBarHidden(false, withAnimation: .None)
-            kApplication.setStatusBarOrientation(.Portrait, animated: true)
-            kDevice.setValue(UIDeviceOrientation.Portrait.rawValue, forKey: "orientation")
+            kApplication.setStatusBarHidden(false, with: .none)
+            kApplication.setStatusBarOrientation(.portrait, animated: true)
+            kDevice.setValue(UIDeviceOrientation.portrait.rawValue, forKey: "orientation")
 
         }
         
@@ -80,11 +80,11 @@ class pushByfirstVC: UIViewController {
     
     
     
-    @IBAction func back(btn: UIButton) {
+    @IBAction func back(_ btn: UIButton) {
         
-        btn.selected = !btn.selected
+        btn.isSelected = !btn.isSelected
         
-        if btn.selected {
+        if btn.isSelected {
             //            rotateCurrentView(true)
             
         }else{
@@ -92,13 +92,13 @@ class pushByfirstVC: UIViewController {
         }
         
         // 恢复竖屏
-        self.navigationController?.dismissViewControllerAnimated(true) {
+        self.navigationController?.dismiss(animated: true) {
             
-            if UIDevice.currentDevice().orientation == .LandscapeRight || UIDevice.currentDevice().orientation == .LandscapeLeft{
+            if UIDevice.current.orientation == .landscapeRight || UIDevice.current.orientation == .landscapeLeft{
                 //强制竖屏
-                kApplication.setStatusBarHidden(false, withAnimation: .None) // 主要是防止其他地方隐藏statusBar
-                kApplication.setStatusBarOrientation(.Portrait, animated: true)
-                kDevice.setValue(UIDeviceOrientation.Portrait.rawValue, forKey: "orientation")
+                kApplication.setStatusBarHidden(false, with: .none) // 主要是防止其他地方隐藏statusBar
+                kApplication.setStatusBarOrientation(.portrait, animated: true)
+                kDevice.setValue(UIDeviceOrientation.portrait.rawValue, forKey: "orientation")
             }
            
         }
@@ -162,18 +162,18 @@ class pushByfirstVC: UIViewController {
     // -------------- private --------------- //
     
     // 8.1 的话必须写一下三个， >=8.2 则无需写了，直接看viewDidAppear里的即可
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         
-        return [.LandscapeLeft, .LandscapeRight]
+        return [.landscapeLeft, .landscapeRight]
     }
     
     // 写的话，此句必须要， 但是 是直接显示横屏的（瞬间横屏的）
-    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
-        return .LandscapeRight
+    override var preferredInterfaceOrientationForPresentation : UIInterfaceOrientation {
+        return .landscapeRight
     }
 
     

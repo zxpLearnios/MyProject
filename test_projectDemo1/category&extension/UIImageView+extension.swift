@@ -22,7 +22,7 @@ extension UIImageView {
     /**
      2. 展示gif图片 NSData，不需要后缀名
      */
-    func showGifWithData(gifData data:NSData){
+    func showGifWithData(gifData data:Data){
         let image = UIImage.gifWithData(data)
         self.image = image
     }
@@ -32,14 +32,14 @@ extension UIImageView {
      停止gif
      */
     
-    private func stopGif(){
+    fileprivate func stopGif(){
         
     }
     
     /**
      隐藏gif
      */
-    private func hiddenGif(){
+    fileprivate func hiddenGif(){
         
     }
 }

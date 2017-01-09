@@ -11,7 +11,7 @@ import UIKit
 import AVFoundation
 
 @objc protocol MyQrCodeScanViewDelegate {
-    optional func finishScanQrCodeWithOutPutString(result:String)
+    @objc optional func finishScanQrCodeWithOutPutString(_ result:String)
 }
 
 
@@ -19,18 +19,18 @@ import AVFoundation
 class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynamicAnimatorDelegate {
 
     /** 可见区域、输入 */
-    private var preViewLayer:AVCaptureVideoPreviewLayer!
+    fileprivate var preViewLayer:AVCaptureVideoPreviewLayer!
     
     /** 输出、设备、会话 */
-    private let output = AVCaptureMetadataOutput(), session = AVCaptureSession(), device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+    fileprivate let output = AVCaptureMetadataOutput(), session = AVCaptureSession(), device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
     
     /** 物理仿真行为 */
-    private var dy =  UIDynamicAnimator.init(), ga:UIGravityBehavior!, cBh:UICollisionBehavior!, aniImgV:UIImageView!, bgImgV:UIImageView!
+    fileprivate var dy =  UIDynamicAnimator.init(), ga:UIGravityBehavior!, cBh:UICollisionBehavior!, aniImgV:UIImageView!, bgImgV:UIImageView!
     
     
-    private lazy var input:AVCaptureDeviceInput? = {
+    fileprivate lazy var input:AVCaptureDeviceInput? = {
         
-        let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         
         do {
             let input = try AVCaptureDeviceInput(device: device)
@@ -65,16 +65,16 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
     }
     
     // 在此法里frame就是正确的, 只有frame正确时，在doInit里设置的有效扫描区域才与实际相符，扫描越快
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         self.doInit()
     }
     
     // MARK: 初始化
-    private func doInit(){
+    fileprivate func doInit(){
         // -1. 获取 权限下
-        let authStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
-        if authStatus == .Restricted || authStatus == .Denied{
+        let authStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        if authStatus == .restricted || authStatus == .denied{
             print("请在“设置”-“隐私”-“相机”功能中，打开本app的相机访问权限")
             return
         }
@@ -99,19 +99,19 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
         self.clipsToBounds = true // 使超出碰撞边界后的效果看不见
         
         do{
-            try device.lockForConfiguration()
+            try device?.lockForConfiguration()
         }catch{
         
         }
         
         // 放大焦距
-        if device.activeFormat.videoMaxZoomFactor > 2 {
-            device.videoZoomFactor = 2
+        if (device?.activeFormat.videoMaxZoomFactor)! > CGFloat(2.0) {
+            device?.videoZoomFactor = CGFloat(2.0)
         }else{
-            device.videoZoomFactor = device.activeFormat.videoMaxZoomFactor
+            device?.videoZoomFactor = (device?.activeFormat.videoMaxZoomFactor)!
         }
         
-        device.unlockForConfiguration()
+        device?.unlockForConfiguration()
         
         
         // 1. Input
@@ -120,7 +120,7 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
         }
         
         // 2.2 OutPut ，必须先将output加入session中，才可以对output进行其他的设置
-        output.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
+        output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
         
         // 2. output
         if session.canAddOutput(output) {
@@ -146,7 +146,7 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
         let width = kwidth // AVCaptureVideoPreviewLayer的对象的宽度
         let height = kheight // AVCaptureVideoPreviewLayer的对象的高度
         
-        output.rectOfInterest = CGRectMake(y/height, x/width, outputH/height, outputW/width)
+        output.rectOfInterest = CGRect(x: y/height, y: x/width, width: outputH/height, height: outputW/width)
         // 3. Session
         session.sessionPreset = AVCaptureSessionPresetHigh // 高质量采集率
         
@@ -156,19 +156,19 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
         
         
         preViewLayer.frame = self.bounds
-        self.layer.insertSublayer(preViewLayer, atIndex: 0)
+        self.layer.insertSublayer(preViewLayer, at: 0)
         
         
         
         // 5. 背景view
         bgImgV = UIImageView.init(image: UIImage(named: "scan_bg_pic"))
-        bgImgV.frame = CGRectMake(x, y, outputW, outputH)
+        bgImgV.frame = CGRect(x: x, y: y, width: outputW, height: outputH)
         
         self.addSubview(bgImgV)
         
         // 6. 上下移动的view
         aniImgV = UIImageView.init(image: UIImage(named: "scan_line"))
-        aniImgV.frame = CGRectMake(bgImgV.x, bgImgV.y, bgImgV.width, 5)
+        aniImgV.frame = CGRect(x: bgImgV.x, y: bgImgV.y, width: bgImgV.width, height: 5)
         self.addSubview(aniImgV)
         
         // 7. 仿真行为
@@ -178,31 +178,31 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
         addOtherViews()
     }
     
-    private func addOtherViews() {
+    fileprivate func addOtherViews() {
         for i in 0...1 {
             
             // 上面、下面的view
             let topAndButtom = UIView.init()
-            topAndButtom.backgroundColor = UIColor.blackColor()
+            topAndButtom.backgroundColor = UIColor.black
             topAndButtom.alpha = 0.5
             var y:CGFloat = 0
             if i == 1 {
                 y = bgImgV.frame.maxY
             }
-            topAndButtom.frame = CGRectMake(0, y, kwidth, (kheight - bgImgV.height)/2)
+            topAndButtom.frame = CGRect(x: 0, y: y, width: kwidth, height: (kheight - bgImgV.height)/2)
             self.addSubview(topAndButtom)
             
             
             // 左边、右边的view
             let leftAndRight = UIView.init()
-            leftAndRight.backgroundColor = UIColor.blackColor()
+            leftAndRight.backgroundColor = UIColor.black
             leftAndRight.alpha = 0.5
             let  y1 = bgImgV.y
             var x1:CGFloat = 0
             if i == 1 {
                 x1 = bgImgV.frame.maxX
             }
-            leftAndRight.frame = CGRectMake(x1, y1, (kwidth - bgImgV.width)/2, bgImgV.height)
+            leftAndRight.frame = CGRect(x: x1, y: y1, width: (kwidth - bgImgV.width)/2, height: bgImgV.height)
             self.addSubview(leftAndRight)
         }
         
@@ -210,24 +210,25 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
     }
     
     // MARK: 做 仿真动画
-    private func doAnimate(){
+    fileprivate func doAnimate(){
         
         if ga == nil {
             ga = UIGravityBehavior.init(items: [aniImgV])
             ga.magnitude = 1
-            ga.gravityDirection = CGVectorMake(0, 1)
+            ga.gravityDirection = CGVector(dx: 0, dy: 1)
             
         }
         
         if cBh == nil { // 有碰撞感
             cBh = UICollisionBehavior.init(items: [aniImgV])
-            cBh.collisionMode = .Boundaries
+            cBh.collisionMode = .boundaries
             
-            let rectLimit =  CGRectMake(0, bgImgV.frame.maxY, kwidth, 1)
+            let rectLimit =  CGRect(x: 0, y: bgImgV.frame.maxY, width: kwidth, height: 1)
             
             let path = UIBezierPath.init(rect: rectLimit)
             cBh.removeAllBoundaries()
-            cBh.addBoundaryWithIdentifier("", forPath: path)
+             
+            cBh.addBoundary(withIdentifier: "" as NSCopying, for: path)
         }
         
         if dy.behaviors.count == 0 {
@@ -238,9 +239,9 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
     }
     
     // MARK: 移除仿真行为
-    private func removeAnimate(){
+    fileprivate func removeAnimate(){
         
-        aniImgV.frame = CGRectMake(bgImgV.x, bgImgV.y, bgImgV.width, 5) // 恢复原处
+        aniImgV.frame = CGRect(x: bgImgV.x, y: bgImgV.y, width: bgImgV.width, height: 5) // 恢复原处
         dy.removeAllBehaviors()
         ga = nil
         cBh = nil
@@ -256,7 +257,7 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
     }
     
     // MARK: 开始扫描
-    private func startScanQrCode(){
+    fileprivate func startScanQrCode(){
         isStopScan = false
         doAnimate() // 上下移动图片
         // 1.开始扫描
@@ -264,7 +265,7 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
     }
     
     // MARK: 结束扫描
-    private func stopScanQrCode(){
+    fileprivate func stopScanQrCode(){
         isStopScan = true
         // 1. 结束上下移动动画
         removeAnimate()
@@ -273,7 +274,7 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
     }
     
     //  MARK: -----  UIDynamicAnimatorDelegate ---
-    func dynamicAnimatorDidPause(animator: UIDynamicAnimator) {
+    func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
         removeAnimate()
         if  !isStopScan {
             
@@ -283,7 +284,7 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
     }
     
     // MARK: ---- AVCaptureMetadataOutputObjectsDelegate ----
-    func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
+    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         
         if metadataObjects != nil && metadataObjects.count > 0 {
           
@@ -295,7 +296,7 @@ class MyQrCodeScanView: UIView, AVCaptureMetadataOutputObjectsDelegate, UIDynami
             MySounder.playQrCodeScanCompleteSound()
             
             if self.delegate != nil {
-                self.delegate?.finishScanQrCodeWithOutPutString!(result.stringValue)
+                self.delegate?.finishScanQrCodeWithOutPutString!((result as AnyObject).stringValue)
             }
             // 这里先不移除，实际中肯定会移除的
 //            self.preViewLayer.removeFromSuperlayer()

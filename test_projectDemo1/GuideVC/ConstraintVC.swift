@@ -8,52 +8,51 @@
 
 import UIKit
 import Cartography
-import LTMorphingLabel
+//import LTMorphingLabel
 import CoreText
 
 
-class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
-
-    private let redView = UIView(), greenView = UIView(), blueView = UIView(), label = UILabel()//UILabel()
-    private let muLabel = LTMorphingLabel()
+class ConstraintVC: UIViewController { //LTMorphingLabelDelegate
+    fileprivate let redView = UIView(), greenView = UIView(), blueView = UIView(), label = UILabel()//UILabel()
+//    fileprivate let muLabel = LTMorphingLabel
     
     let mTexts = ["计划", "函数几号的", "客户萨尔那块", "弄好塞飞洛", "看发货", "看红方", "告诉你的"]
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.navigationController?.navigationBar.alpha = 1
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.navigationController?.navigationBar.alpha = 1
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         self.view.addSubview(redView)
          self.view.addSubview(greenView)
          self.view.addSubview(blueView)
         self.view.addSubview(label)
-        self.view.addSubview(muLabel)
-        
-        muLabel.delegate = self
-        muLabel.text = mTexts[0]
-        muLabel.textColor = UIColor.orangeColor()
+//        self.view.addSubview(muLabel)
+//        
+//        muLabel.delegate = self
+//        muLabel.text = mTexts[0]
+//        muLabel.textColor = UIColor.orange
       
         
         
         
 //        label.textColor = UIColor.blackColor()
         label.text = "社团人格的若干"
-        label.textAlignment = .Center
-        redView.backgroundColor = UIColor.redColor()
-        greenView.backgroundColor = UIColor.greenColor()
-        blueView.backgroundColor = UIColor.blueColor()
+        label.textAlignment = .center
+        redView.backgroundColor = UIColor.red
+        greenView.backgroundColor = UIColor.green
+        blueView.backgroundColor = UIColor.blue
         
         addConstranit1()
         
@@ -62,7 +61,7 @@ class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
         
     }
 
-    private func addConstranit1(){
+    fileprivate func addConstranit1(){
       
         // 所有属性必须 都在里面设置
 //        constrain(greenView, redView, blueView) { (g, r, b) in
@@ -86,34 +85,35 @@ class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
         
         // 注意， 主动view是第一个view，不要放错。  label 根据需要，可以不设置宽度的（和autolayout一样）
         // leading 和 trailing一起用， left和right一起用，最好不要出现leading\trailing和left\right一起用
-        constrain(greenView, redView, blueView, label, muLabel) { (g, r, b, lab, mLab) in
-            
-            let superV = g.superview!
-            g.width == 200
-            g.height == 50
-            
-            r.size == g.size
-            b.size == g.size
-            
-            g.leading == superV.leading + 50
-            
-            g.top == superV.top + 30
-            
-            r.top == g.bottom + 30
-            
-            b.top == r.bottom + 30
-            
-            
-            
-            align(leading: g, r, b, lab, mLab)
-            
-            lab.width == kwidth
-            lab.top == g.bottom + 30
-            
-            mLab.center == superV.center
-            
-            //            distribute(by: 40, vertically: mainV, view1, view2) // view1.bottom = mainV.bottom + 40 ,  view2.bottom = view1.bottom + 40
-        }
+//        
+//        constrain(greenView, redView, blueView, label, muLabel) { (g, r, b, lab, mLab) in
+//            
+//            let superV = g.superview!
+//            g.width == 200
+//            g.height == 50
+//            
+//            r.size == g.size
+//            b.size == g.size
+//            
+//            g.leading == superV.leading + 50
+//            
+//            g.top == superV.top + 30
+//            
+//            r.top == g.bottom + 30
+//            
+//            b.top == r.bottom + 30
+//            
+//            
+//            
+//            align(leading: g, r, b, lab, mLab)
+//            
+//            lab.width == kwidth
+//            lab.top == g.bottom + 30
+//            
+//            mLab.center == superV.center
+//            
+//            //            distribute(by: 40, vertically: mainV, view1, view2) // view1.bottom = mainV.bottom + 40 ,  view2.bottom = view1.bottom + 40
+//        }
         
     }
     
@@ -123,48 +123,47 @@ class ConstraintVC: UIViewController, LTMorphingLabelDelegate {
     }
     
     
-    private func useCoreText(){
+    fileprivate func useCoreText(){
     
         var str = NSMutableAttributedString.init(string: "vdth而后人和他")
         
-        var attributeDic = [:]
-         attributeDic = [UIColor.redColor(): kCTForegroundColorAttributeName]
+        var attributeDic = [UIColor.red: kCTForegroundColorAttributeName]
         
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        super.touchesBegan(touches, withEvent: event)
-        let index = random() % 6 //  case Scale , Evaporate, Fall, Pixelate, Sparkle, Burn, Anvil
+        super.touchesBegan(touches, with: event)
+        let index = arc4random() % 6 //  case Scale , Evaporate, Fall, Pixelate, Sparkle, Burn, Anvil
         debugPrint("产生的随机数是 \(index)")
         
         
         // 动态效果, 两次的text必须不一样，才会有动画效果, 故在设置morphingEffect前先将text清空然后在设置先前的text，以达到，text一样时也有动态效果
         
-        self.muLabel.text = ""
-        if let  effect = LTMorphingEffect.init(rawValue: index) {
-            self.muLabel.morphingEffect = effect
-            self.muLabel.text = "动态效果就是的人还给她"  // mTexts[index]
-        }
+//        self.muLabel.text = ""
+//        if let  effect = LTMorphingEffect.init(rawValue: index) {
+//            self.muLabel.morphingEffect = effect
+//            self.muLabel.text = "动态效果就是的人还给她"  // mTexts[index]
+//        }
         
         
-        label.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+        label.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
     }
     
     
     // MARK: LTMorphingLabelDelegate
     
-    func morphingDidStart(label: LTMorphingLabel) {
-        debugPrint(morphingDidStart)
-    }
-    
-    func morphingDidComplete(label: LTMorphingLabel) {
-        debugPrint(morphingDidComplete)
-    }
-    
-    func morphingOnProgress(label: LTMorphingLabel, progress: Float) {
-//        debugPrint(progress)
-    }
+//    func morphingDidStart(_ label: LTMorphingLabel) {
+//        debugPrint(morphingDidStart)
+//    }
+//    
+//    func morphingDidComplete(_ label: LTMorphingLabel) {
+//        debugPrint(morphingDidComplete)
+//    }
+//    
+//    func morphingOnProgress(_ label: LTMorphingLabel, progress: Float) {
+////        debugPrint(progress)
+//    }
     
     
     

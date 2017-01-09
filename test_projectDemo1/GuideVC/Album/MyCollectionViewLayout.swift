@@ -15,17 +15,17 @@ class MyCollectionViewLayout: UICollectionViewFlowLayout {
     /**
      内部会重新调用prepareLayout和layoutAttributesForElementsInRect方法获得所有cell的布局属性
      */
-    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
     }
     
     // 每行显示3个cell
-    override func prepareLayout() {
-        super.prepareLayout()
+    override func prepare() {
+        super.prepare()
         
         let inset:CGFloat = 10
         let width = (kwidth - inset * 4)/3
-        self.itemSize = CGSizeMake(width, width)
+        self.itemSize = CGSize(width: width, height: width)
         
         self.sectionInset = UIEdgeInsetsMake(64, inset, 0, inset)
         self.collectionView?.alwaysBounceVertical = true // 数据不够一屏时，默认不滚动

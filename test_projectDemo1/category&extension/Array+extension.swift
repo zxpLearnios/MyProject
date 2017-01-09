@@ -16,12 +16,12 @@ class TestSortOfModel: NSObject {
     var creatTime:String?
     
     // 外加属性，以便使用
-    var creatDate:NSDate?
+    var creatDate:Date?
     
     class func  getTestSortOfModels(withParams params:[[String:String]]) -> [TestSortOfModel]{
         var ary = [TestSortOfModel]()
         for dic in params {
-            let model = TestSortOfModel.init(dic: dic)
+            let model = TestSortOfModel.init(dic: dic as [String : AnyObject])
             ary.append(model)
         }
         return ary
@@ -32,9 +32,9 @@ class TestSortOfModel: NSObject {
         self.name = dic["name"] as? String
         self.creatTime = dic["creatTime"] as? String
         
-        let df = NSDateFormatter()
+        let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd"
-        self.creatDate = df.dateFromString(self.creatTime!)
+        self.creatDate = df.date(from: self.creatTime!)
     }
     
     
@@ -49,7 +49,7 @@ extension Array {
      1. 快速排序, 传入起点、结束点, 里面可以有相等的数字
      * 升序、 倒序
      */
-    func quickSort(inout array:[CGFloat], left:Int, right:Int, isAscending:Bool){
+    func quickSort(_ array:inout [CGFloat], left:Int, right:Int, isAscending:Bool){
         
         
         if left > right {
@@ -126,7 +126,7 @@ extension Array {
     /**
      * 2. 二分插入排序, 里面可以有相等的数字
      */
-    func binarySort(inout array : Array<CGFloat>, isAscending:Bool){
+    func binarySort(_ array : inout Array<CGFloat>, isAscending:Bool){
         
         var low, mid, high : Int
         var base : CGFloat
@@ -204,7 +204,7 @@ extension Array {
     func bubbleSortByDate(modelArray models: [TestSortOfModel]) -> [TestSortOfModel] {
         var newAry = models
         
-        newAry.sortInPlace { (ml0, ml1) -> Bool in
+        newAry.sort { (ml0, ml1) -> Bool in
             if ml0.creatDate!.isEarlierThanDate(compareToDate: ml1.creatDate!) {
                 return true  // 表示排序
             }
@@ -218,7 +218,7 @@ extension Array {
     /**
      *   3.冒泡排序, 时间先后排序
      */
-    func bubbleSortByDate(array:[TestSortOfModel]) -> [TestSortOfModel] {
+    func bubbleSortByDate(_ array:[TestSortOfModel]) -> [TestSortOfModel] {
         var modelAry = array
         for i in 0..<modelAry.count { // 总的比较（循环）次数
             

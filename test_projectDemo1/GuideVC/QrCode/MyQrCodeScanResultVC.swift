@@ -29,23 +29,23 @@ class MyQrCodeScanResultVC: UIViewController {
     }
     
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
    
         // 从所选中的图片中读取二维码
         let ciImage  = CIImage(image:imgV.image!)!
         
         // 探测器
         let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: nil, options: nil)
-        let features = detector.featuresInImage(ciImage)
+        let features = detector?.features(in: ciImage)
         
         //遍历所有的二维码  && 取出探测到的数据
-        for feature in features {
+        for feature in features! {
             let qrCodeFeature = feature as! CIQRCodeFeature
             print(qrCodeFeature.messageString)
         }
         
         sleep(2)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
 

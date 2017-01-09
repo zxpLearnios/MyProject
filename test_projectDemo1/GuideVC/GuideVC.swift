@@ -8,14 +8,27 @@
 
 import UIKit
 import Kingfisher
-import QKLockView
+//import QKLockView
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 
 class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     
-    private let im  = UIImageView(), scroller = UIScrollView(), timeBtn = UIButton(), downloadBtn = UIButton(), bgimageV = UIImageView(), useNowBtn = UIButton(), takePhotoBtn = UIButton(), scanBtn = UIButton()
+    fileprivate let im  = UIImageView(), scroller = UIScrollView(), timeBtn = UIButton(), downloadBtn = UIButton(), bgimageV = UIImageView(), useNowBtn = UIButton(), takePhotoBtn = UIButton(), scanBtn = UIButton()
     
-    private var dy =  UIDynamicAnimator.init(), ga:UIGravityBehavior!, cBh:UICollisionBehavior!
+    fileprivate var dy =  UIDynamicAnimator.init(), ga:UIGravityBehavior!, cBh:UICollisionBehavior!
     
     var musicPlayer:MyMusicPlayer! // 音频
     var vedioPlayer:MyVideoPlayerView! // 视频
@@ -30,16 +43,16 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
        
         
         
-        let date0 = NSDate()
-        let date1 = date0.dateByAddingTimeInterval(10)
-        let date2 = date0.dateByAddingTimeInterval(20)
+        let date0 = Date()
+        let date1 = date0.addingTimeInterval(10)
+        let date2 = date0.addingTimeInterval(20)
         
         var numbers = [date2, date0, date1] // "a", "be", "ba", "e", "a1"; 1, 3, 2; date2, date0, date1
-        numbers.sort { (date0, date1) -> Bool in
+        numbers.sorted { (date0, date1) -> Bool in
             
             return date0.isEarlierThanDate(compareToDate: date1)
         }
@@ -51,7 +64,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         
         let keys = Array(dic.keys)
         
-        var sortedKeys = keys.sort() {
+        var sortedKeys = keys.sorted() {
             let value0 = dic[$0]
             let value1 = dic[$1]
             return value0 < value1
@@ -93,18 +106,18 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         
         // 6. SDwebImage
         let str = "https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a4b3d7085dee3d6d2293d48b252b5910/0e2442a7d933c89524cd5cd4d51373f0830200ea.jpg"
-        let url = NSURL.init(string: str)
+        let url = URL.init(string: str)
 //        bgimageV.kf_setImageWithURL(url)
         
         // 9.   gif
         let gifView = MyGifView.shareInstance
-        let fm = CGRectMake(100, 100, 100, 100)
+        let fm = CGRect(x: 100, y: 100, width: 100, height: 100)
         gifView.frame = fm
         gifView.showGifWithNoSuffixName(gifName: "test")
 //        self.view.addSubview(gifView)
         
         let gv = MyGifView.shareInstance
-        let gifWebView = MyGifWebView.init(frame:CGRectMake(10, 100, 200, 200))
+        let gifWebView = MyGifWebView.init(frame:CGRect(x: 10, y: 100, width: 200, height: 200))
 //        gifWebView.loadGif(withGifName: "test")
         
 //        let gifPath = NSBundle.mainBundle().URLForResource("test.gif", withExtension: nil)
@@ -116,9 +129,9 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         
         // 10. 测试QKLockView
         
-        let lv = QKLockView()
-        lv.frame = CGRectMake(10, 100, 300, 310)
-        lv.backgroundColor = UIColor.redColor()
+//        let lv = QKLockView
+//        lv.frame = CGRect(x: 10, y: 100, width: 300, height: 310)
+//        lv.backgroundColor = UIColor.red
 //        self.view.addSubview(lv)
         
         // 11. 
@@ -155,69 +168,73 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         addConstraintsButton()
         
         // 15. Iconfont
-        let iconLab = UILabel.init(frame: CGRectMake(30, 250, 300, 30))
+        let iconLab = UILabel.init(frame: CGRect(x: 30, y: 250, width: 300, height: 30))
         iconLab.font = UIFont.init(name: "lantinghei", size: 20) // iconfont
         iconLab.text = "就输入该太难usefjkn" // "\u{e603}"
         self.view.addSubview(iconLab)
         
-        // 16.
+        // 16.  二维码生成
+//        let qrCodeimage = QRCodeImage.createQrCodeImage(with: "3r5", size: 250, qrColor: UIColor.yellow, bgColor: UIColor.brown, icon: UIImage.init(named: "guide_bg0"), iconWidth: 50) //QRCodeImage.createQrCodeImage(with: "wet", size: 300, qrColor: UIColor.orange, icon: UIImage.init(named: "guide_bg0"), iconWidth: 50, isHaveWhiteBg: true) //QRCodeImage.createQrCodeImage(with: "fwef", size: 250, qrColor: UIColor.blue, bgColor: UIColor.red) //QRCodeImage.createQrCodeImage(with: "ferg", size: 200, color: UIColor.orange, isHaveWhiteBg: false)    //QRCodeImage.creatCodeImage(with: "fer", size: 200, qrColor: UIColor.red, icon: UIImage.init(named: "guide_bg0"), iconWidth: 50) // QRCodeImage.creatCodeImage(with: "ferg", size: 200, qrColor: UIColor.red) //QRCodeImage.creatCodeImage(with: "ferg", size: 200)
+        
+//        let imgv = UIImageView.init(image: qrCodeimage)
+//        view.addSubview(imgv)
         
     }
     
-    private func addScanButton(){
-        scanBtn.frame = CGRectMake(30, 70, 80, 40)
-        scanBtn.setTitle("二维码", forState: .Normal)
-        scanBtn.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        scanBtn.addTarget(self, action: #selector(scanAction), forControlEvents: .TouchUpInside)
+    fileprivate func addScanButton(){
+        scanBtn.frame = CGRect(x: 30, y: 70, width: 80, height: 40)
+        scanBtn.setTitle("二维码", for: UIControlState())
+        scanBtn.setTitleColor(UIColor.black, for: UIControlState())
+        scanBtn.addTarget(self, action: #selector(scanAction), for: .touchUpInside)
         self.view.addSubview(scanBtn)
         
     }
-    private func addTimeButton(){
-        timeBtn.frame = CGRectMake(kwidth - 40, 70, 40, 40)
-        timeBtn.setTitle("时间", forState: .Normal)
-        timeBtn.addTarget(self, action: #selector(timeBtnACtion), forControlEvents: .TouchUpInside)
+    fileprivate func addTimeButton(){
+        timeBtn.frame = CGRect(x: kwidth - 40, y: 70, width: 40, height: 40)
+        timeBtn.setTitle("时间", for: UIControlState())
+        timeBtn.addTarget(self, action: #selector(timeBtnACtion), for: .touchUpInside)
         self.view.addSubview(timeBtn)
     }
     
-    private func addDownloadBtn(){
-        downloadBtn.frame = CGRectMake(kwidth/2 - 30, 90, 80, 40)
-        downloadBtn.setTitle("下载资源", forState: .Normal)
-        downloadBtn.addTarget(self, action: #selector(downloadBtnAction), forControlEvents: .TouchUpInside)
+    fileprivate func addDownloadBtn(){
+        downloadBtn.frame = CGRect(x: kwidth/2 - 30, y: 90, width: 80, height: 40)
+        downloadBtn.setTitle("下载资源", for: UIControlState())
+        downloadBtn.addTarget(self, action: #selector(downloadBtnAction), for: .touchUpInside)
         self.view.addSubview(downloadBtn)
     }
     
      // 拍照
-    private func addTakePhotoBtn(){
-        takePhotoBtn.frame = CGRectMake(kwidth/2 - 30, 130, 80, 40)
-        takePhotoBtn.setTitle("拍摄", forState: .Normal)
-        takePhotoBtn.addTarget(self, action: #selector(takePhotoAction), forControlEvents: .TouchUpInside)
+    fileprivate func addTakePhotoBtn(){
+        takePhotoBtn.frame = CGRect(x: kwidth/2 - 30, y: 130, width: 80, height: 40)
+        takePhotoBtn.setTitle("拍摄", for: UIControlState())
+        takePhotoBtn.addTarget(self, action: #selector(takePhotoAction), for: .touchUpInside)
         self.view.addSubview(takePhotoBtn)
     }
     
     // 马上 使用按钮
-    private func addUseNowButton(){
+    fileprivate func addUseNowButton(){
         
-        if useNowBtn.frame == CGRectZero {
-            useNowBtn.frame = CGRectMake(kwidth/2 - 50, kheight, 100, 40)
-            useNowBtn.setTitle("马上进入", forState: .Normal)
-            useNowBtn.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-            useNowBtn.backgroundColor = UIColor.orangeColor()
-            useNowBtn.addTarget(self, action: #selector(useNowAction), forControlEvents: .TouchUpInside)
+        if useNowBtn.frame == CGRect.zero {
+            useNowBtn.frame = CGRect(x: kwidth/2 - 50, y: kheight, width: 100, height: 40)
+            useNowBtn.setTitle("马上进入", for: UIControlState())
+            useNowBtn.setTitleColor(UIColor.white, for: UIControlState())
+            useNowBtn.backgroundColor = UIColor.orange
+            useNowBtn.addTarget(self, action: #selector(useNowAction), for: .touchUpInside)
             self.view.addSubview(useNowBtn)
         }
         
         
         if ga == nil {
             ga = UIGravityBehavior.init(items: [useNowBtn])
-            ga.gravityDirection = CGVectorMake(0, -1)
+            ga.gravityDirection = CGVector(dx: 0, dy: -1)
             ga.magnitude = 3
         }
         
         if cBh == nil {
             cBh = UICollisionBehavior.init(items: [useNowBtn])
-            cBh.collisionMode = .Boundaries
-            let path = UIBezierPath.init(rect: CGRectMake(0, kheight * 0.7, kwidth, 1))
-            cBh.addBoundaryWithIdentifier("", forPath: path)
+            cBh.collisionMode = .boundaries
+            let path = UIBezierPath.init(rect: CGRect(x: 0, y: kheight * 0.7, width: kwidth, height: 1))
+            cBh.addBoundary(withIdentifier: "" as NSCopying, for: path)
             
         }
         
@@ -229,38 +246,38 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     }
     
     
-    private func addConstraintsButton(){
+    fileprivate func addConstraintsButton(){
         let  constranitsBtn = UIButton()
-        constranitsBtn.frame = CGRectMake(150, 270, 80, 40)
-        constranitsBtn.setTitle("约束按钮", forState: .Normal)
-        constranitsBtn.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        constranitsBtn.addTarget(self, action: #selector(constaintsAction), forControlEvents: .TouchUpInside)
+        constranitsBtn.frame = CGRect(x: 150, y: 270, width: 80, height: 40)
+        constranitsBtn.setTitle("约束按钮", for: UIControlState())
+        constranitsBtn.setTitleColor(UIColor.black, for: UIControlState())
+        constranitsBtn.addTarget(self, action: #selector(constaintsAction), for: .touchUpInside)
         self.view.addSubview(constranitsBtn)
         
     }
     
     // --------------------------  btnAction -------------------------- //
     
-    func  scanAction(btn:UIButton) {
-        self.presentViewController(MyQrCodeScanVC.init(), animated: true, completion: nil)
+    func  scanAction(_ btn:UIButton) {
+        self.present(MyQrCodeScanVC.init(), animated: true, completion: nil)
     }
     
     func takePhotoAction(){
         
         // 8. 拍照
-        let frame = CGRectMake(0, 64, kwidth, kheight - 64)
+        let frame = CGRect(x: 0, y: 64, width: kwidth, height: kheight - 64)
         //       cameraView =  NSBundle.mainBundle().loadNibNamed("MyCameraView", owner: nil, options: nil).last as! MyCameraView
         
         cameraView = MySystemCamareVC() // MyCameraView.getSelf(withFrame: frame) MyDefaultCameraVC()
-        cameraView.doThing()
+        
 //        self.view.addSubview(cameraView)
-        self.presentViewController(cameraView, animated: true, completion: nil)
+        self.present(cameraView, animated: true, completion: nil)
     }
 
     // MARK: 点击时间按钮
-    func timeBtnACtion(btn:UIButton)  {
+    func timeBtnACtion(_ btn:UIButton)  {
         print("时间按钮")
-        btn.selected = !btn.selected
+        btn.isSelected = !btn.isSelected
         //        if btn.selected {
         //             musicPlayer.play()
         //        }else{
@@ -271,13 +288,13 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     }
     
     // MARK: 下载按钮的事件
-    func downloadBtnAction(btu: UIButton){
+    func downloadBtnAction(_ btu: UIButton){
         
         // 7. 测试NetWorkTool
                 request = MyBaseNetWorkRequest() // http://www.hangge.com/upload.php
                 var path = ""
         
-                let fileUrl = NSBundle.mainBundle().URLForResource("背叛情歌", withExtension: "mp3") // upload
+                let fileUrl = Bundle.main.url(forResource: "背叛情歌", withExtension: "mp3") // upload
                 path = "http://www.hangge.com/upload.php"
         // 上传单个文件
                 request.uploadOneFile(withFileUrl: fileUrl!, andUploadPath: path, scriptName: "icon_png")
@@ -307,8 +324,8 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         //        let newImg = request.compressImage(originImg, scale: 0.5)
         
         
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
-        dispatch_after(time, dispatch_get_main_queue()) {
+        let time = DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
             self.request.cancleAllRequest()
         }
         
@@ -348,21 +365,21 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     }
     
     // MARK:  添加scroller
-    private func addScrollerView(){
+    fileprivate func addScrollerView(){
         scroller.frame = self.view.frame
-        scroller.contentSize = CGSizeMake(kwidth * 3, kheight)
-        scroller.backgroundColor = UIColor.clearColor()
+        scroller.contentSize = CGSize(width: kwidth * 3, height: kheight)
+        scroller.backgroundColor = UIColor.clear
         scroller.showsHorizontalScrollIndicator = false
-        scroller.pagingEnabled = true
+        scroller.isPagingEnabled = true
         scroller.bounces = false
         scroller.delegate = self
         self.view.addSubview(scroller)
         
         for i in 0...2 {
             let x = kwidth * CGFloat(i)
-            let lab = UILabel.init(frame: CGRectMake(x, kheight/2, kwidth, 20))
+            let lab = UILabel.init(frame: CGRect(x: x, y: kheight/2, width: kwidth, height: 20))
             lab.text = "改善生态的改善生态的改善生态的+\(i)"
-            lab.textAlignment = .Center
+            lab.textAlignment = .center
             
             scroller.addSubview(lab)
             
@@ -376,10 +393,12 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
 
         
         // 3. 二维码
+        let x = (kwidth - 200)/2
+        qrCodeView = MyQrCodeCreatView.init(frame: CGRect.init(x: x, y: 180, width: 200, height: 200))
+//        qrCodeView.doInit()
+        self.view.addSubview(qrCodeView)
         
-//        let x = (kwidth - 200)/2
-//        qrCodeView = MyQrCodeCreatView.init(frame: CGRectMake(x , 100, 200, 200))
-//        self.view.addSubview(qrCodeView)
+        
         
 //        // 4. 无用，
 //        
@@ -439,7 +458,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     
     
     // get 请求的结果
-    private func getRequestResult(result:AnyObject, code:String){
+    fileprivate func getRequestResult(_ result:AnyObject, code:String){
         
     }
     
@@ -447,13 +466,13 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     /**
      播放远程音频
      */
-    private func playRemoteMusic(){
+    fileprivate func playRemoteMusic(){
         musicPlayer = MyMusicPlayer.init()
     }
     
     
     // 动画须在此做
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         self.navigationController?.navigationBar.alpha = 0
@@ -491,15 +510,15 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
 
     // MARK: UIScrollViewDelegate
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         scrollViewDidEndScrollingAnimation(scrollView)
     }
     
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         let offsetX = scroller.contentOffset.x
         
         // 1. 改变背景图
@@ -519,8 +538,8 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     }
     
     
-    private func removeUseNowButton(){
-        useNowBtn.frame = CGRectZero
+    fileprivate func removeUseNowButton(){
+        useNowBtn.frame = CGRect.zero
         useNowBtn.removeFromSuperview()
         dy.removeAllBehaviors()
         ga = nil
@@ -529,7 +548,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     
 
     // MARK: UIAlertViewDelegate
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
          let totla = alertView.numberOfButtons
         if buttonIndex  == totla - 1{ // 确保点击的实在是最后的那个按钮
            

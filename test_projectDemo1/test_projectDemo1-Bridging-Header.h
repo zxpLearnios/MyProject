@@ -7,3 +7,6 @@
 //#import "Alamofire.h" // 3.4.1
 
 #import <GPUImage/GPUImage.h>
+#import "TESTStatic.h" // 导入本工程里的OC类
+
+#import "QRCodeImage.h"

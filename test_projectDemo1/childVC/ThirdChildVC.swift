@@ -12,9 +12,9 @@ class ThirdChildVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
-        let lab = UILabel.init(frame: CGRectMake(10, 100, 200, 20))
+        let lab = UILabel.init(frame: CGRect(x: 10, y: 100, width: 200, height: 20))
         lab.text = "规范收入很高入很高"
         self.view.addSubview(lab)
     }
@@ -25,7 +25,7 @@ class ThirdChildVC: UIViewController {
     }
     
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         self.view.transitionWithType(AnimationType.SuckEffect.rawValue, withSubType: kCATransitionFromTop, forView: self.view)

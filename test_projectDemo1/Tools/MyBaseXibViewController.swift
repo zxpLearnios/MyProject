@@ -14,8 +14,8 @@ class  MyBaseXibViewController:UIViewController {
     
    
     convenience init(){
-        let type = NSStringFromClass(self.dynamicType)
-        let name = type.componentsSeparatedByString(".").last!
+        let type = NSStringFromClass(type(of: self))
+        let name = type.components(separatedBy: ".").last!
         self.init(nibName: name, bundle: nil)
         
     }

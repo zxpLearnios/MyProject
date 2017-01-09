@@ -30,7 +30,7 @@ class MySuperVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         tableView.mj_header.beginRefreshing()
         
         tableView.mj_footer = MJRefreshAutoNormalFooter.init(refreshingTarget: self, refreshingAction: #selector(loadMoreData))
-        tableView.mj_footer.hidden = true // 开始时隐藏上拉
+        tableView.mj_footer.isHidden = true // 开始时隐藏上拉
         
     }
 
@@ -39,43 +39,43 @@ class MySuperVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated) // kCATransitionFade  kCATransitionPush kCATransitionReveal kCATransitionMoveIn
         
         self.view.transitionWithType(AnimationType.RippleEffect.rawValue, withSubType: kCATransitionReveal, forView: self.view)
     }
     
-    @objc private func refreshAction(){
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
-        dispatch_after(time, dispatch_get_main_queue()) {
+    @objc fileprivate func refreshAction(){
+        let time = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
             self.tableView.mj_header.endRefreshing()
         }
         
         
     }
     
-    @objc private func loadMoreData(){
+    @objc fileprivate func loadMoreData(){
     
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 30
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var  cell = tableView.dequeueReusableCellWithIdentifier(cellIdenty)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var  cell = tableView.dequeueReusableCell(withIdentifier: cellIdenty)
         if cell == nil {
-            cell = UITableViewCell.init(style: .Default, reuseIdentifier: cellIdenty)
-            cell?.textLabel?.textAlignment = .Center
+            cell = UITableViewCell.init(style: .default, reuseIdentifier: cellIdenty)
+            cell?.textLabel?.textAlignment = .center
         }
         cell?.textLabel?.text = "第\(indexPath.row)条数据"
         
         return cell!
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = UIViewController.init()
-        vc.view.backgroundColor = UIColor.redColor()
+        vc.view.backgroundColor = UIColor.red
         self.navigationController?.pushViewController(vc, animated: true)
         
     }

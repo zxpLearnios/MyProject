@@ -23,7 +23,7 @@ class LaunchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        sleep(5)
-        imgV.frame = CGRectMake(0, kheight * 0.75, 50, 20) //
+        imgV.frame = CGRect(x: 0, y: kheight * 0.75, width: 50, height: 20) //
         
         // 只加载一次 图像数据不会缓存(图片需拖入到 1.OC里Supporting Files文件夹中，  2. swift是***Tests（项目test）文件里，二不是.xcassets文件里)。因此对于较大的图片以及使用情况较少时，那就可以用该方法，降低内存消耗。.图片使用结束以后，直接释放掉，bu再继续占内存了。因此序列帧动画的内存问题用之就已经全部解决了。此法只会加载图片一次，故引导图用此法
 //        imgV.animationImages = [UIImage]() // 帧动画图片
@@ -33,7 +33,7 @@ class LaunchVC: UIViewController {
         imgV.image = UIImage(named: "流星") // 此法会将所加载的图片进行缓存
         self.view.addSubview(imgV)
         
-        let fileName = NSBundle.mainBundle().pathForResource("contenImg", ofType: "png")
+        let fileName = Bundle.main.path(forResource: "contenImg", ofType: "png")
         let testImg = UIImage.init(contentsOfFile: fileName!)
         let testImgV = UIImageView.init(image: testImg)
         view.addSubview(testImgV)
@@ -41,10 +41,10 @@ class LaunchVC: UIViewController {
         
         dy = UIDynamicAnimator.init(referenceView: self.view)
         ga = UIGravityBehavior.init(items: [imgV])
-        ga.gravityDirection = CGVectorMake(1, -0.323)
+        ga.gravityDirection = CGVector(dx: 1, dy: -0.323)
         ga.magnitude = 3
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-        dispatch_after(time, dispatch_get_main_queue()) {
+        let time = DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
              self.dy.addBehavior(self.ga)
         }
         
@@ -55,7 +55,7 @@ class LaunchVC: UIViewController {
     }
     
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // 测试
 //        hud.showSuccessText("成功彩色法尔", successImage: UIImage(named: "progress_circular")!)

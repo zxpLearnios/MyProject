@@ -68,7 +68,7 @@ extension UIView{
             return self.bounds.width
         }
         set{
-            self.bounds = CGRectMake(0, 0, newValue, self.bounds.height)
+            self.bounds = CGRect(x: 0, y: 0, width: newValue, height: self.bounds.height)
 //            self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, newValue, self.frame.height)
         }
         
@@ -80,7 +80,7 @@ extension UIView{
             return self.bounds.height
         }
         set{
-            self.bounds = CGRectMake(0, 0, self.bounds.width, newValue)
+            self.bounds = CGRect(x: 0, y: 0, width: self.bounds.width, height: newValue)
             
 //            self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, newValue)
         }
@@ -90,7 +90,7 @@ extension UIView{
     /**
      这是用CATransition动画实现, 效果更好; 注意subType(就那4种)不能==type， 不然系统默认没动画效果了，并且有些subType、type的搭配也没效果
      */
-    func transitionWithType(type:String,withSubType subType:String,forView view:UIView){
+    func transitionWithType(_ type:String,withSubType subType:String,forView view:UIView){
         
         let animation = CATransition()
         
@@ -103,7 +103,7 @@ extension UIView{
         }
         //设置运动速度
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        view.layer.addAnimation(animation, forKey: "animation")
+        view.layer.add(animation, forKey: "animation")
     }
     
     // 提醒作用
@@ -112,12 +112,12 @@ extension UIView{
     /**
       这是用UIView实现动画，
      */
-    func animationWithView(view:UIView,withAnimationTransition transition:UIViewAnimationTransition){
+    func animationWithView(_ view:UIView,withAnimationTransition transition:UIViewAnimationTransition){
         
-        UIView.animateWithDuration(viewTransitionDuration, animations: {
+        UIView.animate(withDuration: viewTransitionDuration, animations: {
             
-            UIView.setAnimationCurve(UIViewAnimationCurve.Linear)
-            UIView.setAnimationTransition(transition, forView: view, cache: true)
+            UIView.setAnimationCurve(UIViewAnimationCurve.linear)
+            UIView.setAnimationTransition(transition, for: view, cache: true)
             
         })
     }

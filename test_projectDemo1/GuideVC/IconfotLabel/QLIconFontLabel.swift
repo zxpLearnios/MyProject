@@ -14,7 +14,7 @@ import UIKit
     /*
      设置字体大小
      */
-    private var _fontSize : Int = 14
+    fileprivate var _fontSize : Int = 14
     @IBInspectable var fontSize : Int {
         get {
             return _fontSize
@@ -36,19 +36,19 @@ import UIKit
         }
     }
     
-    private func setFontForSelf(){
-        self.textAlignment = .Center
+    fileprivate func setFontForSelf(){
+        self.textAlignment = .center
         let iconFont = UIFont(name: "iconfont", size: CGFloat(_fontSize))
         self.font = iconFont
         
     }
  
     
-    func addTap(obj: AnyObject?, action: Selector) {
+    func addTap(_ obj: AnyObject?, action: Selector) {
         if obj != nil {
-            if obj!.respondsToSelector(action) {
+            if obj!.responds(to: action) {
                 let tap : UITapGestureRecognizer = UITapGestureRecognizer(target: obj, action:action)
-                self.userInteractionEnabled = true
+                self.isUserInteractionEnabled = true
                 self.addGestureRecognizer(tap)
             }
             

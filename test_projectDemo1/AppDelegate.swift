@@ -22,11 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
        
 //        MyLog("在APPdelegate里测试打印")
         
-        window = UIWindow.init(frame: UIScreen.mainScreen().bounds)
+        window = UIWindow.init(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
 //        let xx = "1234567.230"
@@ -37,11 +37,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 1. 启动画面
         let name = "LaunchVC"
         let sb = UIStoryboard.init(name: name, bundle: nil)
-        let vc = sb.instantiateViewControllerWithIdentifier(name)
+        let vc = sb.instantiateViewController(withIdentifier: name)
         window?.rootViewController = vc
         
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
-        dispatch_after(time, dispatch_get_main_queue()) {
+        let time = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
             // 2.是否时最新的
             let guideVC = UINavigationController.init(rootViewController: GuideVC())
             if self.isFirstLatestUse() { // 先进入引导页, 再进首页
@@ -56,8 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // 横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了，是因为iOS8默认横屏时将电池状态栏隐藏了，这是iOS8的新特性； 须做以下
-        kApplication.setStatusBarHidden(true, withAnimation: .None)
-        kApplication.setStatusBarHidden(false, withAnimation: .None)
+        kApplication.setStatusBarHidden(true, with: .none)
+        kApplication.setStatusBarHidden(false, with: .none)
         
         
         // 测试多线程
@@ -69,14 +69,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /**
      是否是最新版本
      */
-    private func isFirstLatestUse() -> Bool{
+    fileprivate func isFirstLatestUse() -> Bool{
         
-        let previousVersion = NSUserDefaults.standardUserDefaults().valueForKeyPath(appVersionKey)
-        let currentVersion = NSBundle.mainBundle().infoDictionary![appVersionKey] as! String // appVersionKey, appBundleVersionKey
+        let previousVersion = UserDefaults.standard.value(forKeyPath: appVersionKey)
+        let currentVersion = Bundle.main.infoDictionary![appVersionKey] as! String // appVersionKey, appBundleVersionKey
  
         if previousVersion == nil {
-            NSUserDefaults.standardUserDefaults().setValue(currentVersion, forKey: appVersionKey)
-            NSUserDefaults.standardUserDefaults().synchronize()
+            UserDefaults.standard.setValue(currentVersion, forKey: appVersionKey)
+            UserDefaults.standard.synchronize()
             return true
         }
         return false
@@ -84,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
     
     // MARK: 测试 多线程
-    private func testTreads(){
+    fileprivate func testTreads(){
         
         // 0. 队列 里任务的执行顺序由他们之间的依赖决定
         // 1. 操作队列 -- 主队列，（即相当于串行队列，每次最多执行一个任务；操作都在主线程执行，不会新建线程）
@@ -160,17 +160,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        // 4.1   performSelector 和 GCD中的dispatch_after实现的延时的区别：
         // 1 区别：若在主线程，即不是在多线程的情况下，用performSelector可以，因为主线程默认运行了个runloop，并且有timer，普通的子线程是没有这些的；这个方法在调用的时候会设置当前runloop中timer；若在子线程里，由于子线程里没有自带的runloop和timer，故里面的selector永远不会被调用。此时需要用GCD中的dispatch_after
         // 2 联系： 这两种方式都一个共同的前提，就是当前线程里面需要有一个运行的runloop并且这个runloop里面有一个timer
+        let longstr = ["1", "2", "1", "3"]
         
         
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
+        let time = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
 //        dispatch_after(time, dispatch_get_main_queue()) {
 //            self.test() // 此法里的selector会被调用
 //        }
         
 //        self.performSelector(#selector(test), withObject: nil, afterDelay: 2) // 此法里的selector会被调用
         
-        let ccQueue = dispatch_queue_create("quue_name", DISPATCH_QUEUE_CONCURRENT) // 并行队列
-        let csQueue =  dispatch_queue_create("", DISPATCH_QUEUE_SERIAL) // 串行队列
+        let ccQueue = DispatchQueue(label: "quue_name", attributes: DispatchQueue.Attributes.concurrent) // 并行队列
+        let csQueue =  DispatchQueue(label: "", attributes: []) // 串行队列
         
         
 //        dispatch_sync(ccQueue) {
@@ -209,12 +210,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
 //        }
         
-        dispatch_async(ccQueue) {
+        ccQueue.async {
             
 //            self.performSelectorInBackground(#selector(self.test), withObject: nil) // 会开启新的线程，selector会被调用
-                self.performSelectorOnMainThread(#selector(self.test), withObject: nil, waitUntilDone: false) //此法里的selector会被调用, 仍会在主线程
+                self.performSelector(onMainThread: #selector(self.test), with: nil, waitUntilDone: false) //此法里的selector会被调用, 仍会在主线程
         }
         
+        
+        // 3. 简单的2种延迟：
+        // 定时器延迟加载
+        
+        // 线程延迟加载
+//        NSThread.sleepForTimeInterval(0.4)
+//        sleep(1)
         
         let c = "" // c.characters.count == 0
         let c1 = " " //c1.characters.count == 1
@@ -224,17 +232,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 比较是否相等
         let a = "123asd"
         let b = "123asd"
-          // a的内存地址为 \unsafeAddressOf(a)
+        // a的内存地址为 \unsafeAddressOf(a)
         debugPrint("a == b \(a==b)")
-     
         
         
-        // 3. 简单的2种延迟：
-        // 定时器延迟加载
+        let a2 = TESTStatic()
+        debugPrint(a2)
         
-        // 线程延迟加载
-//        NSThread.sleepForTimeInterval(0.4)
-//        sleep(1)
+        
         
     }
     
@@ -352,7 +357,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 // ----------------------- private -----------------//
     func test() {
-        debugPrint("调用了test方法----------------, 当前线程\(NSThread.currentThread())")
+        debugPrint("调用了test方法----------------, 当前线程\(Thread.current)")
     }
 
 }

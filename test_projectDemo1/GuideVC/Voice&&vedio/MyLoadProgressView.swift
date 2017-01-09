@@ -11,24 +11,24 @@ import UIKit
 
 class MyLoadProgressView: UIView {
 
-    var startPoint:CGPoint = CGPointZero
-    var stopPoint:CGPoint = CGPointZero
+    var startPoint:CGPoint = CGPoint.zero
+    var stopPoint:CGPoint = CGPoint.zero
     
     
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         
         // 缓冲条
         let beziPath = UIBezierPath.init()
         
         //
-        beziPath.moveToPoint(startPoint)
-        beziPath.addLineToPoint(stopPoint)
+        beziPath.move(to: startPoint)
+        beziPath.addLine(to: stopPoint)
         
         beziPath.lineWidth = 6
-        beziPath.lineJoinStyle = .Round
+        beziPath.lineJoinStyle = .round
         
-        UIColor.redColor().setStroke()
+        UIColor.red.setStroke()
         beziPath.stroke()
     }
 

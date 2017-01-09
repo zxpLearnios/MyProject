@@ -20,12 +20,12 @@ class MySounder: NSObject {
     
     class func playQrCodeScanCompleteSound(){
         //声音地址
-        let path = NSBundle.mainBundle().pathForResource("scanQrCodeCompleteSound", ofType: "wav")
+        let path = Bundle.main.path(forResource: "scanQrCodeCompleteSound", ofType: "wav")
         //建立的systemSoundID对象
         var soundID : SystemSoundID = 0
-        let baseURL = NSURL.fileURLWithPath(path!)
+        let baseURL = URL(fileURLWithPath: path!)
         //赋值
-        AudioServicesCreateSystemSoundID(baseURL, &soundID)
+        AudioServicesCreateSystemSoundID(baseURL as CFURL, &soundID)
         //播放声音
         AudioServicesPlaySystemSound(soundID)
     }

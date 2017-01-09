@@ -24,10 +24,10 @@ class MyVideoPlayerView: UIView {
     @IBOutlet weak var loadProgressView: UIProgressView! // 缓冲进度
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView! // 菊花进度
    
-    private var  avPlayer:AVPlayer!, playerLayer:AVPlayerLayer!, avPlayItem:AVPlayerItem!, avObserver:AnyObject!, mmPlayer:MPMoviePlayerController!
-    private var loadedTimeRanges = "loadedTimeRanges", status = "status", timer:NSTimer?, totalBuffer:Float64 = 0 // 默认值
+    fileprivate var  avPlayer:AVPlayer!, playerLayer:AVPlayerLayer!, avPlayItem:AVPlayerItem!, avObserver:AnyObject!, mmPlayer:MPMoviePlayerController!
+    fileprivate var loadedTimeRanges = "loadedTimeRanges", status = "status", timer:Timer?, totalBuffer:Float64 = 0 // 默认值
     // http://v1.mukewang.com/19954d8f-e2c2-4c0a-b8c1-a4c826b5ca8b/L.mp4 http://v1.mukewang.com/a45016f4-08d6-4277-abe6-bcfd5244c201/L.mp4
-    private let vedioStr = "http://v1.mukewang.com/19954d8f-e2c2-4c0a-b8c1-a4c826b5ca8b/L.mp4",
+    fileprivate let vedioStr = "http://v1.mukewang.com/19954d8f-e2c2-4c0a-b8c1-a4c826b5ca8b/L.mp4",
     voiceStr = "http://m2.music.126.net/feplW2VPVs9Y8lE_I08BQQ==/1386484166585821.mp3"
     
     override func awakeFromNib() {
@@ -35,16 +35,16 @@ class MyVideoPlayerView: UIView {
         
         
         // 0.
-        slider.setThumbImage(UIImage(named: "thumbImage"), forState: .Normal)
-        slider.setMinimumTrackImage(UIImage(named: "MinimumTrackImage"), forState: .Normal)
+        slider.setThumbImage(UIImage(named: "thumbImage"), for: UIControlState())
+        slider.setMinimumTrackImage(UIImage(named: "MinimumTrackImage"), for: UIControlState())
 //        slider.setMaximumTrackImage(UIImage(named: "MaxmumTrackImage"), forState: .Normal)
         
         
         
         // 2. AVPlayer 因为开始就初始化了播放器，故一开始就会加载而不是在播放时
         let str = vedioStr  // voiceStr  vedioStr
-        let onlineUrl = NSURL.init(string: str)
-        avPlayItem = AVPlayerItem.init(URL: onlineUrl!)
+        let onlineUrl = URL.init(string: str)
+        avPlayItem = AVPlayerItem.init(url: onlineUrl!)
         
 //         let str = NSBundle.mainBundle().pathForResource("本地视频.mov", ofType: nil)! // 本地视频
 //        avPlayItem = AVPlayerItem.init(URL: NSURL.init(fileURLWithPath: str)) // 本地视频
@@ -69,7 +69,7 @@ class MyVideoPlayerView: UIView {
         // 如果block里面的操作耗时太长，下次不一定会收到回调，所以尽量减少block的操作耗时
         // 方法会返回一个观察者对象，当播放完毕时需要移除这个观察者
         
-        self.avObserver = self.avPlayer.addPeriodicTimeObserverForInterval(CMTimeMake(1, 1), queue: dispatch_get_main_queue()) { (time) in
+        self.avObserver = self.avPlayer.addPeriodicTimeObserver(forInterval: CMTimeMake(1, 1), queue: DispatchQueue.main) { (time) in
             let preCurrentTime = String(format: "%02.0f",CMTimeGetSeconds(self.avPlayItem.currentTime())) // 取0位小数
             let preTotalTime = String(format: "%02.f",self.avPlayItem.duration.seconds)
             
@@ -79,40 +79,40 @@ class MyVideoPlayerView: UIView {
             // 总时间label
             self.totalTimeLab.text = self.getFormatedTimeWithIntSeconds(totalTime)
             
-        }
+        } as AnyObject!
         
         // 4. 媒体加载状态
-        avPlayItem.addObserver(self, forKeyPath: status, options: .New, context: nil)
-        avPlayItem.addObserver(self, forKeyPath: loadedTimeRanges, options: .New, context: nil)
+        avPlayItem.addObserver(self, forKeyPath: status, options: .new, context: nil)
+        avPlayItem.addObserver(self, forKeyPath: loadedTimeRanges, options: .new, context: nil)
         
         // 5.隐藏底部view
-        UIView.animateWithDuration(0.25) {
-            self.buttomView.transform = CGAffineTransformMakeTranslation(0, 40)
-        }
+        UIView.animate(withDuration: 0.25, animations: {
+            self.buttomView.transform = CGAffineTransform(translationX: 0, y: 40)
+        }) 
     }
     
     // MARK:   slider滑动时 avPlayItem.duration.seconds 总长度
-    @IBAction func valueChangedAction(sender: UISlider) {
+    @IBAction func valueChangedAction(_ sender: UISlider) {
         let currentTime  = avPlayItem.duration.seconds * Double(slider.value)
         self.currentTimeLab.text = self.getFormatedTimeWithIntSeconds(Int(currentTime))
     }
     // MARK:  点击slider时
-    @IBAction func touchDownAction(sender: UISlider) {
+    @IBAction func touchDownAction(_ sender: UISlider) {
         avPlayer.pause()
         self.stopTimer()
         
     }
     
     // MARK:  点击slider结束时
-    @IBAction func insideAction(sender: UISlider) {
+    @IBAction func insideAction(_ sender: UISlider) {
         
         self.startTimer()
         // 3. 设置播放器播放进度 CMTimeMakeWithSeconds(currentTime, NSEC_PER_SEC)
         let currentTime  = avPlayItem.duration.seconds * Double(slider.value)
-        let  timeInterval = NSTimeInterval.init(currentTime)
-        avPlayer.seekToTime(CMTime.init(seconds: timeInterval, preferredTimescale: 1), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero) { (finished) in
+        let  timeInterval = TimeInterval.init(currentTime)
+        avPlayer.seek(to: CMTime.init(seconds: timeInterval, preferredTimescale: 1), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero, completionHandler: { (finished) in
             
-        }
+        }) 
         avPlayer.play()
     }
     
@@ -120,20 +120,20 @@ class MyVideoPlayerView: UIView {
     
     
     // MARK: 开启定时器
-    private func startTimer(){
+    fileprivate func startTimer(){
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(changeCurrentTime), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(changeCurrentTime), userInfo: nil, repeats: true)
         
     }
     
     // MARK: 关闭定时器
-    private func stopTimer(){
+    fileprivate func stopTimer(){
         timer!.invalidate()
         timer = nil
     }
     
     // MARK:  定时器, 改变slider的值
-    @objc private func changeCurrentTime(){
+    @objc fileprivate func changeCurrentTime(){
         // 1.
         slider.value += Float(1/avPlayItem.duration.seconds)
         
@@ -145,9 +145,9 @@ class MyVideoPlayerView: UIView {
     }
     
     // MARK: 播放按钮事件
-    @IBAction func playAction(btn: UIButton) {
-        btn.selected = !btn.selected
-        if btn.selected {
+    @IBAction func playAction(_ btn: UIButton) {
+        btn.isSelected = !btn.isSelected
+        if btn.isSelected {
             avPlayer.play()
 //            mmPlayer.play()
             // 5. 定时器
@@ -160,43 +160,43 @@ class MyVideoPlayerView: UIView {
     }
     
     // MARK: 旋转屏幕
-    @IBAction func rotationAction(btn: UIButton) {
+    @IBAction func rotationAction(_ btn: UIButton) {
         
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !ishow {
-            UIView.animateWithDuration(0.25) {
-                self.buttomView.transform = CGAffineTransformIdentity
-            }
+            UIView.animate(withDuration: 0.25, animations: {
+                self.buttomView.transform = CGAffineTransform.identity
+            }) 
             ishow = true
         }else{
-            UIView.animateWithDuration(0.25) {
-                self.buttomView.transform = CGAffineTransformMakeTranslation(0, 40)
-            }
+            UIView.animate(withDuration: 0.25, animations: {
+                self.buttomView.transform = CGAffineTransform(translationX: 0, y: 40)
+            }) 
             ishow = false
         }
         
     }
     
     // MARK: KVO
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         if keyPath == status {
             switch avPlayer.status { //  
-            case .Unknown:
+            case .unknown:
                 print("KVO：未知状态，此时不能播放")
-            case .ReadyToPlay:
+            case .readyToPlay:
                  print("KVO：准备完毕，可以播放")
                 
-            case .Failed:
+            case .failed:
                 print("KVO：加载失败，网络或者服务器出现问题")
             }
         }
         
         if keyPath == loadedTimeRanges {
             let  loadAry = avPlayItem.loadedTimeRanges
-            let  timeRange = loadAry.first?.CMTimeRangeValue //本次缓冲的时间范围
+            let  timeRange = loadAry.first?.timeRangeValue //本次缓冲的时间范围
             totalBuffer = CMTimeGetSeconds(timeRange!.start) + CMTimeGetSeconds(timeRange!.duration) //缓冲总长度
             
             // 绘制缓冲进度
@@ -223,7 +223,7 @@ class MyVideoPlayerView: UIView {
     
     // MARK: private
     /**  传一个INt型的总秒数，得到hh:mm:ss的字符串 */
-    private func getFormatedTimeWithIntSeconds(totalTime:Int) -> String {
+    fileprivate func getFormatedTimeWithIntSeconds(_ totalTime:Int) -> String {
         var hour = ""
         var minuter = ""
         var seconds = ""

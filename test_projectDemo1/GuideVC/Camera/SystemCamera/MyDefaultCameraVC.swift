@@ -11,6 +11,19 @@ import UIKit
 import Photos
 import AVFoundation
 import  AssetsLibrary
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 
 
@@ -22,17 +35,17 @@ class MyDefaultCameraVC: UIViewController {
     
     @IBOutlet weak var totalCount: MyLabel!
     
-    private var images = [UIImage]()
+    fileprivate var images = [UIImage]()
     
     /** 可见区域、输入 */
-    private var preViewLayer:AVCaptureVideoPreviewLayer!
+    fileprivate var preViewLayer:AVCaptureVideoPreviewLayer!
     
     /** 输出流、设备、会话 */ // AVCaptureMovieFileOutput
-    private let output = AVCaptureStillImageOutput(), session = AVCaptureSession()
-    private var device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) // 默认的硬件设备即后置摄像头
+    fileprivate let output = AVCaptureStillImageOutput(), session = AVCaptureSession()
+    fileprivate var device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo) // 默认的硬件设备即后置摄像头
     
     /** 默认的就是 后置摄像头 */
-    private lazy var input:AVCaptureDeviceInput? = {
+    fileprivate lazy var input:AVCaptureDeviceInput? = {
         
         
         do {
@@ -45,11 +58,11 @@ class MyDefaultCameraVC: UIViewController {
         
     }()
     /** 前置摄像头 */
-    private lazy var input_front:AVCaptureDeviceInput? = {
+    fileprivate lazy var input_front:AVCaptureDeviceInput? = {
     
-        for subdevice in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo) as! [AVCaptureDevice]{
+        for subdevice in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as! [AVCaptureDevice]{
             
-            if subdevice.position == .Front {
+            if subdevice.position == .front {
                 self.session.beginConfiguration()
                 
                 self.device = subdevice
@@ -69,11 +82,11 @@ class MyDefaultCameraVC: UIViewController {
     }()
     
     /** 后置摄像头 */
-    private lazy var input_back:AVCaptureDeviceInput? = {
+    fileprivate lazy var input_back:AVCaptureDeviceInput? = {
         
-        for subdevice in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo) as! [AVCaptureDevice]{
+        for subdevice in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as! [AVCaptureDevice]{
             
-            if subdevice.position == .Back {
+            if subdevice.position == .back {
                 self.session.beginConfiguration()
                 
                 self.device = subdevice
@@ -98,18 +111,18 @@ class MyDefaultCameraVC: UIViewController {
     }
     
     // 此时frame都是正确的
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         doInit()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         session.stopRunning()
     }
     
     // MARK: 初始化
-    private func doInit(){
+    fileprivate func doInit(){
         
         if device == nil {
             print("可能是模拟器,故无法获取硬件信息！")
@@ -117,13 +130,13 @@ class MyDefaultCameraVC: UIViewController {
         }
         
         //这句代码是对夜间拍照时候的自动补光, 如果没有这句代码, 晚上拍照基本上是黑色的, 比苹果系统的相机照片差很多
-        if self.device.lowLightBoostEnabled {
-            self.device.automaticallyEnablesLowLightBoostWhenAvailable = true
+        if (self.device?.isLowLightBoostEnabled)! {
+            self.device?.automaticallyEnablesLowLightBoostWhenAvailable = true
         }
         
         // -1. 获取 权限下
-        let authStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
-        if authStatus == .Restricted || authStatus == .Denied{
+        let authStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        if authStatus == .restricted || authStatus == .denied{
             print("请在“设置”-“隐私”-“相机”功能中，打开本app的相机访问权限")
             return
         }
@@ -181,19 +194,19 @@ class MyDefaultCameraVC: UIViewController {
             return
         }
         
-        let connection = output.connectionWithMediaType(AVMediaTypeVideo)
+        let connection = output.connection(withMediaType: AVMediaTypeVideo)
         connection?.videoOrientation = preViewLayer.connection.videoOrientation
         session.commitConfiguration()
         
         // ----> 拍照就会调用
-        output.captureStillImageAsynchronouslyFromConnection(connection) { (buffer, error) in
+        output.captureStillImageAsynchronously(from: connection) { (buffer, error) in
             
             // 2.1 获取图片
             if buffer != nil {
                 
                 
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
-                var image = UIImage(data: imageData)
+                let image = UIImage(data: imageData!)
                 
                 if image != nil{
                     self.currentImgV.image = image
@@ -237,17 +250,17 @@ class MyDefaultCameraVC: UIViewController {
     
     
     // 转换摄像头
-    @IBAction func rotateCameraAction(sender: UIButton) {
-        sender.selected = !sender.selected
+    @IBAction func rotateCameraAction(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
         
 //        session.beginConfiguration() // 不用要
         if isGetCameraAccess() {
             do {
                
-                try device.lockForConfiguration()
+                try device?.lockForConfiguration()
                 
                 session.removeInput(input)
-                if sender.selected {
+                if sender.isSelected {
                     input = input_front
 //                    session.removeInput(input_back)
                 }else{
@@ -256,7 +269,7 @@ class MyDefaultCameraVC: UIViewController {
                 }
                 
                 session.addInput(input)
-                device.unlockForConfiguration()
+                device?.unlockForConfiguration()
             }catch{
                 debugPrint("无法锁定拍摄硬件！")
             }
@@ -268,26 +281,26 @@ class MyDefaultCameraVC: UIViewController {
     }
     
     // MARK: 开灯， 不同于torch, 即这是拍照时才开灯的，而前者是直接就开了
-    @IBAction func openLightAction(sender: UIButton) {
+    @IBAction func openLightAction(_ sender: UIButton) {
         
-        sender.selected = !sender.selected
+        sender.isSelected = !sender.isSelected
         
         if !isGetCameraAccess() {
             return
         }
         
         
-        if device.hasFlash {
+        if (device?.hasFlash)! {
             if isGetCameraAccess() {
                 do {
-                    try device.lockForConfiguration()
-                    if sender.selected {
-                        device.flashMode = .On
+                    try device?.lockForConfiguration()
+                    if sender.isSelected {
+                        device?.flashMode = .on
                     }else{
-                        device.flashMode = .Off
+                        device?.flashMode = .off
                     }
                     
-                    device.unlockForConfiguration()
+                    device?.unlockForConfiguration()
                 }catch{
                     debugPrint("无法锁定拍摄硬件！")
                 }
@@ -302,17 +315,17 @@ class MyDefaultCameraVC: UIViewController {
     }
     
    // MARK: 点击屏幕，聚焦；一定要先设置位置，再设置对焦模式。
-    private func doFocusToCurrentPoint(){
+    fileprivate func doFocusToCurrentPoint(){
         
     }
     
     // ------------------------ private ---------------------- //
     //MARK: ---相机权限
-    private func isGetCameraAccess()-> Bool{
+    fileprivate func isGetCameraAccess()-> Bool{
         
-        let authStaus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+        let authStaus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         
-        if authStaus != AVAuthorizationStatus.Denied{
+        if authStaus != AVAuthorizationStatus.denied{
             return true
         }else{
             return false
@@ -321,16 +334,16 @@ class MyDefaultCameraVC: UIViewController {
     
     
     //MARK: ----获取相册权限
-    private func isGetPhotoAccess()->Bool{
+    fileprivate func isGetPhotoAccess()->Bool{
         
         var result = false
-        if  Float(UIDevice.currentDevice().systemVersion) < 8.0{
-            if( ALAssetsLibrary.authorizationStatus() != ALAuthorizationStatus.Denied ){
+        if  Float(UIDevice.current.systemVersion) < 8.0{
+            if( ALAssetsLibrary.authorizationStatus() != ALAuthorizationStatus.denied ){
                 result = true
             }
         }else{
             
-            if ( PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.Denied ){
+            if ( PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.denied ){
                 result = true
             }
         }
@@ -339,7 +352,7 @@ class MyDefaultCameraVC: UIViewController {
     }
     
     // MARK: 更新图片总数
-    private func updateCountLabel(){
+    fileprivate func updateCountLabel(){
         
         if images.count == 0 {
             totalCount.text = ""
@@ -349,18 +362,18 @@ class MyDefaultCameraVC: UIViewController {
     }
 
     // MARK: 改变图片方向
-    private func changeDirectionForImage(image:UIImage) -> UIImage{
+    fileprivate func changeDirectionForImage(_ image:UIImage) -> UIImage{
     
-        if image.imageOrientation == .Up{
+        if image.imageOrientation == .up{
             return image
         }
         
         UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
-        image.drawInRect(CGRectMake(0, 0, image.size.width, image.size.height))
+        image.draw(in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
         
         let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return normalizedImage
+        return normalizedImage!
     }
     
     
