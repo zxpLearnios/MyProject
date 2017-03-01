@@ -12,9 +12,7 @@
 
 import UIKit
 
-class NSDateExtension: NSObject {
 
-}
 
 extension Date {
 
@@ -82,10 +80,9 @@ extension Date {
      *  4. 日历获取在9.x之后的系统使用currentCalendar会出异常。在8.0之后使用系统新API。
      */
     static func getCurrentCalendar() -> Calendar { // calendarIdentifier
-        let x = #selector(getter: NSCalendar.calendarIdentifier)
+        let fun = #selector(getter: NSCalendar.calendarIdentifier)
         
-        
-//        if Calendar.responds(to: x) {
+//        if (Calendar() as NSObject).responds(to: x) {
            return Calendar.init(identifier: Calendar.Identifier.gregorian)
 //        }
     
@@ -119,3 +116,9 @@ extension Date {
     
     
 }
+
+
+
+
+
+

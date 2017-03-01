@@ -179,6 +179,9 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
 //        let imgv = UIImageView.init(image: qrCodeimage)
 //        view.addSubview(imgv)
         
+        // 16. 测试图片浏览器
+        addTestPhotoBrowser()
+        
     }
     
     fileprivate func addScanButton(){
@@ -189,6 +192,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         self.view.addSubview(scanBtn)
         
     }
+    
     fileprivate func addTimeButton(){
         timeBtn.frame = CGRect(x: kwidth - 40, y: 70, width: 40, height: 40)
         timeBtn.setTitle("时间", for: UIControlState())
@@ -253,6 +257,18 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         constranitsBtn.setTitleColor(UIColor.black, for: UIControlState())
         constranitsBtn.addTarget(self, action: #selector(constaintsAction), for: .touchUpInside)
         self.view.addSubview(constranitsBtn)
+        
+    }
+    
+    // MARK: 测试图片浏览器
+    fileprivate func addTestPhotoBrowser(){
+    
+        let  photoBrowserBtn = UIButton()
+        photoBrowserBtn.frame = CGRect(x: 50, y: 370, width: 180, height: 40)
+        photoBrowserBtn.setTitle("图片浏览器", for: .normal)
+        photoBrowserBtn.setTitleColor(UIColor.black, for: .normal)
+        photoBrowserBtn.addTarget(self, action: #selector(photoBrowserBtnAction), for: .touchUpInside)
+        self.view.addSubview(photoBrowserBtn)
         
     }
     
@@ -345,23 +361,32 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         // 测试约束
         let constranitVC = ConstraintVC()
         self.navigationController?.pushViewController(constranitVC, animated: true)
-
+        
+    }
+    
+    // MARK: 图片浏览器
+    @objc fileprivate func photoBrowserBtnAction (){
+        
+        //   测试图片浏览器
+        var ary = [UIImage]()
+        for i in 0...7{
+            let str = "0" + String(i)
+            let img = UIImage.init(named: str)!
+            ary.append(img)
+        }
+        
+//        let fl = UICollectionViewFlowLayout()
+//        fl.scrollDirection = .horizontal
+//        fl.itemSize = CGSize.init(width: 100, height: 100)
+//        fl.minimumLineSpacing = 100
+//        fl.minimumInteritemSpacing = 300
         
         
-//        // 测试图片浏览器
-//        var ary = [UIImage]()
-//        for i in 0...7{
-//            let str = "0" + String(i)
-//            let img = UIImage.init(named: str)!
-//            ary.append(img)
-//        }
-//
-//        
-//        
-//        let view = MyPhotoBrowser.init(frame: kbounds)
-//        view.images = ary
-//        self.view.addSubview(view)
-        
+        let browserVC = MyPhotoBrowserController()
+        browserVC.images = ary
+        browserVC.view.frame = self.view.bounds
+        self.view.addSubview(browserVC.view)
+        self.addChildViewController(browserVC)
     }
     
     // MARK:  添加scroller

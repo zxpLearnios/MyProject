@@ -14,7 +14,7 @@ import WebKit
 class MyGifWebView: UIWebView {
 
     // MARK: 单例, static:表示类用
-    fileprivate static let webView = MyGifWebView()
+    private static let webView = MyGifWebView()
     static let shareInstance:MyGifWebView = {
         return webView
     }()

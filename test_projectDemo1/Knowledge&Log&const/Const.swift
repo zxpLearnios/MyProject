@@ -11,10 +11,21 @@
 import UIKit
 import CoreText
 
+let appDisplayNameKey = "CFBundleDisplayName" // app名字
 let appNameKey = "CFBundleName"
-let  appVersionKey = "CFBundleShortVersionString" // app版本 全部版本号
-let appBundleVersionKey  = "CFBundleVersion" // app build版本 大的版本号
+let  appVersionKey = "CFBundleShortVersionString" // app版本 全部版本号，比如：1.0.1
+let appBundleVersionKey  = "CFBundleVersion" // app build版本 大的版本号，比如：12
 
+/**手机序列号*/
+let phoneSerialNumber = UIDevice.current.identifierForVendor //[[UIDevice currentDevice] uniqueIdentifier]
+/**手机别名： 用户定义的名称*/
+let phoneAliasName = UIDevice.current.name
+/**设备名称*/
+let  deviceName = UIDevice.current.systemName
+/**手机型号*/
+let phoneModel = UIDevice.current.model
+/**地方型号  （国际化区域名称）*/
+let localPhoneModel = UIDevice.current.localizedModel
 
 /*
  1.  Documents：保存应用运行时生成的需要持久化的数据，iTunes同步设备时会备份该目录。例如，游戏应用可将游戏存档保存在该目录

@@ -10,16 +10,20 @@
 
 import UIKit
 
+
+
 class  MyBaseXibViewController:UIViewController {
     
    
     convenience init(){
+        
         let type = NSStringFromClass(type(of: self))
         let name = type.components(separatedBy: ".").last!
         self.init(nibName: name, bundle: nil)
         
     }
     
-    
-    
+    convenience init(_ name:String) {
+        self.init()
+    }
 }

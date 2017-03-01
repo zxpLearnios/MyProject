@@ -20,11 +20,11 @@ import ContactsUI
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
+    var locationManager:CLLocationManager!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
        
-//        MyLog("在APPdelegate里测试打印")
+        MyLog("在APPdelegate里测试打印")
         
         window = UIWindow.init(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
@@ -33,6 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        
 //        let  str = 1234567.980
 //        let newStr = str.formateObjToString(str)
+        
+        var ary:[CGFloat] = [0, 3, 3, 2, 1.3]
+        ary.quickSort(&ary, left: 0, right: 4, isAscending: false)
         
         // 1. 启动画面
         let name = "LaunchVC"
@@ -48,9 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.window?.rootViewController = guideVC
                 
             }else{ // 直接进入首页
-                
                 self.window?.rootViewController = guideVC
-                
             }
 
         }
@@ -71,32 +72,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      */
     fileprivate func isFirstLatestUse() -> Bool{
         
-        let previousVersion = UserDefaults.standard.value(forKeyPath: appVersionKey)
+        let previousVersion = kUserDefaults.value(forKeyPath: appVersionKey)
         let currentVersion = Bundle.main.infoDictionary![appVersionKey] as! String // appVersionKey, appBundleVersionKey
  
         if previousVersion == nil {
-            UserDefaults.standard.setValue(currentVersion, forKey: appVersionKey)
-            UserDefaults.standard.synchronize()
+            kUserDefaults.setValue(currentVersion, forKey: appVersionKey)
+            kUserDefaults.synchronize()
             return true
         }
         return false
     }
    
+    private func noti(_ ary:inout[String], andName name:String = "小狗") {
+        for subAry in ary {
+            debugPrint("这是打印--- \(subAry)")
+        }
+        let a:CGFloat
+        let b:((Int) -> String)?
+        let c  = UnsafeMutablePointer<Int>.init(bitPattern: 1)
+        
+        let vc = UIViewController()
+        Bundle.main.loadNibNamed("", owner: nil, options: nil)
+        
+        
+    }
+    
     
     // MARK: 测试 多线程
     fileprivate func testTreads(){
         
         // 0. 队列 里任务的执行顺序由他们之间的依赖决定
         // 1. 操作队列 -- 主队列，（即相当于串行队列，每次最多执行一个任务；操作都在主线程执行，不会新建线程）
-//        let mainqueue = NSOperationQueue.mainQueue()
+//        let mainqueue = OperationQueue.mainQueue()
 //        
 //        // 创建任务
-//        let operate = NSBlockOperation.init {
-//            debugPrint("operate 执行， 当前线程为\(NSThread.currentThread())")
-//        }
-//        
-//        let operate1 = NSBlockOperation.init {
-//            debugPrint("operate1 执行， 当前线程为\(NSThread.currentThread())")
+        let operate = BlockOperation.init {
+            debugPrint("operate 执行， 当前线程为 \(Thread.current)")
+        }
+//
+//        let operate1 = BlockOperation.init {
+//            debugPrint("operate1 执行， 当前线程为\(Thread.current)")
 //        }
 //        
 //        // 任务之间的依赖，（注意不要循环依赖；可以是不同队列的任务之间的依赖）
@@ -107,19 +122,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        mainqueue.addOperation(operate1)
 //        
 //        // 2. 操作队列 -- 自定义队列，（会新建线程，但不确定到底会创建几个新的线程）
-//        let customequeue = NSOperationQueue()
+//        let customequeue = OperationQueue.init()
 ////        customequeue.op
 //        // 创建任务
-//        let coperate = NSBlockOperation.init {
-//            debugPrint("coperate 执行， 当前线程为\(NSThread.currentThread())")
+//        let coperate = BlockOperation.init {
+//            debugPrint("coperate 执行， 当前线程为\(Thread.current))")
 //        }
 //
-//        let coperate1 = NSBlockOperation.init {
-//            debugPrint("coperate1 执行， 当前线程为\(NSThread.currentThread())")
+//        let coperate1 = BlockOperation.init {
+//            debugPrint("coperate1 执行， 当前线程为\(Thread.current)")
 //        }
 //        
-//        let coperate2 = NSBlockOperation.init {
-//            debugPrint("coperate2 执行， 当前线程为\(NSThread.currentThread())")
+//        let coperate2 = BlockOperation.init {
+//            debugPrint("coperate2 执行， 当前线程为\(Thread.current)")
 //        }
 //        
 //        // 任务之间的依赖，（注意不要循环依赖；可以是不同队列的任务之间的依赖）
@@ -135,23 +150,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 3. GCD
         // 3.1 主队列，也就是UI队列, 即为串行队列，同步操作或异步操作都在主线程进行（都是顺序执行的，每次最多执行一个）但同步操作会阻塞主线程，故无用；异步操作有用
-//        let mainQueue = dispatch_get_main_queue()
-//        dispatch_async(mainQueue) {
-//            debugPrint("moperate1 执行， 当前线程为\(NSThread.currentThread())")
+//        let mainQueue = DispatchQueue.main
+//        mainQueue.async {
 //            
-//            debugPrint("moperate2 执行， 当前线程为\(NSThread.currentThread())")
+//            debugPrint("moperate1 执行， 当前线程为\(Thread.current)")
+//
+//            debugPrint("moperate2 执行， 当前线程为\(Thread.current))")
 //        }
-        
         // 3.2 全局队列  即为并行队列，同步操作在主线程上且顺序执行；异步操作，会新建n个线程，不易管理，故基本不用
-        
-//        let concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0) // 我们用LOW指定队列的优先级，而flag作为保留字段备用，一般为0
-//        dispatch_async(concurrentQueue) {
+        // 优先级：DispatchQoS swift3 
+//        * DISPATCH_QUEUE_PRIORITY_HIGH:         .userInitiated
+//        * DISPATCH_QUEUE_PRIORITY_DEFAULT:      .default
+//        * DISPATCH_QUEUE_PRIORITY_LOW:          .utility
+//        * DISPATCH_QUEUE_PRIORITY_BACKGROUND:   .background
+//        let concurrentQueue = DispatchQueue.global(qos: .default)  //dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0) // 我们用LOW指定队列的优先级，而flag作为保留字段备用，一般为0
+//        concurrentQueue.async {
 //            
-//            debugPrint("globaloperate1 执行， 当前线程为\(NSThread.currentThread())")
+//            debugPrint("globaloperate1 执行， 当前线程为\(Thread.current)")
 //            
-//            debugPrint("globaloperate2 执行， 当前线程为\(NSThread.currentThread())")
+//            debugPrint("globaloperate2 执行， 当前线程为\(Thread.current)")
 //        }
-        
         
         // 3.3 自定义串行 并行队列
         
@@ -164,9 +182,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         let time = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-//        dispatch_after(time, dispatch_get_main_queue()) {
+//        DispatchQueue.main.asyncAfter(deadline: time) {
+////            weak var wself = self
 //            self.test() // 此法里的selector会被调用
 //        }
+        DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
+            if let weSelf = self{
+                
+            }
+            self?.test()
+        }
+       
         
 //        self.performSelector(#selector(test), withObject: nil, afterDelay: 2) // 此法里的selector会被调用
         
@@ -239,122 +265,121 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let a2 = TESTStatic()
         debugPrint(a2)
         
-        
+//        isHaveAccessForLocationAndContacts()
         
     }
     
     
     // MARK: 获取位置和通讯录
-    //    func isHaveAccessForLocationAndContacts() {
-    //        // 注意bundle display name 在ios9时需设置和自己的实际名字一样才可以访问通讯录，不然会一直失败，在setting里设置app名字无用，还是一直失败的。 总之，不好找！
-    //
-    //        dispatch_async(dispatch_get_main_queue(), {
-    //
-    //
-    //        })
-    //
-    //
-    //        if #available(iOS 9.0, *) {
-    //            let status = CNContactStore.authorizationStatusForEntityType(.Contacts)
-    //
-    //            if  status == .Denied {
-    //
-    //            }else if status == .Restricted {
-    //
-    //            }else if status == .NotDetermined {
-    //                let  store = CNContactStore.init()
-    //                store.requestAccessForEntityType(.Contacts, completionHandler: {    (granted, error) in
-    //                    if granted {
-    //                        debugPrint("ios9通讯录授权成功！")
-    //                    }else{
-    //                        debugPrint("ios9通讯录授权失败！\(error)")
-    //                    }
-    //                })
-    //
-    //            }else{
-    //                debugPrint("ios9已对通讯录授权")
-    //            }
-    //
-    //
-    //        }
-    //        else { // 非 ios9
-    //            // 1. 通讯录
-    //            let status = ABAddressBookGetAuthorizationStatus()
-    //
-    //            if  status == .Denied { // 拒绝访问
-    //
-    //            }else if status == .Restricted{
-    //
-    //            }else if status == .NotDetermined{ // 不确定 首次访问相应内容会提
-    //                // 创建通讯录
-    //                let  addressBook = ABAddressBookCreateWithOptions(nil, nil) as? ABAddressBookRef
-    //                //                if addressBook == nil {
-    //                //                    return
-    //                //                }
-    //
-    //                // 访问通讯录
-    //                ABAddressBookRequestAccessWithCompletion(addressBook, { (granted, error) in
-    //                    if granted {
-    //                        debugPrint("ios8通讯录授权成功！")
-    //                    }else{
-    //                        debugPrint("ios8通讯录授权失败！\(error)")
-    //                    }
-    //
-    //                })
-    //            }else{ // 应用没有相关权限，且当前用户无法改变这个权限，比如:家长控制
-    //                debugPrint("ios8已对通讯录授权")
-    //            }
-    //
-    //
-    //        }
-    //
-    //        // 2. gps
-    //        /* 为适配iOS8需要配置info.plist文件
-    //         添加以下行：
-    //         NSLocationAlwaysUsageDescription 设为Boolean类型 = YES
-    //         NSLocationWhenInUseUsageDescription 设为Boolean类型 = YES   */
-    //        let gpsStatus = CLLocationManager.authorizationStatus() // 应用gps状态
-    //        // status : 0没有操作 1.无法改变 2拒绝 3允许一直 4 允许打开时
-    //        let flag = CLLocationManager.locationServicesEnabled()// gps功能是否可用
-    //
-    //        if flag == true{
-    //            if gpsStatus == .AuthorizedAlways || gpsStatus == .AuthorizedWhenInUse { // 已经对app授权
-    //
-    //            }else{
-    //                if gpsStatus == .Restricted { // 应用没有相关权限，且当前用户无法改变这个权限，比如:家长控制
-    //
-    //
-    //                }else if gpsStatus == .Denied{ // 禁止访问
-    //
-    //                    //                Config.showAlert(withMessage: "请到设置>隐私>定位打开本应用的权限！")
-    //                    debugPrint("请到设置>隐私>定位打开本应用的权限！")
-    //                }else{ // 刚开始时  不确定
-    //
-    //                }
-    //
-    //            }
-    //        }else{
-    //            Config.showAlert(withMessage: "定位服务不可用！")
-    //            return
-    //        }
-    //
-    //        // 3. 定位
-    //        locationManager = CLLocationManager()
-    //        locationManager.distanceFilter = kCLDistanceFilterNone
-    //        // metersself.manger.delegate = self;
-    //        //申请后台定位权限 必须在info里面配置
-    //        //        locationManager.requestAlwaysAuthorization()
-    //        //=======================================
-    //        //下面这个是iOS9中新增的方法 开启后台定位
-    //        //        locationManager.allowsBackgroundLocationUpdates = true
-    //        
-    //        // 最高质量
-    //        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer //kCLLocationAccuracyBestForNavigation
-    //        locationManager.requestWhenInUseAuthorization() // 只在前台开启定位
-    //        locationManager.startUpdatingLocation() // 不开启就会访问权限了
-    //    
-    //    }
-    
+//     private func isHaveAccessForLocationAndContacts() {
+//            // 注意bundle display name 在ios9时需设置和自己的实际名字一样才可以访问通讯录，不然会一直失败，在setting里设置app名字无用，还是一直失败的。 总之，不好找！
+//    
+//    
+//            DispatchQueue.main.async {
+//                
+//            }
+//    
+//            if #available(iOS 9.0, *) {
+//                let status = CNContactStore.authorizationStatus(for: .contacts)
+//    
+//                if  status == .denied {
+//    
+//                }else if status == .restricted { // 受限制的，比如手机没有这个功能
+//    
+//                }else if status == .notDetermined {
+//                    let  store = CNContactStore.init()
+//                    store.requestAccess(for: .contacts, completionHandler: {    (granted, error) in
+//                        if granted {
+//                            debugPrint("ios9通讯录授权成功！")
+//                        }else{
+//                            debugPrint("ios9通讯录授权失败！\(error)")
+//                        }
+//                    })
+//
+//                }else{
+//                    debugPrint("ios9已对通讯录授权")
+//                }
+//    
+//    
+//            }
+//            else { // 非 ios9
+//                // 1. 通讯录
+//                let status = ABAddressBookGetAuthorizationStatus()
+//    
+//                if  status == .denied { // 拒绝访问
+//    
+//                }else if status == .restricted{ // 受限制的
+//    
+//                }else if status == .notDetermined{ // 不确定 首次访问相应内容会提
+//                    // 创建通讯录
+//                    let  addressBook = ABAddressBookCreateWithOptions(nil, nil) as? ABAddressBook
+//                    //                if addressBook == nil {
+//                    //                    return
+//                    //                }
+//    
+//                    // 访问通讯录
+//                    ABAddressBookRequestAccessWithCompletion(addressBook, { (granted, error) in
+//                        if granted {
+//                            debugPrint("ios8通讯录授权成功！")
+//                        }else{
+//                            debugPrint("ios8通讯录授权失败！\(error)")
+//                        }
+//    
+//                    })
+//                }else{ // 应用没有相关权限，且当前用户无法改变这个权限，比如:家长控制
+//                    debugPrint("ios8已对通讯录授权")
+//                }
+//    
+//    
+//            }
+//    
+//            // 2. gps
+//            /* 为适配iOS8需要配置info.plist文件
+//             添加以下行：
+//             NSLocationAlwaysUsageDescription 设为Boolean类型 = YES
+//             NSLocationWhenInUseUsageDescription 设为Boolean类型 = YES   */
+//            let gpsStatus = CLLocationManager.authorizationStatus() // 应用gps状态
+//            // status : 0没有操作 1.无法改变 2拒绝 3允许一直 4 允许打开时
+//            let flag = CLLocationManager.locationServicesEnabled()// gps功能是否可用
+//    
+//            if flag == true{
+//                if gpsStatus == .authorizedAlways || gpsStatus == .authorizedWhenInUse { // 已经对app授权
+//    
+//                }else{
+//                    if gpsStatus == .restricted { // 应用没有相关权限，且当前用户无法改变这个权限，比如:家长控制
+//    
+//    
+//                    }else if gpsStatus == .denied{ // 禁止访问
+//    
+//                        //                Config.showAlert(withMessage: "请到设置>隐私>定位打开本应用的权限！")
+//                        debugPrint("请到设置>隐私>定位打开本应用的权限！")
+//                    }else{ // 刚开始时  不确定
+//    
+//                    }
+//    
+//                }
+//            }else{
+//                Config.showAlert("定位服务不可用！")
+//                return
+//            }
+//    
+//            // 3. 定位
+//            locationManager = CLLocationManager()
+//            locationManager.distanceFilter = kCLDistanceFilterNone
+////             metersself.manger.delegate = self;
+//            //申请后台定位权限 必须在info里面配置
+//            //        locationManager.requestAlwaysAuthorization()
+//            //=======================================
+//            //下面这个是iOS9中新增的方法 开启后台定位
+//            //        locationManager.allowsBackgroundLocationUpdates = true
+//            
+//            // 最高质量
+//            locationManager.desiredAccuracy = kCLLocationAccuracyKilometer //kCLLocationAccuracyBestForNavigation(最好的用于导航的)
+//            locationManager.requestWhenInUseAuthorization() // 只在前台开启定位
+//            locationManager.startUpdatingLocation() // 若未开启，则就会访问权限了
+//        
+//        }
+//    
 // ----------------------- private -----------------//
     func test() {
         debugPrint("调用了test方法----------------, 当前线程\(Thread.current)")

@@ -13,16 +13,19 @@ import UIKit
 
 class MyProgressHUD: NSObject {
 
-    fileprivate let view = UIView(), titleLab = UILabel(), imgV = UIImageView(), alertWindow = UIWindow.init(frame: kbounds), aniKey = "aniKey_rotation_forImageView"
+    private let view = UIView(), titleLab = UILabel(), imgV = UIImageView(), alertWindow = UIWindow.init(frame: kbounds), aniKey = "aniKey_rotation_forImageView"
     
-    fileprivate let width:CGFloat = 100, fontSize:CGFloat = 15
-    fileprivate var imgWH:CGFloat = 0, onceToken:Int = 0, isShow = false, ani:CAKeyframeAnimation!, isFirstMethod = false // 是否是第一种方式
+    private let width:CGFloat = 100, fontSize:CGFloat = 15
+    private var imgWH:CGFloat = 0, onceToken:Int = 0, isShow = false, ani:CAKeyframeAnimation!, isFirstMethod = false // 是否是第一种方式
     
+    // 当其指向类对象时，并不会添加类对象的引用计数；
+    // 当其指向的类对象不存在时，ARC会自动把weak reference设置为nil；
+    // unowned 不会引起对象引用计数的变化, 不会将之置为nil
     weak var superView:UIView!
     
     /** 第一种方式. 外部传入view非window，只在当前view中显示谈出框 */
     // 重写父类方法
-    fileprivate override init (){
+    private override init (){
         super.init()
     }
     
@@ -85,7 +88,7 @@ class MyProgressHUD: NSObject {
 //    }
     
     // 用于第一种方式的。
-    fileprivate func doInit(){
+    private func doInit(){
        
       //   0.
         isFirstMethod = true
@@ -276,7 +279,7 @@ class MyProgressHUD: NSObject {
      - parameter isForTitleLab: 为图片 还是 文字执行动画
      - parameter enable:        主窗口是否可与用户交互
      */
-    fileprivate func doShowAnimate(_ isForImageView:Bool, isKeyWindowEnable enable:Bool){
+    private func doShowAnimate(_ isForImageView:Bool, isKeyWindowEnable enable:Bool){
         
         isShow = true
         
@@ -334,7 +337,7 @@ class MyProgressHUD: NSObject {
      - parameter enable:        主窗口是否可与用户交互
      
      */
-    fileprivate func doDismissAnimate(isKeyWindowEnable enable:Bool){
+    private func doDismissAnimate(isKeyWindowEnable enable:Bool){
         
         UIView.animate(withDuration: 0.25, animations: {
             self.view.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)

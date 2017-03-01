@@ -3,7 +3,8 @@
 //  QRCode
 //
 //  Copyright zjn © 2015年 ST. All rights reserved.
-//  彩色二维码生成, 二维码的颜色底色皆可自定义   OC版 ，目前swift3照此写还是有问题
+//  最全的二维码生成
+// 彩色二维码生成, 二维码的颜色底色皆可自定义   OC版 ，目前swift3照此写还是有问题
 
 #import <UIKit/UIKit.h>
 

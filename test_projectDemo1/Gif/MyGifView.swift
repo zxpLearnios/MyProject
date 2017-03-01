@@ -23,7 +23,7 @@ class MyGifView: UIImageView {
     
    
     // 2. 方法二
-    fileprivate struct Constans {
+    private struct Constans {
         static let view = MyGifView()
     }
     

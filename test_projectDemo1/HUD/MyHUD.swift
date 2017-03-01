@@ -9,10 +9,10 @@ import PKHUD
 
 class MyHUD: NSObject {
     
-    fileprivate let timeOut = 2.0
+    private let timeOut = 2.0
     
     // MARK: 单例, static:表示类用
-    fileprivate static let shareInstanceObj = MyHUD()
+    private static let shareInstanceObj = MyHUD()
     static let shareInstance:MyHUD = {
         return shareInstanceObj
     }()
@@ -93,7 +93,7 @@ class testPrivate:NSObject {
         super.init()
         
         let obj = MyHUD()
-        obj.timeOut
+//        obj.timeOut
         
     }
 

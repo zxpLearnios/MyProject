@@ -65,16 +65,16 @@ extension Array {
         
         if isAscending { // 升序
             
-            while i < j {
-                
+            while i != j {
+                // 顺序很重要，要先从右边开始找
                 while array[j] >= base && i < j {
                     j -= 1
                 }
-                
+                // /再找左边的
                 while array[i] <= base && i < j {
                     i += 1
                 }
-                
+                // 交换两个数在数组中的位置
                 if i < j {
                     
                     temp = array[i]
@@ -86,7 +86,10 @@ extension Array {
                 }
                 
             }
+            // 确定第left位置处的值，此时是升序，故它是最小值
+            // 确定第i位置处的值，此时是升序，故它肯定 >= 第left位置处的值
             
+            // 此时 i = j,最终将基准数归位
             array[left] = array[i]
             array[i] = base
             
@@ -118,8 +121,8 @@ extension Array {
             
         }
         
-        quickSort(&array, left: left, right: i - 1, isAscending: isAscending)
-        quickSort(&array, left: i + 1, right: right, isAscending: isAscending)
+        quickSort(&array, left: left, right: i - 1, isAscending: isAscending) // /继续处理左边的，这里是一个递归的过程
+        quickSort(&array, left: i + 1, right: right, isAscending: isAscending) // /继续处理左边的，这里是一个递归的过程
         
     }
     
