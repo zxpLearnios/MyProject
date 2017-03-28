@@ -209,7 +209,7 @@
                 <outlet property="cameraView" destination="aOs-0a-1D7" id="gt5-Vg-JTE"/>
                 <outlet property="collectionView" destination="8d5-Lo-Ylv" id="TXy-iv-Xnc"/>
                 <outlet property="currentImgV" destination="yqn-bm-9hy" id="EYW-k4-Xe5"/>
-                <outlet property="totalCount" destination="Fik-eK-W6n" id="4sq-gT-v1r"/>
+                <outlet property="totalCountLab" destination="Fik-eK-W6n" id="PpL-TG-hwG"/>
             </connections>
             <point key="canvasLocation" x="247" y="70"/>
         </view>

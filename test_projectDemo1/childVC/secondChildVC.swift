@@ -23,7 +23,7 @@ class secondChildVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.view.transitionWithType(AnimationType.Cube.rawValue, withSubType: kCATransitionFromLeft, forView: self.view)
+        self.view.transitionWithType(AnimationType.cube.rawValue, subType: kCATransitionFromLeft)
     }
     
     override func didReceiveMemoryWarning() {

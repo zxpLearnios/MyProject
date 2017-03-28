@@ -21,8 +21,8 @@
 //  4. 可以用个属性request来 接收 每次请求时（调用request方法进行请求时）返回的Request实例，以便在合适的地方取消相应的请求；取消所有请求得用manage的方法了，如5.；
 //  5. upload download 此处不需要总的请求
 //  6. 对于取消请求： 需要令 mainRequest =  manager.request(...) / Alamofire.upload(..) / Alamofire.download(...), 之后才可以调用取消网络请求的方法，即须调用Request对象的cancle()才可以取消请求的
-//  7. 当operation有多个任务的时候会自动分配多个线程并发执行,
-//如果只有一个任务，会自动在主线程同步执行
+//  7. 当operation有多个任务的时候会自动分配多个线程并发执行,如果只有一个任务，会自动在主线程同步执行
+//  8. 压缩图片，改变图片的尺寸以及所占存储的空间
 
 
 import UIKit
@@ -604,17 +604,20 @@ class MyBaseNetWorkRequest: NSObject {
     }
     
     /**
-      7. JPEG方式 压缩图片
+      7. JPEG方式 图片压缩图片  改变了图片所占存储空间的大小
      - parameter image:     要压缩的图片
      - parameter sizeLimit: 压缩后的图片最大为？M ，外界直接传入几M即可
      - returns: 压缩后的图片二进制数据
+     -  此法在 解压缩 UIImage.init(data: <#T##Data#>) 时  会耗费性能，且最终的图片会多多少少的失真
      */
     func compressImage(_ image: UIImage, imageSizeLimit sizeLimit:Double) -> Data? {
         let compressScale:[CGFloat] = [0.5, 0.1, 0.05, 0.01, 0.001] // 不同的压缩纬度
         var imageData:Data?
-        
+       
         for i in 0..<compressScale.count {
+            // 此法在解压缩 UIImage.init(data: <#T##Data#>)时会耗费性能,
             imageData = UIImageJPEGRepresentation(image, compressScale[i])
+            // UIImagePNGRepresentation(image) // 此法比什么的方法，压缩出来的图片要大些
             
             if imageData != nil{
                 // 如果图片压缩后大小符合要求，则返回图片
@@ -632,8 +635,9 @@ class MyBaseNetWorkRequest: NSObject {
         return imageData
     }
     
-    /**
-     8.  手动实现图片压缩，按照大小进行比例压缩，改变了图片的尺寸； 可以再调用 6. 对此中得到的图片进行压缩，返回压缩后的图片二进制数据
+    
+    /**  压缩图片
+     8.  手动实现图片压缩，按照大小进行比例压缩，改变了图片的尺寸以及图片所占存储空间的大小，尺寸变大则图片所占存储空间也变大，反之亦然
      - parameter scale: 压缩比例， 如由100*100压缩为10*10，则scale = 0.1
      */
     func compressImage(_ image: UIImage, scale: CGFloat) -> UIImage {
@@ -641,7 +645,7 @@ class MyBaseNetWorkRequest: NSObject {
         var newImage:UIImage!
         let imageSize = CGSize(width: image.size.width * scale, height: image.size.height * scale)
         
-        if (image.size.width != imageSize.width || image.size.height != imageSize.height){
+        if (image.size.width != imageSize.width && image.size.height != imageSize.height){
     
             UIGraphicsBeginImageContext(imageSize)
             let imageRect = CGRect(x: 0.0, y: 0.0, width: imageSize.width, height: imageSize.height)
@@ -651,12 +655,10 @@ class MyBaseNetWorkRequest: NSObject {
             UIGraphicsEndImageContext()
         }else{
             newImage = image
-        
         }
         return newImage
     }
     
-   
 }
 
 // -----------------------  8. 下拉、上拉加载数据 --------------------- //

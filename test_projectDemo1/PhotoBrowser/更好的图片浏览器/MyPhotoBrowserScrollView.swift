@@ -11,6 +11,8 @@
     4. 将之禁止与用户交互，这样将它加入cell后，此cell的TableView或COllectionView就可以被点击，可以相应自身的didSelectRowAt、didSelectItemAt了。
     5. 在drawRect里加单击、双击手势或者在touchBegan里根据单击的count数类判断是单击还是双击
  
+   6. CGAffineTransformMakeRotation(CGFloat angle)不同的是这个方法可以叠加其他CGAffineTransform效果
+   7.  此时不管在谁上面加旋转手势都是没用的
  {
  layoutSubviews方法：这个方法，默认没有做任何事情，需要子类进行重写
  setNeedsLayout方法： 标记为需要重新布局，异步调用layoutIfNeeded刷新布局，不立即刷新，但layoutSubviews一定会被调用
@@ -32,6 +34,7 @@ class MyPhotoBrowserScrollView: UIScrollView, UIScrollViewDelegate {
     private var originImageViewFrame = CGRect.zero // 记录图片原来的frame，以便在缩放后的恢复
     
     private let animateTime = 0.2
+    private var lastRoration:CGFloat = 0.0
     
     var image:UIImage! {
         didSet{
@@ -47,7 +50,7 @@ class MyPhotoBrowserScrollView: UIScrollView, UIScrollViewDelegate {
         self.minimumZoomScale = 0.5 //设置最小缩放系数
         self.maximumZoomScale = 2.0 //设置最大缩放系数
         
-//        self.isMultipleTouchEnabled = true
+        self.isMultipleTouchEnabled = true
 //        self.isUserInteractionEnabled = true
         self.backgroundColor = UIColor.clear
         self.isScrollEnabled = true
@@ -67,8 +70,10 @@ class MyPhotoBrowserScrollView: UIScrollView, UIScrollViewDelegate {
         //这行很关键，意思是只有当没有检测到doubleTapGestureRecognizer 或者 检测doubleTapGestureRecognizer失败，singleTapGestureRecognizer才有效
         tapSingle.require(toFail: tapDouble)
         
-        self.addGestureRecognizer(tapSingle)
-        self.addGestureRecognizer(tapDouble)
+//        self.addGestureRecognizer(tapSingle)
+//        self.addGestureRecognizer(tapDouble)
+        
+        
     }
     
      // ------------------ public ---------------- //
@@ -78,37 +83,12 @@ class MyPhotoBrowserScrollView: UIScrollView, UIScrollViewDelegate {
             self.zoomScale = 1.0
         }
         self.contentSize = CGSize.zero
+        // 不要亦可
         imgView.frame = originImageViewFrame
     }
     
     
     // ------------------ private ---------------- //
-    
-    // MARK:  单击
-    @objc private func singleTapAction(){
-        
-        if photoBrowserScrollViewDelegate != nil {
-            photoBrowserScrollViewDelegate.didClickPhotoBrowserScrollView!(self)
-        }
-//        debugPrint("图片浏览器上面的scroller的单击手势：\(tapSingle)")
-    }
-    
-    // MARK:  双击
-    @objc private func doubleTapAction(){
-        
-        if self.zoomScale != 1 { // 处于放大或缩小状态时，都复原
-            UIView.animate(withDuration: animateTime, animations: {
-                self.zoomScale = 1
-            })
-            
-        }else{ // 让其放大
-            UIView.animate(withDuration: animateTime, animations: {
-                self.zoomScale = self.maximumZoomScale
-            })
-        }
-//        debugPrint("图片浏览器上面的scroller的双击手势：\(tapDouble)")
-    }
-    
     private func addImageView(){
         imgView.image = image
         
@@ -145,27 +125,78 @@ class MyPhotoBrowserScrollView: UIScrollView, UIScrollViewDelegate {
         self.addSubview(imgView)
         
         originImageViewFrame = imgView.frame
+        
     }
+    
+
+    
+    // MARK:  单击
+    @objc private func singleTapAction(){
+        
+        if photoBrowserScrollViewDelegate != nil {
+            photoBrowserScrollViewDelegate.didClickPhotoBrowserScrollView!(self)
+        }
+        
+    }
+    
+    // MARK:  双击
+    @objc private func doubleTapAction(){
+        
+        if self.zoomScale != 1 { // 处于放大或缩小状态时，都复原
+            UIView.animate(withDuration: animateTime, animations: {
+                self.zoomScale = 1
+            })
+            
+        }else{ // 让其放大
+            UIView.animate(withDuration: animateTime, animations: {
+                self.zoomScale = self.maximumZoomScale
+            })
+        }
+
+    }
+    
+    // MARK:  旋转
+//    @objc private func rotateAction(rotate:UIRotationGestureRecognizer){
+//        
+//        let absRotation = Double(abs(rotate.rotation))
+//        
+//        var endPositin = 0.0 // 图片旋转后，停留的角度位置
+//        let t = CGAffineTransform.identity
+//        
+//        
+//        if rotate.state == .began || rotate.state == .changed{
+//            
+//            imgView.transform = t.rotated(by: rotate.rotation)
+//        }else if rotate.state == .ended || rotate.state == .cancelled{
+////            if absRotation % (M_PI * 2) >= 0.0 && absRotation <= M_PI_4 {
+////                endPositin =
+////            }
+//            
+//            lastRoration += rotate.rotation
+//        }
+//        
+//
+//    }
     
     
     // MARK:  单击、双击手势
-//    private override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        let touch = ((touches as NSSet).anyObject()) as! UITouch
-//        
-//        let count = touch.tapCount
-//        
-//        if count == 1{
-//            // 取消双击
-//            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(doubleTapAction), object: nil)
-//            // 开始单击 这里必须延迟一会
-//            self.perform(#selector(singleTapAction), with: nil, afterDelay: 0.1)
-//        }else if count == 2{
-//            // 取消单击
-//            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(singleTapAction), object: nil)
-//             // 开始双击
-//            self.perform(#selector(doubleTapAction), with: nil, afterDelay: 0)
-//        }
-//    }
+    internal override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = ((touches as NSSet).anyObject()) as! UITouch
+        
+        let count = touch.tapCount
+        
+        if count == 1{
+            // 取消双击
+            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(doubleTapAction), object: nil)
+            // 开始单击 这里必须延迟一会
+            self.perform(#selector(singleTapAction), with: nil, afterDelay: 0.1)
+        }else if count == 2{
+            // 取消单击
+            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(singleTapAction), object: nil)
+             // 开始双击
+            self.perform(#selector(doubleTapAction), with: nil, afterDelay: 0)
+        }
+    }
     
     // ---------------------UIScrollViewDelegate--------------------
     // MARK:  当scrollView缩放时，调用该方法。在缩放过程中，缩放过程中动态计算图片的frame，会多次调

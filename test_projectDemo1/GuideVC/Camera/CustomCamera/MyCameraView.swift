@@ -4,15 +4,15 @@
 //
 //  Created by Jingnan Zhang on 16/7/26.
 //  Copyright © 2016年 Jingnan Zhang. All rights reserved.
-//
+//  拍照
 
 import UIKit
-import GPUImage
+import GPUImage // OC第三方
 import Photos
 import AssetsLibrary
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+private func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l < r
@@ -23,12 +23,11 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
-//import AVFoundation
-//import CoreMedia
-//import CoreVideo
-//import OpenGLES
-//import QuartzCore
+import AVFoundation
+import CoreMedia
+import CoreVideo
+import OpenGLES
+import QuartzCore
 
 
 class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -39,15 +38,18 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     
     @IBOutlet weak var currentImgV: UIImageView!
     
-    @IBOutlet weak var totalCount: MyLabel!
+    @IBOutlet weak var totalCountLab: MyLabel!
     
-    let cellId = "MyCaptureCell"
+    private let cellId = "MyCaptureCell"
 //    private var camera:GPUImageVignetteFilter!
-    fileprivate var   videoCamera:GPUImageVideoCamera!, customFilter:GPUImageFilter!, filteredVideoView:GPUImageView!
-    fileprivate var   stillCamera:GPUImageStillCamera!, stillFilter:GPUImageBilateralFilter!, captrueView:GPUImageView!, filterGroup:GPUImageFilterGroup!
+    // 录像机
+    private var   videoCamera:GPUImageVideoCamera!, customFilter:GPUImageFilter!, filteredVideoView:GPUImageView!
+    // 照相机
+    private var   stillCamera:GPUImageStillCamera!, stillFilter:GPUImageBilateralFilter!, captrueView:GPUImageView!, filterGroup:GPUImageFilterGroup!
     
-    fileprivate var images = [UIImage](), timer:Timer!
+    private var images = [UIImage](), timer:Timer!
     
+    /** 点击屏幕聚焦时的动画 */
     lazy var focusView:UIView = {
         let fv = UIView()
         fv.backgroundColor = UIColor.clear
@@ -58,27 +60,37 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
         return fv
     }()
 
-    
+    /** 获取自己 */
     class func getSelf(withFrame frame:CGRect) -> MyCameraView{
         let  view = Bundle.main.loadNibNamed("MyCameraView", owner: nil, options: nil)?.last as! MyCameraView
         view.frame = frame
         view.collectionView.delegate = view
         view.collectionView.dataSource = view
+        
+        view.doInit() // 不要延迟执行，否则后面会找不到cell，crash掉
         return view
     }
     
+    /** 将要添加到父view */
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+    }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        let time = DispatchTime.now() + Double(Int64(0.3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+    
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        let time = DispatchTime.now() + Double(Int64(0.2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        
         DispatchQueue.main.asyncAfter(deadline: time) {
             self.doInitCaptrue()
         }
         
         self.updateCountLabel()
-        self.doInit() // 不要延迟执行，否则后面会找不到cell，crash掉
+
     }
-    
+        
     override func layoutSubviews() {
         super.layoutSubviews()
 //        self.doInitCaptrue()
@@ -86,10 +98,10 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
 //        doInit()
     }
     
-    fileprivate func doInit(){
-        
-        collectionView.register(UINib.init(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
-    }
+    
+    /**
+     *  初始化录像机
+     */
 //    private func doInitVedio ()  {
 //        
 //        videoCamera = GPUImageVideoCamera.init(sessionPreset: AVCaptureSessionPresetPhoto, cameraPosition: .Back)
@@ -114,8 +126,10 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
 //    }
     
     
-    
-    fileprivate func doInitCaptrue(){
+    /**
+     * 初始化照相机
+     */
+    private func doInitCaptrue(){
             
         stillCamera = GPUImageStillCamera.init(sessionPreset: AVCaptureSessionPresetPhoto, cameraPosition: .back)
         
@@ -124,10 +138,10 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
         stillFilter = GPUImageBilateralFilter.init()
         filterGroup = GPUImageFilterGroup.init()
         
-        // 1.1
-//        stillCamera.addTarget(stillFilter)
+        // 1.1 第一种
+        stillCamera.addTarget(stillFilter)
         
-        // 1.2
+        // 1.2  第二种
 //        stillCamera.addTarget(filterGroup)
 //        filterGroup.addTarget(stillFilter)
         
@@ -135,10 +149,10 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
         captrueView = GPUImageView.init(frame: frame)
         captrueView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill
         self.addSubview(captrueView)
-        // 2.1
+        // 2.1  第一种
         stillCamera.addTarget(captrueView) // 直接加即可， 而不是先加filter，再让filter加captrueView
         
-        // 2.2
+        // 2.2 第二种
 //        stillFilter.addTarget(captrueView)
 //        filterGroup.addTarget(captrueView) // 不能设置
         
@@ -152,6 +166,11 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
         // 2.  加点击view
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(tapAction))
         captrueView.addGestureRecognizer(tap)
+    }
+    
+    private func doInit(){
+        
+        collectionView.register(UINib.init(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
     }
     
     
@@ -180,12 +199,12 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     @IBAction func openLightAction(_ sender: UIButton) {
         
         if !isGetCameraAccess() {
-            print("没有相机权限，请到设置->隐私中开启本程序相机权限")
+            debugPrint("没有相机权限，请到设置->隐私中开启本程序相机权限")
         }else{
             sender.isSelected = !sender.isSelected
             let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
             if device == nil {
-                print("可能是模拟器,故无法获取硬件信息！")
+                debugPrint("可能是模拟器,故无法获取硬件信息！")
                 return
             }
             
@@ -205,49 +224,89 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     
     // MARK: 去相册
     @IBAction func albumAction(_ sender: UIButton) {
-//        if !isGetPhotoAccess() {
-//            print("没有相册权限，请到设置->隐私中开启本程序相册权限")
-//        }else{ // 进入相册
-//            
-//            let picker = MyImagePickerController.getSelf(nil)
-//            
-//            
-//            let vc = MyAlbumViewController()
-//            let nav = MyCustomNav.init(rootViewController: vc)
-//            nav.pushViewController(picker, animated: false)
-//            
-//            kAppDelegate.window?.rootViewController!.presentViewController(nav, animated: true, completion: nil)
-//        }
-        
-    }
-
-    
-    // MARK: 拍照 processedImage: 加工过的图片
-    fileprivate func takePhoto() {
-        
-        let currentFilter = stillCamera.targets().last as! GPUImageOutput
-        stillCamera.capturePhotoAsImageProcessedUp(toFilter: currentFilter) { (processedImage, error) in
-            if error != nil {
-                print("takePhotoError:\(error)")
-            } else {
-                if processedImage != nil {
-                    self.currentImgV.image = processedImage
-                    self.images.append(processedImage!)
-                    
-                    DispatchQueue.main.async(execute: {
-                        // 保存图片
-                        UIImageWriteToSavedPhotosAlbum(processedImage!, self, #selector(self.saveImageToAlbum(_:didFinishSavingWithError:contextInfo:)), nil)
-                    })
-                    
-                }
-            }
-            self.updateCountLabel()
+        if !isGetPhotoAccess() {
+            debugPrint("没有相册权限，请到设置->隐私中开启本程序相册权限")
+        }else{ // 进入相册
+            
+            let picker = MyImagePickerController.getSelf(nil)
+            
+            let vc = MyAlbumViewController()
+            let nav = MyCustomNav.init(rootViewController: vc)
+            nav.pushViewController(picker, animated: false)
+            
+            kAppDelegate.window?.rootViewController!.present(nav, animated: true, completion: nil)
         }
         
     }
 
+    
+    // MARK: 拍照 processedImage: 加工过的图片。 2次拍照间隔太短时，容易造成内存溢出
+    private func takePhoto() {
+        
+        
+        // 刚开始时，stillCamera.addTarget(stillFilter), stillCamera.addTarget(captrueView), 只有点击下面的collectionCell时，stillCamera.addTarget先removeAllTargets, 之后再新加一个，故
+        let currentFilter = self.stillCamera.targets().first  as! GPUImageOutput
+        var pImage:UIImage?
+        
+        // 在并行队列中异步获取数据后, 再回到主队列更新UI
+        DispatchQueue.global().sync {
+            
+            self.stillCamera.capturePhotoAsImageProcessedUp(toFilter: currentFilter) { (processedImage, error) in
+                if error != nil {
+                    debugPrint("takePhotoError:\(error)")
+                    return
+                } else {
+                    if processedImage != nil {
+                        pImage = processedImage!
+                    }else{
+                        debugPrint("processedImage----为nil")
+                        return
+                    }
+                }
+                
+                
+            DispatchQueue.main.async {
+                
+                self.currentImgV.image = pImage
+                self.images.append(processedImage!)
+                self.updateCountLabel()
+                // 保存图片
+//                UIImageWriteToSavedPhotosAlbum(pImage!, self, #selector(self.saveImageToAlbum(_:didFinishSavingWithError:contextInfo:)), nil)
+            }
+            
+        }
+    }
+        
+        
+//        DispatchQueue.main.sync { // global()
+//            
+//            
+//            
+//            
+//            self.stillCamera.capturePhotoAsImageProcessedUp(toFilter: currentFilter) { (processedImage, error) in
+//                if error != nil {
+//                    print("takePhotoError:\(error)")
+//                } else {
+//                    if processedImage != nil {
+//                        self.currentImgV.image = processedImage
+//                        self.images.append(processedImage!)
+//                        
+//                        // 保存图片
+////                        DispatchQueue.main.async(execute: {
+////                            UIImageWriteToSavedPhotosAlbum(processedImage!, self, #selector(self.saveImageToAlbum(_:didFinishSavingWithError:contextInfo:)), nil)
+////                        })
+//                        
+//                    }
+//                }
+//            }
+//        }
+        
+        
+        
+    }
+
     // MARK: 点击事件
-   @objc fileprivate func tapAction(_ tap: UITapGestureRecognizer) {
+   @objc private func tapAction(_ tap: UITapGestureRecognizer) {
         
         switch tap.state {
             
@@ -255,8 +314,8 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
             let point = tap.location(in: cameraView)
             doFocusToCurrentPoint(point)
             break
-        case .ended, .failed, .cancelled:
-            debugPrint("点击手势结束！")
+        case  .failed, .cancelled:
+            debugPrint("点击手势 失败\\取消！")
             break
         default:
         break
@@ -265,7 +324,7 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // MARK: 点击屏幕，聚焦；一定要先设置位置，再设置对焦模式。
-    fileprivate func doFocusToCurrentPoint(_ point:CGPoint){
+    private func doFocusToCurrentPoint(_ point:CGPoint){
         let  size = cameraView.bounds.size
         let  focusPoint = CGPoint(x: point.y / size.height, y: 1-point.x / size.width )
         
@@ -300,7 +359,6 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     
 
     // MARK: UICollectionViewDataSource
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 8
     }
@@ -319,7 +377,7 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     // ------------------------  private ------------------------ //
 
     //MARK: ---相机权限
-    fileprivate func isGetCameraAccess()-> Bool{
+    private func isGetCameraAccess() -> Bool{
 
         let authStaus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
 
@@ -332,7 +390,7 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     
     
     //MARK: ----获取相册权限
-    fileprivate func isGetPhotoAccess()->Bool{
+    private func isGetPhotoAccess() -> Bool{
         
         var result = false
         if  Float(UIDevice.current.systemVersion) < 8.0{
@@ -350,18 +408,17 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // MARK: 更新图片总数
-    fileprivate func updateCountLabel(){
+    private func updateCountLabel(){
         
         if images.count == 0 {
-            totalCount.text = ""
+            totalCountLab.text = ""
         }else{
-            totalCount.text = String(images.count)
+            totalCountLab.text = String(images.count)
         }
     }
     
     // MARK: 更新fliter
-    fileprivate func updateFilterGroup(atIndex index:Int){
-        
+    private func updateFilterGroup(atIndex index:Int){
         
         stillCamera.removeAllTargets()
 //        filterGroup.removeAllTargets()
@@ -400,7 +457,6 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
         case 5:
             let  filter =  GPUImageMosaicFilter()  //素描
             
-            
             stillCamera.addTarget(filter)
             filter.addTarget(captrueView)
         default:
@@ -418,7 +474,7 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // MARK: 保存图片到相册的结果
-    @objc fileprivate func saveImageToAlbum(_ image:UIImage, didFinishSavingWithError error:NSError?, contextInfo:UnsafeMutableRawPointer){
+    @objc private func saveImageToAlbum(_ image:UIImage, didFinishSavingWithError error:NSError?, contextInfo:UnsafeMutableRawPointer){
         if error != nil {
             hud.showPromptText("保存图片失败！")
         }else{
@@ -427,7 +483,7 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // MARK: 点击屏幕聚焦时的动画
-    fileprivate func doAnimateForFoucus(atPoint point:CGPoint){
+    private func doAnimateForFoucus(atPoint point:CGPoint){
         stopTimer()
         focusView.removeFromSuperview()
         
@@ -445,24 +501,27 @@ class MyCameraView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     // MARK: 定时器的
-    @objc fileprivate func timeActionForFocus(){
+    @objc private func timeActionForFocus(){
         self.focusView.removeFromSuperview()
         self.focusView.transform = CGAffineTransform.identity
     }
     
-    fileprivate func stopTimer(){
+    private func stopTimer(){
         if timer != nil {
             timer.invalidate()
             timer = nil
         }
        
     }
-    fileprivate func startTimer(){
+    
+    private func startTimer(){
         timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timeActionForFocus), userInfo: nil, repeats: false)
     }
     
     deinit{
         // 全部置空
     }
+    
+    
     
 }

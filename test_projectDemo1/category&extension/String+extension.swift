@@ -51,7 +51,7 @@ extension String{
     }
     
     /**
-     将纯数字的字符串不足2位小数的补充，其余的不管。
+     将纯数字的字符串不足2位小数的补充0，其余的不管。
      */
     static func toNewFormatr(_ str:String) -> String{
         var lastStr = ""

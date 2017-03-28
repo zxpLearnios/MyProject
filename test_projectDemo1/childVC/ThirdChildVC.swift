@@ -28,7 +28,7 @@ class ThirdChildVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.view.transitionWithType(AnimationType.SuckEffect.rawValue, withSubType: kCATransitionFromTop, forView: self.view)
+        self.view.transitionWithType(AnimationType.suckEffect.rawValue, subType: kCATransitionFromTop)
     }
 
 }

@@ -243,6 +243,10 @@ class MyPhotoBrowserCollectionViewCell: UICollectionViewCell {
             self.contentView.addSubview(scroller)
         }
         scroller.image = image
+        
+        self.contentView.isMultipleTouchEnabled = true
+        
+        
     }
     
     

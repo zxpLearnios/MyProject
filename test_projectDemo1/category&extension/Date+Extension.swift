@@ -55,7 +55,7 @@ extension Date {
      *  NSDateFormatter的格式化时间的时区默认系统当前时区
      *  NSDate存储的时间格式为UTC时间,默认会将NSDate时间以系统当前时区（北京时区)转为UTC标准时间
      *  每次输出时间都应该指定目的时区的    GMT：格林尼治时间  UTC：世界标准时间
-     *  时差是相对的而时间绝对，时区转换中NSDate是不需要变化的因为时间没有变，只是显示的时间改变，只需要改变NSDateFormatter关于时间12进制与24进制转换的部分下次补上
+     *  时差是相对的而时间是绝对的，时区转换中NSDate是不需要变化的因为时间没有变，只是显示的时间改变，只需要改变NSDateFormatter关于时间12进制与24进制转换的部分
      *  传入的时间字符串默认的是 系统默认的格林尼治时区，故由此字符串得出的NSDate比传入的时间字符串的实际值早8小时
      */
     static func formatDateString(_ dateStr:String, byFormatter:String) -> Date? {

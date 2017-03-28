@@ -16,6 +16,10 @@ extension UIWebView{
      */
     func loadGif(withGifName name:String) {
         
+        // 设置自己的背景色
+        backgroundColor = nil
+        
+        //
         let gifurl = Bundle.main.url(forResource: name, withExtension: "gif")
         
         if  gifurl == nil {
@@ -25,7 +29,8 @@ extension UIWebView{
         // 读取gif数据
         let gifData = try? Data.init(contentsOf: gifurl!)
         
-        //取消回弹效果
+        // 取消回弹效果
+        self.paginationBreakingMode = .page
         self.scrollView.bounces = false
         self.isUserInteractionEnabled = false
         
@@ -33,11 +38,11 @@ extension UIWebView{
         self.scalesPageToFit = true
 //        self.gapBetweenPages = 0
 //        self.pageLength = 0
-//        self.paginationMode = .Unpaginated
+//        self.paginationMode = .unpaginated
         
         // 用webView加载数据
-        let textEncodingName = "" // "UTF-8"
-        let baseUrl = URL.init(string: "")! // NSBundle.mainBundle().bundleURL
+        let textEncodingName = "UTF-8" // "UTF-8"
+        let baseUrl = Bundle.main.bundleURL //URL.init(string: "")!
         self.load(gifData!, mimeType: "image/gif", textEncodingName: textEncodingName, baseURL: baseUrl)
     
     }

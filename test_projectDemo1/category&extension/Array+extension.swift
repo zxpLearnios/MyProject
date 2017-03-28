@@ -46,7 +46,7 @@ extension Array {
     
     
     /**
-     1. 快速排序, 传入起点、结束点, 里面可以有相等的数字
+     1. 快速排序, 传入起点位置、结束点位置, 里面可以有相等的数字
      * 升序、 倒序
      */
     func quickSort(_ array:inout [CGFloat], left:Int, right:Int, isAscending:Bool){

@@ -13,25 +13,25 @@ import UIKit
 enum AnimationType:String {
     
     /** 以下的由transitionWithType方法实现 */
-    case Fade = "fade",                  //淡入淡出 kCATransitionFade
-    Push = "push",                       //推挤  kCATransitionPush
-    Reveal = "reveal",                     //揭开  kCATransitionReveal
-    MoveIn = "moveIn",                     //覆盖  kCATransitionMoveIn
+    case fade = "fade",                  //淡入淡出 kCATransitionFade
+    push = "push",                       //推挤  kCATransitionPush
+    reveal = "reveal",                     //揭开  kCATransitionReveal
+    moveIn = "moveIn",                     //覆盖  kCATransitionMoveIn
     
-    Cube = "cube",                       //立方体
-    SuckEffect = "suckEffect",                 //吮吸
-    OglFlip = "oglFlip",                    //翻转
-    RippleEffect = "rippleEffect",               //波纹
-    PageCurl = "pageCurl",                   //翻页
-    PageUnCurl = "pageUnCurl",                 //反翻页
-    CameraIrisHollowOpen = "cameraIrisHollowOpen",       //开镜头
-    CameraIrisHollowClose = "cameraIrisHollowClose",      //关镜头
+    cube = "cube",                       //立方体
+    suckEffect = "suckEffect",                 //吮吸
+    oglFlip = "oglFlip",                    //翻转
+    rippleEffect = "rippleEffect",               //波纹
+    pageCurl = "pageCurl",                   //翻页
+    pageUnCurl = "pageUnCurl",                 //反翻页
+    cameraIrisHollowOpen = "cameraIrisHollowOpen",       //开镜头
+    cameraIrisHollowClose = "cameraIrisHollowClose",      //关镜头
     
     /**  以下的由animationWithView方法实现 */
-    CurlDown = "CurlDown",                   //下翻页
-    CurlUp = "CurlUp",                     //上翻页
-    FlipFromLeft = "FlipFromLeft",               //左翻转
-    FlipFromRight = "FlipFromRight"             //右翻转
+    curlDown = "CurlDown",                   //下翻页
+    curlUp = "CurlUp",                     //上翻页
+    flipFromLeft = "FlipFromLeft",               //左翻转
+    flipFromRight = "FlipFromRight"             //右翻转
     
 }
 
@@ -90,7 +90,7 @@ extension UIView{
     /**
      这是用CATransition动画实现, 效果更好; 注意subType(就那4种)不能==type， 不然系统默认没动画效果了，并且有些subType、type的搭配也没效果
      */
-    func transitionWithType(_ type:String,withSubType subType:String,forView view:UIView){
+    func transitionWithType(_ type:String, subType:String){
         
         let animation = CATransition()
         
@@ -99,25 +99,25 @@ extension UIView{
         animation.type = type
         if (!subType.isEmpty) {
             //设置子类
-            animation.subtype = subType;
+            animation.subtype = subType
         }
         //设置运动速度
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        view.layer.add(animation, forKey: "animation")
+        self.layer.add(animation, forKey: "animation")
     }
     
     // 提醒作用
-//    @available(iOS, introduced=8.0, deprecated=8.0, message="这是UIView实现的动画， 效果不如transitionWithType方法; 控制器view的动画需要在viewDidAppear里做")
+//    @available(iOS 8.0, *)
     
     /**
       这是用UIView实现动画，
      */
-    func animationWithView(_ view:UIView,withAnimationTransition transition:UIViewAnimationTransition){
+    func animationWith(_ transition:UIViewAnimationTransition){
         
         UIView.animate(withDuration: viewTransitionDuration, animations: {
             
-            UIView.setAnimationCurve(UIViewAnimationCurve.linear)
-            UIView.setAnimationTransition(transition, for: view, cache: true)
+            UIView.setAnimationCurve(.linear)
+            UIView.setAnimationTransition(transition, for: self, cache: true)
             
         })
     }

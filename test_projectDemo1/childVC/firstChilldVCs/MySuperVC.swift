@@ -42,7 +42,7 @@ class MySuperVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated) // kCATransitionFade  kCATransitionPush kCATransitionReveal kCATransitionMoveIn
         
-        self.view.transitionWithType(AnimationType.RippleEffect.rawValue, withSubType: kCATransitionReveal, forView: self.view)
+        self.view.transitionWithType(AnimationType.rippleEffect.rawValue, subType: kCATransitionReveal)
     }
     
     @objc fileprivate func refreshAction(){

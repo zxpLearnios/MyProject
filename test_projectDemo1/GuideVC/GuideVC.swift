@@ -34,10 +34,11 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     var vedioPlayer:MyVideoPlayerView! // 视频
     var qrCodeView:MyQrCodeCreatView! // 二维码生成view
     var qrCodeScanView:MyQrCodeScanView! // 二维码扫描
-    
-      var  cameraView:MySystemCamareVC! // 拍照  MyCameraView MyDefaultCameraVC  MySystemCamareVC
+    // 拍照
+      var  cameraView:MySystemAlbumVC!  // MyCameraView MyDefaultCameraVC  MySystemAlbumVC
     
     var request:MyBaseNetWorkRequest!
+    var bannerView:MyBannerView!
     
     
     
@@ -110,15 +111,15 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
 //        bgimageV.kf_setImageWithURL(url)
         
         // 9.   gif
-        let gifView = MyGifView.shareInstance
-        let fm = CGRect(x: 100, y: 100, width: 100, height: 100)
-        gifView.frame = fm
-        gifView.showGifWithNoSuffixName(gifName: "test")
+//        let gifView = MyGifView.shareInstance
+//        let fm = CGRect(x: 100, y: 100, width: 100, height: 100)
+//        gifView.frame = fm
+//        gifView.showGifWithNoSuffixName(gifName: "test")
 //        self.view.addSubview(gifView)
         
-        let gv = MyGifView.shareInstance
-        let gifWebView = MyGifWebView.init(frame:CGRect(x: 10, y: 100, width: 200, height: 200))
+//        let gifWebView = MyGifWebView.init(frame:CGRect(x: 10, y: 100, width: 200, height: 200))
 //        gifWebView.loadGif(withGifName: "test")
+//        view.addSubview(gifWebView)
         
 //        let gifPath = NSBundle.mainBundle().URLForResource("test.gif", withExtension: nil)
 //        
@@ -182,7 +183,22 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         // 16. 测试图片浏览器
         addTestPhotoBrowser()
         
+        // 17. 测试利用CIImage来 不失真的放大图片
+//        let imgV = UIImageView.init(image: newImg)
+//        imgV.center = kcenter
+//        view.addSubview(imgV)
+        
+        // 18. 点击按钮弹出键盘，必须实现初始化一个textField或textView 来作为响应者
+        addPopKeyboardByClickButton()
+        
+        // 19. 测试bannerView
+        
+        bannerView = MyBannerView.init(frame: CGRect.init(x: 0, y: 100, width: kwidth, height: 170))
+        view.addSubview(bannerView)
+        
     }
+    
+    
     
     fileprivate func addScanButton(){
         scanBtn.frame = CGRect(x: 30, y: 70, width: 80, height: 40)
@@ -220,7 +236,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         
         if useNowBtn.frame == CGRect.zero {
             useNowBtn.frame = CGRect(x: kwidth/2 - 50, y: kheight, width: 100, height: 40)
-            useNowBtn.setTitle("马上进入", for: UIControlState())
+            useNowBtn.setTitle("马上进入", for: .normal)
             useNowBtn.setTitleColor(UIColor.white, for: UIControlState())
             useNowBtn.backgroundColor = UIColor.orange
             useNowBtn.addTarget(self, action: #selector(useNowAction), for: .touchUpInside)
@@ -272,6 +288,17 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         
     }
     
+    // 点击按钮弹出键盘
+    private func addPopKeyboardByClickButton(){
+        
+        let  photoBrowserBtn = UIButton()
+        photoBrowserBtn.frame = CGRect(x: 50, y: 470, width: 300, height: 40)
+        photoBrowserBtn.setTitle("点击按钮弹出键盘", for: .normal)
+        photoBrowserBtn.setTitleColor(UIColor.black, for: .normal)
+        photoBrowserBtn.addTarget(self, action: #selector(popKeyboardByClickButtonAction), for: .touchUpInside)
+        self.view.addSubview(photoBrowserBtn)
+    }
+    
     // --------------------------  btnAction -------------------------- //
     
     func  scanAction(_ btn:UIButton) {
@@ -284,7 +311,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         let frame = CGRect(x: 0, y: 64, width: kwidth, height: kheight - 64)
         //       cameraView =  NSBundle.mainBundle().loadNibNamed("MyCameraView", owner: nil, options: nil).last as! MyCameraView
         
-        cameraView = MySystemCamareVC() // MyCameraView.getSelf(withFrame: frame) MyDefaultCameraVC()
+        cameraView = MySystemAlbumVC.init(false)  // MyCameraView.getSelf(withFrame: frame) MyDefaultCameraVC()    MySystemCamareVC()
         
 //        self.view.addSubview(cameraView)
         self.present(cameraView, animated: true, completion: nil)
@@ -349,7 +376,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
 
     func useNowAction()  {
         print("立刻使用")
-        self.view.transitionWithType(AnimationType.Reveal.rawValue, withSubType: kCATransitionFromRight, forView: self.view)
+        self.view.transitionWithType(AnimationType.reveal.rawValue, subType: kCATransitionFromRight)
         kwindow?.rootViewController = MyCustomTVC()
     }
     
@@ -389,6 +416,10 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         self.addChildViewController(browserVC)
     }
     
+    @objc private func popKeyboardByClickButtonAction (){
+//        self.view.becomeFirstResponder()
+    }
+    
     // MARK:  添加scroller
     fileprivate func addScrollerView(){
         scroller.frame = self.view.frame
@@ -418,23 +449,22 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
 
         
         // 3. 二维码
-        let x = (kwidth - 200)/2
-        qrCodeView = MyQrCodeCreatView.init(frame: CGRect.init(x: x, y: 180, width: 200, height: 200))
+//        let x = (kwidth - 200)/2
+//        qrCodeView = MyQrCodeCreatView.init(frame: CGRect.init(x: x, y: 180, width: 200, height: 200))
 //        qrCodeView.doInit()
-        self.view.addSubview(qrCodeView)
+//        self.view.addSubview(qrCodeView)
         
         
         
-//        // 4. 无用，
-//        
-//        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
-//        dispatch_after(time, dispatch_get_main_queue()) {
-//            
+        // 4. 无用， 二维码扫描
+//        let now = Date()
+//        let time = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+//        DispatchQueue.main.asyncAfter(deadline: time) {
 //            self.qrCodeScanView = MyQrCodeScanView.init(frame: self.view.bounds)
 //            self.view.addSubview(self.qrCodeScanView)
 //        }
         
-        // 5.  测试  
+        // 5.  测试
 //        var person:Person?
 //        var part:Part?
 //        
@@ -447,37 +477,36 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         
         
         // 5.1
-//        let now = NSDate()
-//        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(4 * Double(NSEC_PER_SEC)))
-//        dispatch_after(time, dispatch_get_main_queue()) {
-////            let date = NSDate.compareFromdate(now)
-//            let date = NSDate.compareFromdate(now, toDate: NSDate())
-//            print(date)
+//        let now = Date()
+//        let time = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+//        
+//        DispatchQueue.main.asyncAfter(deadline: time) {
+//            let date = Date.compareFromdate(now, toDate: Date())
+//            debugPrint(date)
 //        }
 //        
 //        
-//        let newD =  NSDate.formatDateString("2015-10-09 10:10:10", byFormatter: "yyyy-MM-dd HH:mm:ss")
-//        print("时间是-- \(newD)")
-        
-        // 6. 测试 HUD, 第二种方式
-//        hud.showProgressImage(UIImage(named: "pauseBtn")!)
-//        //        hud.showSuccessText("成功彩色法尔", successImage: UIImage(named: "progress_circular")!)
+//        let newD =  Date.formatDateString("2015-10-09 10:10:10", byFormatter: "yyyy-MM-dd HH:mm:ss")
+//        debugPrint("时间是-- \(newD)")
 //        
-//        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
-//        dispatch_after(time, dispatch_get_main_queue()) {
+//        let n = 0.4 - 0.3 //  0.10000000000000003
+        
+        // 6. 测试 MyProgressHUD, 第一种方式
+//        hud.showProgressImage(UIImage(named: "pauseBtn")!)
+//        hud.showSuccessText("位哈维不可交互问题个可交互问题个可交互问题个未通过", successImage: UIImage(named: "pauseBtn")!)
+//
+//        let time = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+//        
+//        DispatchQueue.main.asyncAfter(deadline: time) {
+//            hud.dismiss(true)
 //            
-//            hud.dismiss(false)
+//            let time1 = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
 //            
-//            let time1 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-//            dispatch_after(time1, dispatch_get_main_queue()) {
+//            DispatchQueue.main.asyncAfter(deadline: time1) {
 //                hud.showPromptText("发的规划的规划的规划的规划的规划的规划的规划的规划的规划")
 //            }
-//            
-//            
 //        }
-        
-        
-      
+    
         
     }
     
@@ -502,26 +531,27 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
         
         self.navigationController?.navigationBar.alpha = 0
         
-//        self.view.backgroundColor = UIColor.redColor()
-//        
-//        self.view.transitionWithType(AnimationType.PageCurl.rawValue, withSubType: kCATransitionFromRight, forView: self.view)
+        // 测试view的转场动画
+//        self.view.backgroundColor = UIColor.red
+//        self.view.transitionWithType(AnimationType.pageCurl.rawValue, subType: kCATransitionFromRight)
         
         
-        //  测试 HUD, 第一种方式
+        //  测试 HUD, 第二种方式
+//        hud.hudInit()
 //        hud.showProgressImage(UIImage(named: "pauseBtn")!)
-////        hud.showSuccessText("成功彩色法尔", successImage: UIImage(named: "progress_circular")!)
+//        hud.showSuccessText("regtrgedhth回国后", successImage: UIImage(named: "pauseBtn")!)
 //        
-//        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
-//        dispatch_after(time, dispatch_get_main_queue()) {
-//            
+//        
+//        let time = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+//
+//        DispatchQueue.main.asyncAfter(deadline: time) {
 //            hud.dismiss(true)
-//            
-//            let time1 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-//            dispatch_after(time1, dispatch_get_main_queue()) {
-//               hud.showPromptText("发的规划的规划的规划的规划的规划的规划的规划的规划的规划")
+//
+//            let time1 = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+//
+//            DispatchQueue.main.asyncAfter(deadline: time1) {
+//                hud.showPromptText("发的规划的规划的规划的规划的规划的规划的规划的规划的规划")
 //            }
-//            
-//            
 //        }
         
         

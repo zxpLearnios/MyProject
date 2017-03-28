@@ -37,11 +37,13 @@ let localPhoneModel = UIDevice.current.localizedModel
  let temp = NSTemporaryDirectory() // NSHomeDirectory + "/tmp"
 /** 外层documents目录 */
 let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) // NSHomeDirectory() + "/Documents"
+
 /** 外层library下的caches目录 */
 let caches = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true) // NSHomeDirectory() + "/Library/Caches"
 /** 外层library下的preference目录 */
 let preferences = "" // 通过 NSUserDefaults 存储直接到此目录下 ; NSHomeDirectory() + "/Library/Preferences"
 
+unowned let unownedInstance = UIView()
 
 /** 不管横竖屏，kwidth   kheight  都是第一次屏幕的情况 */
 let kwidth = UIScreen.main.bounds.width
@@ -84,8 +86,10 @@ let kcenter = CGPoint(x: kwidth/2, y: kheight/2)
 let kbounds = UIScreen.main.bounds
 
 
+// MyProgressHUD 第一种方式
 let hud = MyProgressHUD.init(superView: kwindow!)
 //let hud = MyProgressHUD.sharedInstance
+
 
 /** 图片数组保存路径 */
 let totalImagesSavePath =  kBundleDocumentPath() + "totalImages.plist"
@@ -143,7 +147,20 @@ func kCachesPath() -> String! {
 /** 打印 */
 func MyLog<T>(_ message: T, file: NSString = #file, method: String = #function, line: Int = #line)
 {
+    //  DEBUG的使用
     #if DEBUG
-        print("\(method)[\(line)]: \(message)")
+        debugPrint("\(method)[\(line)]: \(message)")
+    #else
+    
+        
     #endif
+    
+    // 第二种
+//    #if DEBUG
+//        debugPrint("\(method)[\(line)]: \(message)")
+//    #endif
+//    
+//    #if !DEBUG
+//        print("\(method)[\(line)]: \(message)")
+//    #endif
 }

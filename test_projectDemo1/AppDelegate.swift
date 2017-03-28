@@ -15,6 +15,7 @@ import AddressBookUI
 import Contacts // ios9
 import ContactsUI
 
+ var colsure1:((_ str:String) -> String)  = {str in return str }
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,10 +30,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow.init(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
+//        let x = colsure1("123")
 //        let xx = "1234567.230"
 //        
 //        let  str = 1234567.980
-//        let newStr = str.formateObjToString(str)
+//        let newStr = str.formateDoubleToString(str)
         
         var ary:[CGFloat] = [0, 3, 3, 2, 1.3]
         ary.quickSort(&ary, left: 0, right: 4, isAscending: false)
@@ -60,9 +62,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         kApplication.setStatusBarHidden(true, with: .none)
         kApplication.setStatusBarHidden(false, with: .none)
         
+        // 1. 测试MyProgressHUD的第一种方式在didFinishLaunching里是否可以使用
+//        hud.showPromptText("MyProgressHUD的第一种方式时，可以在didFinishLaunching里使用")
+//        hud.showProgressImage( UIImage(named: "progress_circular")!)
+//        let tim = DispatchTime.now() + Double(Int64(4 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+//        DispatchQueue.main.asyncAfter(deadline: tim) {
+//            hud.dismiss(true)
+//        }
         
-        // 测试多线程
-        testTreads()
+//        hud.showSuccessText("success", successImage: UIImage(named: "progress_circular")!)
+//        hud.showFailedText("失败失败失败失败失败", failedImage: UIImage(named: "progress_circular")!)
+
+        
+        // 1.1  测试 MyProgressHUD的 第二种方式 在didFinishLaunching里是否可以使用
+//        hud.hudInit()
+//        hud.showPromptText("MyProgressHUD的第二种方式时，可以在didFinishLaunching里使用")
+        
+//        hud.showProgressImage( UIImage(named: "progress_circular")!)
+//        let tim = DispatchTime.now() + Double(Int64(4 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+//        DispatchQueue.main.asyncAfter(deadline: tim) {
+//            hud.dismiss(false)
+//        }
+        
+//        hud.showSuccessText("success", successImage: UIImage(named: "progress_circular")!)
+//        hud.showFailedText("失败失败失败失败失败", failedImage: UIImage(named: "progress_circular")!)
+        
+        //  2、测试多线程
+//        testTreads()
         
         return true
     }
@@ -379,11 +405,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            locationManager.startUpdatingLocation() // 若未开启，则就会访问权限了
 //        
 //        }
-//    
+//
 // ----------------------- private -----------------//
     func test() {
         debugPrint("调用了test方法----------------, 当前线程\(Thread.current)")
     }
 
+    
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
+        debugPrint("-----收到内存警告！！！！")
+    }
+    
 }
 

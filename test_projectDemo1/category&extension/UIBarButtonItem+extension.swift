@@ -15,13 +15,13 @@ extension UIBarButtonItem{
 //        
 //        let barBtnItem:UIBarButtonItem!
 //        
-//        let btn = UIButton.init(type: .Custom)
-//        btn.setBackgroundImage(image, forState: .Normal)
-//        btn.setImage(hlImage, forState: .Highlighted)
+//        let btn = UIButton.init(type: .custom)
+//        btn.setBackgroundImage(image, for: .normal)
+//        btn.setImage(hlImage, for: .highlighted)
 //        
 //        btn.frame.size = (btn.currentImage?.size)!
-//        btn.addTarget(target, action: sel, forControlEvents: .TouchUpInside)
-//        
+//        btn.addTarget(self, action: sel, for: .touchUpInside)
+//
 //        barBtnItem = UIBarButtonItem.init(customView: btn)
 //        return barBtnItem
 //

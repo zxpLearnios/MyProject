@@ -4,7 +4,7 @@
 //
 //  Created by Wei Wang on 2016/08/26.
 //
-//  Copyright (c) 2016 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2017 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -69,7 +69,7 @@ typealias ProcessorImp = ((ImageProcessItem, KingfisherOptionsInfo) -> Image?)
 public extension ImageProcessor {
     
     /// Append an `ImageProcessor` to another. The identifier of the new `ImageProcessor` 
-    /// will be "\(self.identifier)|>\(another.identifier)>".
+    /// will be "\(self.identifier)|>\(another.identifier)".
     ///
     /// - parameter another: An `ImageProcessor` you want to append to `self`.
     ///
@@ -116,7 +116,11 @@ public struct DefaultImageProcessor: ImageProcessor {
         case .image(let image):
             return image
         case .data(let data):
-            return Kingfisher<Image>.image(data: data, scale: options.scaleFactor, preloadAllGIFData: options.preloadAllGIFData)
+            return Kingfisher<Image>.image(
+                data: data,
+                scale: options.scaleFactor,
+                preloadAllGIFData: options.preloadAllGIFData,
+                onlyFirstFrame: options.onlyLoadFirstFrame)
         }
     }
 }
@@ -154,11 +158,23 @@ public struct RoundCornerImageProcessor: ImageProcessor {
         switch item {
         case .image(let image):
             let size = targetSize ?? image.kf.size
-            return image.kf.image(withRoundRadius: cornerRadius, fit: size, scale: options.scaleFactor)
+            return image.kf.image(withRoundRadius: cornerRadius, fit: size)
         case .data(_):
             return (DefaultImageProcessor.default >> self).process(item: item, options: options)
         }
     }
+}
+
+
+/// Specify how a size adjusts itself to fit a target.
+///
+/// - none: Not scale the content.
+/// - aspectFit: Scale the content to fit the size of the view by maintaining the aspect ratio.
+/// - aspectFill: Scale the content to fill the size of the view
+public enum ContentMode {
+    case none
+    case aspectFit
+    case aspectFill
 }
 
 /// Processor for resizing images. Only CG-based images are supported in macOS.
@@ -168,20 +184,31 @@ public struct ResizingImageProcessor: ImageProcessor {
     /// Target size of output image should be.
     public let targetSize: CGSize
     
+    /// Target content mode of output image should be.
+    /// Default to ContentMode.none
+    public let targetContentMode: ContentMode
+    
     /// Initialize a `ResizingImageProcessor`
     ///
     /// - parameter targetSize: Target size of output image should be.
+    /// - parameter contentMode: Target content mode of output image should be.
     ///
     /// - returns: An initialized `ResizingImageProcessor`.
-    public init(targetSize: CGSize) {
+    public init(targetSize: CGSize, contentMode: ContentMode = .none) {
         self.targetSize = targetSize
-        self.identifier = "com.onevcat.Kingfisher.ResizingImageProcessor(\(targetSize))"
+        self.targetContentMode = contentMode
+        
+        if contentMode == .none {
+            self.identifier = "com.onevcat.Kingfisher.ResizingImageProcessor(\(targetSize))"
+        } else {
+            self.identifier = "com.onevcat.Kingfisher.ResizingImageProcessor(\(targetSize), \(contentMode))"
+        }
     }
     
     public func process(item: ImageProcessItem, options: KingfisherOptionsInfo) -> Image? {
         switch item {
         case .image(let image):
-            return image.kf.resize(to: targetSize)
+            return image.kf.resize(to: targetSize, for: targetContentMode)
         case .data(_):
             return (DefaultImageProcessor.default >> self).process(item: item, options: options)
         }

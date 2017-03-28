@@ -18,11 +18,11 @@ extension Double {
     /**
      将传入的数字串  从右至左3位一空格
      */
-    func formateObjToString(_ obj: Double) -> String {
+    func formateDoubleToString(_ obj: Double) -> String {
         let formatter =  NumberFormatter()
         formatter.numberStyle = .decimal
-        //        NSString *string = [formatter stringFromNumber:[NSNumber numberWithInt:123456789]];
-        return formatter.string(from: NSNumber.init(value: obj as Double))!
+
+        return formatter.string(from: NSNumber.init(value: obj))!
     }
     
     

@@ -5,7 +5,7 @@
 //  Created by Jingnan Zhang on 16/8/3.
 //  Copyright © 2016年 Jingnan Zhang. All rights reserved.
 //  1. device设备初始化 ； 2. input输入设备，由硬件设备决定； 3. output输出设备， 自己写，自己设置相关属性，图片的显示、处理、拍照等
-//  4.
+//  4. 两次拍照间隔再短也没有内存警告的问题， 这是完全OK的
 
 import UIKit
 import Photos
@@ -13,7 +13,7 @@ import AVFoundation
 import  AssetsLibrary
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+private func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l < r
@@ -35,18 +35,17 @@ class MyDefaultCameraVC: UIViewController {
     
     @IBOutlet weak var totalCount: MyLabel!
     
-    fileprivate var images = [UIImage]()
+    private var images = [UIImage]()
     
     /** 可见区域、输入 */
-    fileprivate var preViewLayer:AVCaptureVideoPreviewLayer!
+    private var preViewLayer:AVCaptureVideoPreviewLayer!
     
     /** 输出流、设备、会话 */ // AVCaptureMovieFileOutput
-    fileprivate let output = AVCaptureStillImageOutput(), session = AVCaptureSession()
-    fileprivate var device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo) // 默认的硬件设备即后置摄像头
+    private let output = AVCaptureStillImageOutput(), session = AVCaptureSession()
+    private var device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo) // 默认的硬件设备即后置摄像头
     
     /** 默认的就是 后置摄像头 */
-    fileprivate lazy var input:AVCaptureDeviceInput? = {
-        
+    private lazy var input:AVCaptureDeviceInput? = {
         
         do {
               let input = try AVCaptureDeviceInput.init(device: self.device)
@@ -57,9 +56,11 @@ class MyDefaultCameraVC: UIViewController {
         }
         
     }()
-    /** 前置摄像头 */
-    fileprivate lazy var input_front:AVCaptureDeviceInput? = {
     
+    /** 前置摄像头 */
+    private lazy var input_front:AVCaptureDeviceInput? = {
+    
+        
         for subdevice in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as! [AVCaptureDevice]{
             
             if subdevice.position == .front {
@@ -82,7 +83,7 @@ class MyDefaultCameraVC: UIViewController {
     }()
     
     /** 后置摄像头 */
-    fileprivate lazy var input_back:AVCaptureDeviceInput? = {
+    private lazy var input_back:AVCaptureDeviceInput? = {
         
         for subdevice in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as! [AVCaptureDevice]{
             
@@ -106,9 +107,9 @@ class MyDefaultCameraVC: UIViewController {
     }()
     
     
-    convenience init(){
-        self.init(nibName: "MyDefaultCameraVC", bundle: nil)
-    }
+//    convenience init(){
+//        self.init(nibName: "MyDefaultCameraVC", bundle: nil)
+//    }
     
     // 此时frame都是正确的
     override func viewDidAppear(_ animated: Bool) {
@@ -122,7 +123,7 @@ class MyDefaultCameraVC: UIViewController {
     }
     
     // MARK: 初始化
-    fileprivate func doInit(){
+    private func doInit(){
         
         if device == nil {
             print("可能是模拟器,故无法获取硬件信息！")
@@ -315,13 +316,13 @@ class MyDefaultCameraVC: UIViewController {
     }
     
    // MARK: 点击屏幕，聚焦；一定要先设置位置，再设置对焦模式。
-    fileprivate func doFocusToCurrentPoint(){
+    private func doFocusToCurrentPoint(){
         
     }
     
-    // ------------------------ private ---------------------- //
+    // ------------------------ pprivate ---------------------- //
     //MARK: ---相机权限
-    fileprivate func isGetCameraAccess()-> Bool{
+    private func isGetCameraAccess()-> Bool{
         
         let authStaus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         
@@ -334,7 +335,7 @@ class MyDefaultCameraVC: UIViewController {
     
     
     //MARK: ----获取相册权限
-    fileprivate func isGetPhotoAccess()->Bool{
+    private func isGetPhotoAccess()->Bool{
         
         var result = false
         if  Float(UIDevice.current.systemVersion) < 8.0{
@@ -352,7 +353,7 @@ class MyDefaultCameraVC: UIViewController {
     }
     
     // MARK: 更新图片总数
-    fileprivate func updateCountLabel(){
+    private func updateCountLabel(){
         
         if images.count == 0 {
             totalCount.text = ""
@@ -362,7 +363,7 @@ class MyDefaultCameraVC: UIViewController {
     }
 
     // MARK: 改变图片方向
-    fileprivate func changeDirectionForImage(_ image:UIImage) -> UIImage{
+    private func changeDirectionForImage(_ image:UIImage) -> UIImage{
     
         if image.imageOrientation == .up{
             return image

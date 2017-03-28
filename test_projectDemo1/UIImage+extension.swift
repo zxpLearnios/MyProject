@@ -8,6 +8,8 @@
 
 import UIKit
 import ImageIO
+//import CoreImage
+
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -24,6 +26,8 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 extension UIImage {
 
+    // ----------------------- public ------------------------ //
+    
     class func gifWithData(_ data: Data) -> UIImage? {
         // Create source from data
         guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
@@ -41,7 +45,7 @@ extension UIImage {
                 print("SwiftGif: This image named \"\(gifUrl)\" does not exist")
                 return nil
         }
-
+        
         // Validate data
         guard let imageData = try? Data(contentsOf: bundleURL!) else {
             print("SwiftGif: Cannot turn image named \"\(gifUrl)\" into NSData")
@@ -68,6 +72,61 @@ extension UIImage {
         return gifWithData(imageData)
     }
 
+    
+    // ----------------------- private ------------------------ //
+    
+    class func animatedImageWithSource(_ source: CGImageSource) -> UIImage? {
+        let count = CGImageSourceGetCount(source)
+        var images = [CGImage]() // 图片数组
+        var delays = [Int]() // 延迟时间数组
+        
+        // Fill arrays
+        for i in 0..<count {
+            // Add image
+            if let image = CGImageSourceCreateImageAtIndex(source, i, nil) {
+                images.append(image)
+            }
+            
+            // At it's delay in cs
+            let delaySeconds = UIImage.delayForImageAtIndex(Int(i),
+                                                            source: source)
+            delays.append(Int(delaySeconds * 1000.0)) // Seconds to ms
+        }
+        
+        // Calculate full duration
+        let duration: Int = {
+            var sum = 0
+            
+            for val in delays {
+                sum += val
+            }
+            
+            return sum
+        }()
+        
+        // Get frames
+        let gcd = gcdForArray(delays)
+        var frames = [UIImage]()
+        
+        var frame: UIImage
+        var frameCount: Int
+        for i in 0..<count {
+            frame = UIImage(cgImage: images[Int(i)])
+            frameCount = Int(delays[Int(i)] / gcd)
+            
+            for _ in 0..<frameCount {
+                frames.append(frame)
+            }
+        }
+        
+        // Heyhey
+        let animation = UIImage.animatedImage(with: frames,
+                                              duration: Double(duration) / 1000.0)
+        
+        return animation
+    }
+    
+    
     class func delayForImageAtIndex(_ index: Int, source: CGImageSource!) -> Double {
         var delay = 0.1
 
@@ -97,40 +156,7 @@ extension UIImage {
         return delay
     }
 
-    class func gcdForPair(_ a: Int?, _ b: Int?) -> Int {
-        var a = a
-        var b = b
-        // Check if one of them is nil
-        if b == nil || a == nil {
-            if b != nil {
-                return b!
-            } else if a != nil {
-                return a!
-            } else {
-                return 0
-            }
-        }
-
-        // Swap for modulo
-        if a < b {
-            let c = a
-            a = b
-            b = c
-        }
-
-        // Get greatest common divisor
-        var rest: Int
-        while true {
-            rest = a! % b!
-
-            if rest == 0 {
-                return b! // Found it
-            } else {
-                a = b
-                b = rest
-            }
-        }
-    }
+    
 
     class func gcdForArray(_ array: Array<Int>) -> Int {
         if array.isEmpty {
@@ -147,59 +173,42 @@ extension UIImage {
     }
 
 
-    
-    class func animatedImageWithSource(_ source: CGImageSource) -> UIImage? {
-        let count = CGImageSourceGetCount(source)
-        var images = [CGImage]()
-        var delays = [Int]()
-
-        // Fill arrays
-        for i in 0..<count {
-            // Add image
-            if let image = CGImageSourceCreateImageAtIndex(source, i, nil) {
-                images.append(image)
-            }
-
-            // At it's delay in cs
-            let delaySeconds = UIImage.delayForImageAtIndex(Int(i),
-                source: source)
-            delays.append(Int(delaySeconds * 1000.0)) // Seconds to ms
-        }
-
-        // Calculate full duration
-        let duration: Int = {
-            var sum = 0
-
-            for val: Int in delays {
-                sum += val
-            }
-
-            return sum
-            }()
-
-        // Get frames
-        let gcd = gcdForArray(delays)
-        var frames = [UIImage]()
-
-        var frame: UIImage
-        var frameCount: Int
-        for i in 0..<count {
-            frame = UIImage(cgImage: images[Int(i)])
-            frameCount = Int(delays[Int(i)] / gcd)
-
-            for _ in 0..<frameCount {
-                frames.append(frame)
+    class func gcdForPair(_ a: Int?, _ b: Int?) -> Int {
+        var a = a
+        var b = b
+        // Check if one of them is nil
+        if b == nil || a == nil {
+            if b != nil {
+                return b!
+            } else if a != nil {
+                return a!
+            } else {
+                return 0
             }
         }
-
-        // Heyhey
-        let animation = UIImage.animatedImage(with: frames,
-            duration: Double(duration) / 1000.0)
-
-        return animation
+        
+        // Swap for modulo
+        if a < b {
+            let c = a
+            a = b
+            b = c
+        }
+        
+        // Get greatest common divisor
+        var rest: Int
+        while true {
+            rest = a! % b!
+            
+            if rest == 0 {
+                return b! // Found it
+            } else {
+                a = b
+                b = rest
+            }
+        }
     }
 
-        //*************************** 有Iconfont字体文件里的编码获取图片  *****************//
+    //************** 有Iconfont字体文件里的编码获取图片  ***********//
     /**
      由Iconfont获取图片;
      1. 当tabbarItem的图片用此法获取时，颜色就会不起作用了，因为tabbar很特殊
@@ -226,6 +235,7 @@ extension UIImage {
             attributes[NSFontAttributeName] = font
         }
         
+        // 开启图片上下文
         UIGraphicsBeginImageContextWithOptions(CGSize(width: size, height: size), false, 0)
         
         content.draw(in: CGRect(x: 0, y: 0, width: size, height: size), withAttributes: attributes)
@@ -235,5 +245,7 @@ extension UIImage {
         
         return image!
     }
-
+    
+   
+    
 }

@@ -19,10 +19,21 @@ class QLCreditCertificateVC: UITableViewController {
     fileprivate let isMustEdits = [[true, false], [true, true,false]]
     fileprivate let fontTexts = [["\u{e60a}", "\u{e60b}"], ["\u{e60a}", "\u{e60a}", "\u{e60b}"]]
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
+        tes("", closure: self.test)
         setup()
+    }
+    
+    // 测试  closure 闭包
+    func test(str:String) {
+        
+    }
+    
+    func tes(_ a:String, closure:((_ str:String) -> () )) {
+        
     }
     
     fileprivate func setup(){

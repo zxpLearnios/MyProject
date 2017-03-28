@@ -23,24 +23,24 @@ final class Khowledge: NSObject {
         
         numbers.sorted()
         let result = numbers.map { $0 + 2 }
-        print(result)  // [3,4,5,6]
+        debugPrint(result)  // [3,4,5,6]
         
         let stringResult = numbers.map { "No. \($0)" }
-        print(stringResult) // ["No. 1", "No. 2", "No. 3", "No. 4"]
+        debugPrint(stringResult) // ["No. 1", "No. 2", "No. 3", "No. 4"]
         
         let result0 = numbers.filter { $0 >= 2} // 数组中>=2 的元素
 
         // 3. flatMap
         let result1 = numbers.flatMap { $0 + 2 }
-         print(result1) //  = [3,4,5,6]
+         debugPrint(result1) //  = [3,4,5,6]
         
         // 4.  flatMap 与 map的区别
         let numbersCompound = [[1,2,3],[4,5,6]];
         let res = numbersCompound.map { $0.map{ $0 + 2 } }
-        print(res) // [[3, 4, 5], [6, 7, 8]]
+        debugPrint(res) // [[3, 4, 5], [6, 7, 8]]
         
         let flatRes = numbersCompound.flatMap { $0.map{ $0 + 2 } }
-        print(flatRes)  // [3, 4, 5, 6, 7, 8]
+        debugPrint(flatRes)  // [3, 4, 5, 6, 7, 8]
         
         let optionalArray: [String?] = ["AA", nil, "BB", "CC"];
         var optionalResult = optionalArray.flatMap{ $0 } // flatMap 调用后类型变成了[String], ["AA", "BB", "CC"]，flatMap 实现了过滤掉nil值
@@ -50,28 +50,31 @@ final class Khowledge: NSObject {
         // 5. 多线程 队列
         
         // object 参数传入nil
-//        let aniThread = NSThread.init(target: self, selector: #selector(), object: "第一种线程，需自行启动")
-        //        NSThread.detachNewThreadSelector(#selector(judgeIsSelected), toTarget: self, withObject: "第二种线程，自动启动")
-        //        self.performSelectorInBackground(#selector(judgeIsSelected), withObject: "第三种线程，隐式创建/在后台线程中执行===在子线程中执行")
+//        let aniThread = Thread.init(target: self, selector: #selector(), object: "第一种线程，需自行启动")
+//        Thread.detachNewThreadSelector(#selector(judgeIsSelected), toTarget: self, with: "第二种线程，自动启动")
+//        self.performSelector(inBackground: #selector(judgeIsSelected), with: "第三种线程，隐式创建/在后台线程中执行===在子线程中执行")
+        
 //        aniThread.name = "判断选中与否的线程"
 //        aniThread.start()
         
         // 串行队列
-//        let queue0 = dispatch_queue_create("tk.bourne.testQueue", nil);
-//        let queue1 = dispatch_queue_create("tk.bourne.testQueue", DISPATCH_QUEUE_SERIAL)
-//        // 并行队列
-//        let queue2 = dispatch_queue_create("tk.bourne.testQueue", DISPATCH_QUEUE_CONCURRENT)
-//        // 全局并行队列(同步、异步都在主线程中，前者不会死锁)
-//        let queue3 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+//        let queue0 = DispatchQueue(label: "tk.bourne.testQueue", attributes: [])
+        
+//        let queue1 = DispatchQueue(label: "tk.bourne.testQueue", attributes: [])
+        // 并行队列
+//        let queue2 = DispatchQueue(label: "tk.bourne.testQueue", DispatchQueue.Attributes.concurrent)
+        // 全局并行队列(同步、异步都在主线程中，前者不会死锁)
+        let queue3 = DispatchQueue.global()
+        
         
         // 6. guard （判断）的使用
-//        let b:Int? = nil
-//        guard let a = b else{ // 即若 b不为nil，则执行else前面的；否则，执行else的内容（b可以是一个式子）
-//            print("b == nil")
-//            return
-//        }
-//        
-//        print(a)
+        let b:Int? = nil
+        guard let a = b else{ // 即若 b不为nil，则执行else前面的；否则，执行else的内容（b可以是一个式子）
+            debugPrint("b == nil")
+            return
+        }
+        
+        debugPrint(a)
     }
     
 }
@@ -120,11 +123,12 @@ class Part: NSObject {
  
  3. swift 2.0 后， [1.public:可以被模块外访问, 写cocopods时有用 2.internal：可以被本模块访问 3.private：可以被本文件访问]
  
- 4. @noescape .    现在很多函数式编程，比如有个排序，需要一个比较的closure作为参数，这种closure都会是同步调用完毕获得返回值。这种可以放一个@noescape在前面，可优化内存，引用self不必写self。其他的closure在外部引用着等待将来回掉用的则不能@noescape，因为它会escape。总体来说这个@noescape没啥卵用，但是有些人会用，可能会吓到你，这个基本可以无视.
+ 4. @noescape .    现在很多函数式编程，比如有个排序，需要一个比较的closure作为参数，这种closure都会是同步调用完毕获得返回值。这种可以放一个@noescape在前面，可优化内存，引用self不必写self。其他的closure在外部引用着等待将来回掉用的则不能@noescape，因为它会escape。总体来说这个@noescape没啥卵用，但是有些人会用，可能会吓到你
  
  5. typealias Item = T 定义类型，
  
- 6. map 方法接受一个闭包作为参数， 然后它会遍历整个 numbers 数组，并对数组中每一个元素执行闭包中定义的操作。 相当于对数组中的所有元素做了一个映射。 操作二维数组时，flatMap 和 map 无区别。 flatMap 依然会遍历数组的元素，并对这些元素执行闭包中定义的操作。 但唯一不同的是，它对最终的结果进行了所谓的 “降维” 操作。 本来原始数组是一个二维的， 但经过 flatMap 之后，它变成一维的了。  map 函数值对元素进行 变换 操作。 但不会对数组的 结构 造成影响。
+ 6. map 方法接受一个闭包作为参数， 然后它会遍历整个 numbers 数组，并对数组中每一个元素执行闭包中定义的操作。 相当于对数组中的所有元素做了一个映射。
+      操作二维数组时，flatMap 和 map 无区别。 flatMap 依然会遍历数组的元素，并对这些元素执行闭包中定义的操作。 但唯一不同的是，它对最终的结果进行了所谓的 “降维” 操作。 本来原始数组是一个二维的， 但经过 flatMap 之后，它变成一维的了。  map 函数值对元素进行 变换 操作。 但不会对数组的 结构 造成影响。
  
  * 7. 
  7.1 弱引用
@@ -134,27 +138,29 @@ class Part: NSObject {
      。你可以像其他可选值一样，检查弱引用的值是否存在，你将永远不会访问已销毁的实例的引用。
  
  7.2 无主引用
-     和弱引用类似，无主引用不会牢牢保持住引用的实例。和弱引用不同的是，无主引用是永远有值的。因此，无主引用总是被定义为非可选类型（non-optional type）。你可以在声明属性或者变量时，在前面加上关键字unowned
-     表示这是一个无主引用。
+     和弱引用类似，无主引用不会牢牢保持住引用的实例。和弱引用不同的是，无主引用是永远有值的。因此，无主引用总是被定义为非可选类型（non-optional type）。你可以在声明属性或者变量时，在前面加上关键字unowned表示这是一个无主引用。
      由于无主引用是非可选类型，你不需要在使用它的时候将它展开。无主引用总是可以被直接访问。不过 ARC 无法在实例被销毁后将无主引用设为nil
      ，因为非可选类型的变量不允许被赋值为nil，注意如果你试图在实例被销毁后，访问该实例的无主引用，会触发运行时错误。使用无主引用，你必须确保引用始终指向一个未销毁的实例。还需要注意的是如果你试图访问实例已经被销毁的无主引用，Swift 确保程序会直接崩溃，而不会发生无法预期的行为。所以你应当避免这样的事情发生。
+     所以，无主引用可以修饰那些全局使用的东西
  
  原文链接：http://www.jianshu.com/p/e1025f722377
  
  8. var a:UIView?  ===  var b:UIView!  即二者都是nil，因为未初始化, 即此时打印b就会提示found nil；基本数据类型如Int也一样的。
  
  
- 9. CoreText是的iOS3.2+和OSX10.5+中的文本引擎，让您精细的控制文本布局和格式。它位于在UIKit中和CoreGraphics/Quartz之间的最佳点。 UIKit中你有的文本空间，你可以通过XIB简单的使用文本控件在屏幕上显示文字，但你不能改变个别字的颜色。
+ 9. CoreText是的iOS3.2+和OSX10.5+中的文本引擎，让您精细的控制文本布局和格式。它位于在UIKit中和CoreGraphics/Quartz之间的最佳点。 UIKit中你有的文本控件，你可以通过XIB简单的使用文本控件在屏幕上显示文字，但你不能改变个别字的颜色。
  CoreGraphics/Quartz你可以做几乎可以胜任所有的工作，但是你需要计算每个字形的在文本中的位置，并绘制在屏幕上。*
  
- CoreText正好位于两者之间！你可以完全控制位置，布局，属性，如颜色和大小，但CoreText布局需要你自己管理-从自动换行到字体渲染等等。 原文链接：http://www.jianshu.com/p/dacb99506bb9
+ CoreText正好位于两者之间！你可以完全控制位置，布局，属性，如颜色和大小，但CoreText布局需要你自己管理--从自动换行到字体渲染等等。 原文链接：http://www.jianshu.com/p/dacb99506bb9
  
  
- 10. Images.xcassets中的图片资源只能通过imageNamed:方法加载，通过NSBundle的pathForResource:ofType:无法获得图片路径。因此，Images.xcassets只适合存放系统常用的，占用内存小的图片资源。
+ 10. Images.xcassets中的图片资源只能通过imageNamed:方法加载（不会保持一份图片的拷贝，故不会减小内存压力），通过NSBundle的pathForResource:ofType:无法获得图片路径（会保持一份图片的拷贝，故会减小内存压力）。因此，Images.xcassets只适合存放系统常用的，占用内存小的图片资源。
  
- 11. Range 的使用：  let range = Range.init(str.startIndex.advancedBy(2) ..< str.startIndex.advancedBy(7))
+ 11. Range 的使用：  let range = Range.init(str.startIndex.advancedBy(2) ..< str.startIndex.advancedBy(7))  或者 let range = Range.init(uncheckedBounds: (str.startIndex , str.endIndex))
  
- 12. dump(obj) // 打印出某个对象的信息；数组遍历、找出其中的最值ary.enumerate() ,ary.maxElement()；ary.sort() 将数组元素（如数组里全部是数字、全部是字母、）按升序排序； let ary = ["a", "be", "ba", "e", "a1"] // print(ary.sort()):["a","a1","ba","be","e"]；print(ary.sort({$0 > $1}))，则为按倒序排。
+ 12. dump(obj) // 打印出某个对象的信息；数组遍历、找出其中的最值ary.enumerate() ,ary.maxElement()；ary.sort() 将数组元素（如数组里全部是数字、全部是字母、）
+      按升序排序； let ary = ["a", "be", "ba", "e", "a1"] // print(ary.sort()):["a","a1","ba","be","e"]；
+          print(ary.sort({$0 > $1}))，则为按倒序排。
  
  13. 因为在Swift中，struct都是按值传递，class是按引用传递；数组和字典都是struct, 故引入了inout关键字。
  
@@ -172,7 +178,7 @@ class Part: NSObject {
  typealias colsure = (str:String) -> Void // typealias colsure = (str:String) -> () ,可将没返回值的方法传过去
  var colsure1:((str:String) -> String) = {str in return str }
  let colsure2:((str:String) -> String) = {str in return str + "你好"}
- 
+ 然后执行闭包即可 ，如：        let x = colsure1("123")
  19. 对于键盘退出的看test里的工程以及UFO里设置密码的xib，注意有无nav时的情况是不一样的
  
  20. static 与 class 的又一区别： 一个了写了个如  static func model(withJsonObj obj:AnyObject?) -> Mappable? {} 的方法，则此法不能被子类重写，因为它默认是final的， 但用class修饰后就可被重写了。
@@ -226,7 +232,7 @@ class Part: NSObject {
  UIPanGestureRecognizer（拖动）  UIPinchGestureRecognizer（捏合） UIRotationGestureRecognizer（旋转） UITapGestureRecognizer（点按）  UILongPressGestureRecognizer（长按） UISwipeGestureRecognizer（轻扫）
  
  
- 25. 苹果提供一个api(CIImage的方法)对图片放大,还不影响清晰度
+ 25. 苹果提供一个api(CIImage的方法)对图片放大, 但影响了清晰度
      1  // 1.创建Transform    orginalImage的数据类型为CIImage
      2  let scale = imageView.bounds.width / orginalImage.extent.width
      3  let transform = CGAffineTransformMakeScale(scale, scale)
@@ -239,26 +245,26 @@ class Part: NSObject {
  
  
  2. static 的作用：
-  2.1 OC里： 1）如果加了static，就会对其它源文件隐藏。例如在a和msg的定义前加上static，main.c就看不到它们了。利用这一特性可以在不同的文件中定义同名函数和同名变量，而不必担心命名冲突。Static可以用作函数和变量的前缀，对于函数来讲，static的作用仅限于隐藏，而对于变量，static还有下面两个作用。 2）static的第二个作用是保持变量内容的持久。存储在静态数据区的变量会在程序刚开始运行时就完成初始化，也是唯一的一次初始化。共有两种变量存储在静态存储区：全局变量和static变量，只不过和全局变量比起来，static可以控制变量的可见范围，说到底static还是用来隐藏的   3）static的第三个作用是默认初始化为0。其实全局变量也具备这一属性，因为全局变量也存储在静态数据区。在静态数据区，内存中所有的字节默认值都是0x00，某些时候这一特点可以减少程序员的工作量。比如初始化一个稀疏矩阵，我们可以一个一个地把所有元素都置0，然后把不是0的几个元素赋值。如果定义成静态的，就省去了一开始置0的操作。再比如要把一个字符数组当字符串来用，但又觉得每次在字符数组末尾加’\0’太麻烦。如果把字符串定义成静态的，就省去了这个麻烦，因为那里本来就是’\0’
-      4）static的三条作用做一句话总结。首先static的最主要功能是隐藏，其次因为static变量存放在静态存储区，所以它具备持久性和默认值0。
+  2.1 OC里： 1）如果加了static，就会对其它源文件隐藏。例如在a和msg的定义前加上static，main.c就看不到它们了。利用这一特性可以在不同的文件中定义同名函数和同名变量，而不必担心命名冲突。Static可以用作函数和变量的前缀，对于函数来讲，static的作用仅限于隐藏，而对于变量，static还有下面两个作用。 
+   2）static的第二个作用是保持变量内容的持久。存储在静态数据区的变量会在程序刚开始运行时就完成初始化，也是唯一的一次初始化。共有两种变量存储在静态存储区：全局变量和static变量，只不过和全局变量比起来，static可以控制变量的可见范围，说到底static还是用来隐藏的. =即使是在OC里， 在不同的类的.h里同时声明 一个 static NSString *llphoto = @""; 还是会提示重复了，必须将其中一个放在他的.m里来声明
  
-  2.1 swift里， 属性或方法被static修饰后，就是只能被类调用而不能被对象调用。 static修饰的方法或属性 不能被子类重写
+   3）static的第三个作用是默认初始化为0。其实全局变量也具备这一属性，因为全局变量也存储在静态数据区。在静态数据区，内存中所有的字节默认值都是0x00，某些时候这一特点可以减少程序员的工作量。比如初始化一个稀疏矩阵，我们可以一个一个地把所有元素都置0，然后把不是0的几个元素赋值。如果定义成静态的，就省去了一开始置0的操作。再比如要把一个字符数组当字符串来用，但又觉得每次在字符数组末尾加’\0’太麻烦。如果把字符串定义成静态的，就省去了这个麻烦，因为那里本来就是’\0’
+  4）static的总结：static的三条作用做一句话总结。首先static的最主要功能是隐藏，其次因为static变量存放在静态存储区，所以它具备持久性和默认值0。
  
- 3. class :   class var bar: Int? (目前如此设置存储属性会报错，须用static；）目前swift只能在类里 用 class 关键字声明方法和计算属性，static关键字拥有类型存储属性了）
+2.1 swift里， 属性或方法被static修饰后，就是只能被类调用而不能被对象调用。 static修饰的方法或属性 不能被子类重写
+ 
+3. class :   class var bar: Int? (目前如此设置存储属性会报错，须用static；）目前swift只能在类里 用 class 关键字声明方法和计算属性，static关键字拥有类型存储属性了）
  class var bar = 0.0 （计算属性）不直接存储值，而是提供一个getter和一个可选的setter来间接获取、设置其他属性和变量的值
  
  
- 
  27. 在默认的情况下，NSObject提供的isEqual:方法判断两个对象相等的标准和==运算符是一样的，都是要求两个指针指向同一块儿内存地址，只有两个指针变量的地址都是指向同一块儿内存地址的时候，才会返回布尔值真。
- NSString已经重写了NSObject:的isEqual:方法，NSString的isEqual：方法判断两个字符串是否相等的标准是：只要这两个字符串所包含的字符串的内容相同，那么通过isEqual:方法比较就返回真，否则返回假
- NSString中isEqual:方法和isEqualToStirng:方法是一样的，没有区别
+ NSString已经重写了NSObject:的isEqual:方法，NSString的isEqual：方法判断两个字符串是否相等的标准是：只要这两个字符串所包含的字符串的内容相同，那么通过isEqual:方法比较就返回真，否则返回假。NSString中isEqual:方法和isEqualToStirng:方法是一样的，没有区别
  
  
- 28.   Java，ios中
+28.   Java，ios中
   多态的2歌重要实现方式：
       重载（overloading）：类里同名的方法，但参数不同\返回类型不同
-      重写（overriding）： 不同的子类继承同一个父类，重写父类的方法，实现多种形态，即重写时多态的一个重要表现
- 
+      重写（overriding）： 不同的子类继承同一个父类，重写父类的方法，实现多种形态，即重写是多态的一个重要表现
  
  
  
@@ -268,22 +274,20 @@ class Part: NSObject {
 /**************   MARK: 多线程的  *********************
  0. NSThread创建线程方式，是经过苹果封装后的，并且完全面向对象的；但是，它的生命周期还是需要我们手动管理，所以这套方案也是偶尔用用；NSThread 用起来也挺简单的，因为它就那几种方法。同时，我们也只有在一些非常简单的场景才会用 NSThread
  1. GCD 是苹果为多核的并行运算提出的解决方案，所以会自动合理地利用更多的CPU内核（比如双核、四核），最重要的是它会自动管理线程的生命周期（创建线程、调度任务、销毁线程），完全不需要我们管理，我们只需要告诉干什么就行。
- 1.0
- 任务：即操作，你想要干什么，说白了就是一段代码，在 GCD 中就是一个 Block，所以添加任务十分方便。任务有两种执行方式： 同步执行 和 异步执行
- 1.1
- 队列：用于存放任务。一共有两种队列， 串行队列 和 并行队列。
- 1.2
- 如果是 同步（sync） 操作，它会阻塞当前线程并等待 Block 中的任务执行完毕，然后当前线程才会继续往下运行。
- 如果是 异步（async）操作，当前线程会直接往下执行，它不会阻塞当前线程。
+     1.0
+     任务：即操作，你想要干什么，说白了就是一段代码，在 GCD 中就是一个 Block，所以添加任务十分方便。任务有两种执行方式： 同步执行 和 异步执行
+     1.1
+     队列：用于存放任务。一共有两种队列， 串行队列 和 并行队列。
+     1.2
+     如果是 同步（sync） 操作，它会阻塞当前线程并等待 Block 中的任务执行完毕，然后当前线程才会继续往下运行。
+     如果是 异步（async）操作，当前线程会直接往下执行，它不会阻塞当前线程。
  2. NSOperation和NSOperationQueue
- 
- NSOperation 是苹果公司对 GCD 的封装，完全面向对象，所以使用起来更好理解。 大家可以看到 NSOperation 和 NSOperationQueue 分别对应 GCD 的 任务 和 队列
- 2.1
- 将要执行的任务封装到一个 NSOperation 对象中。
- 将此任务添加到一个 NSOperationQueue 对象中。
+     NSOperation 是苹果公司对 GCD 的封装，完全面向对象，所以使用起来更好理解。 大家可以看到 NSOperation 和 NSOperationQueue 分别对应 GCD 的 任务 和 队列
+     2.1
+     将要执行的任务封装到一个 NSOperation 对象中。
+     将此任务添加到一个 NSOperationQueue 对象中。
 
  3. NSOperationQueue  ：
- 
  
  // 创建一个队列
  NSOperationQueue *queue = [[NSOperationQueue alloc]init];
@@ -351,11 +355,11 @@ class Part: NSObject {
  2、串行队列
  解决滞后问题的备用方法是使用串行队列。每个应用都有一个默认的串行队列，这实际上是用于UI的主队列。所以记住当使用串行队列时，你必须创建一个新队列，否则会在应用试图执行更新UI的任务的时候执行你的任务。这将导致错误和延迟，破坏用户体验。你可以使用函数dispatch_queue_create来创建一个新队列，
  dispatch_queue_create("com.app.www", DISPATCH_QUEUE_SERIAL);
- 操作队列
- 不同于GCD，它们不按先进先出的顺序。下面是操作队列和调度队列的不同点：
- 1.不遵循先进先出：在操作队列中，你可以设置一个操作的执行优先级，你可以添加操作之间的依赖关系，这意味着你可以定义一些操作完成后才会执行其他操作。这就是为什么它们不遵循先进先出。
- 2.默认情况下，它们同时操作：然而你不能把它的类型改变成串行队列。通过使用操作之间的依赖关系，在操作队列还存在一个工作区来依次执行任务。
- 3.操作队列是类NSOperationQueue的实例，其任务封装在NSOperation的实例里。
+     操作队列
+     不同于GCD，它们不按先进先出的顺序。下面是操作队列和调度队列的不同点：
+     1.不遵循先进先出：在操作队列中，你可以设置一个操作的执行优先级，你可以添加操作之间的依赖关系，这意味着你可以定义一些操作完成后才会执行其他操作。这就是为什么它们不遵循先进先出。
+     2.默认情况下，它们同时操作：然而你不能把它的类型改变成串行队列。通过使用操作之间的依赖关系，在操作队列还存在一个工作区来依次执行任务。
+     3.操作队列是类NSOperationQueue的实例，其任务封装在NSOperation的实例里。
  
  NSOperation
  任务以NSOperation实例的形式提交到操作队列。
@@ -417,9 +421,7 @@ class Part: NSObject {
  // 串行队列(系统默认的串行队列)
  //    dispatch_queue_t DefaultQueue = dispatch_get_main_queue();
  
- // 提交并发任务到queue中（我们可以创建多个并发任务以及串行任务，
- // 任务之间是相互不影响的，只有在开始顺序以及执行顺序上
- // 会有些许不同）
+ // 提交并发任务到queue中（我们可以创建多个并发任务以及串行任务， 任务之间是相互不影响的，只有在开始顺序以及执行顺序上会有些许不同）
  dispatch_async(queue, ^{
  NSLog(@"我是并发任务");
  });
@@ -434,126 +436,6 @@ class Part: NSObject {
  dispatch_sync(newQueue, ^{
  NSLog(@"我是串行任务");
  });
- 
- //    dispatch_async与dispatch_sync是指添加任务到队列中的方式，有同步跟异步，同步是指等添加进队列中的任务执行完再添加下一个任务，异步是无需等待，直接添加
- }
- 此文章参考了：http://www.cocoachina.com/ios/20160201/15179.html
- 
- 文／婷空万里（简书作者）
- 原文链接：http://www.jianshu.com/p/a39123e8e7aa
- 著作权归作者所有，转载请联系作者获得授权，并标注“简书作者”。
- 
- GCD是最常用的管理并行代码和执行异步操作的Unix系统层的API。GCD构造和管理队列中的任务。
- 
- 队列是什么?
- 队列是按先进先出(FIFO)管理对象的数据结构。
- 调度队列！
- 调度队列是一种简单的异步和同步任务的方法。
- 串行队列！
- 当你选择创建一个串行队列，队列一次只能执行一个任务。
- 使用串行队列的优点是：
- 1.保证序列化访问共享资源，避免竞态条件。
- 2.任务的执行顺序是可预测的。当你提交任务到一个串行调度队列，它们将按插入的顺序执行。
- 3.你可以创建任意数量的串行队列。
- 并行队列!
- 顾名思义，并行队列可以并行执行多个任务。
- 使用队列
- 1、并行队列
- 默认情况下，系统为每个应用提供了一个串行队列和四个并行队列。
- 使用一个全局并行队列，你必须得到队列的引用，使用函数dispatch_get_global_queue，它的第一个参数是：
- 
- DISPATCH_QUEUE_PRIORITY_HIGH
- DISPATCH_QUEUE_PRIORITY_DEFAULT
- DISPATCH_QUEUE_PRIORITY_LOW
- DISPATCH_QUEUE_PRIORITY_BACKGROUND
- 2、串行队列
- 解决滞后问题的备用方法是使用串行队列。每个应用都有一个默认的串行队列，这实际上是用于UI的主队列。所以记住当使用串行队列时，你必须创建一个新队列，否则会在应用试图执行更新UI的任务的时候执行你的任务。这将导致错误和延迟，破坏用户体验。你可以使用函数dispatch_queue_create来创建一个新队列，
- dispatch_queue_create("com.app.www", DISPATCH_QUEUE_SERIAL);
- 操作队列
- 不同于GCD，它们不按先进先出的顺序。下面是操作队列和调度队列的不同点：
- 1.不遵循先进先出：在操作队列中，你可以设置一个操作的执行优先级，你可以添加操作之间的依赖关系，这意味着你可以定义一些操作完成后才会执行其他操作。这就是为什么它们不遵循先进先出。
- 2.默认情况下，它们同时操作：然而你不能把它的类型改变成串行队列。通过使用操作之间的依赖关系，在操作队列还存在一个工作区来依次执行任务。
- 3.操作队列是类NSOperationQueue的实例，其任务封装在NSOperation的实例里。
- 
- NSOperation
- 任务以NSOperation实例的形式提交到操作队列。
- 1.NSBlockOperation——使用这个类来用一个或多个block初始化操作。操作本身可以包含多个块。当所有block被执行操作将被视为完成。
- 2.NSInvocationOperation——使用这个类来初始化一个操作，它包括指定对象的调用selector。
- 下面贴上我简单的示例代码
- 
- // NSBlockOperation直接操作队列执行任务
- // 通过它最关键的是设置任务被执行完后还能执行block
- // 可以取消任务，关联任务（依赖）
- - (void)blockOperation
- {
- // 创建队列
- NSOperationQueue *queue = [NSOperationQueue currentQueue];
- // 创建任务
- NSBlockOperation *blockOperation = [NSBlockOperation blockOperationWithBlock:^{
- NSLog(@"我创建了第一个任务");
- }];
- // 任务执行完毕后的回调方法
- blockOperation.completionBlock = ^(){
- NSLog(@"任务执行完毕");
- };
- // 往队列中添加任务
- [queue addOperation:blockOperation];
- 
- // 取消任务
- [queue cancelAllOperations];
- 
- NSBlockOperation *dependencyBlock = [NSBlockOperation blockOperationWithBlock:^{
- NSLog(@"我先执行");
- }];
- // 创建依赖
- [blockOperation addDependency:dependencyBlock];
- }
- 
- // 操作队列（NSOpreationQueue）
- - (void)opreationQueue
- {
- // 创建一个单元队列(NSOperationQueue是OC对象,
- // 是苹果封装了GCD而设计的一套框架)
- NSOperationQueue *queue = [NSOperationQueue currentQueue];
- // 向队列中提交任务，可以提交多个，当所有的任务被执行完
- // 才算是这一次操作被执行完毕
- [queue addOperationWithBlock:^{
- NSLog(@"我是第一个操作");
- // 在更新UI时，我们可以使用它提交到系统的主队列
- [[NSOperationQueue mainQueue] addOperationWithBlock:^{
- NSLog(@"更新UI界面");
- }];
- }];
- }
- 
- // GCD的应用
- - (void)dispatch_async
- {
- // 并行队列(系统有4种不同类型的并行队列)
- dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
- 
- // 串行队列(系统默认的串行队列)
- //    dispatch_queue_t DefaultQueue = dispatch_get_main_queue();
- 
- // 提交并发任务到queue中（我们可以创建多个并发任务以及串行任务，
- // 任务之间是相互不影响的，只有在开始顺序以及执行顺序上
- // 会有些许不同）
- dispatch_async(queue, ^{
- NSLog(@"我是并发任务");
- });
- 
- // 提交串行任务到defaultQueue中
- // 这样在其实应该是更新UI时，而执行了下列方法，因而
- // 我们可以创建一个队列，然后将其提交至串行队列中
- // DISPATCH_QUEUE_SERIAL表明是串行队列（一连串的）
- //    dispatch_queue_t newQueue = dispatch_queue_create(@"com.app.www", DISPATCH_QUEUE_SERIAL);
- // 因为这是C语言代码，所以应该是“”
- dispatch_queue_t newQueue = dispatch_queue_create("com.app.www", DISPATCH_QUEUE_SERIAL);
- dispatch_sync(newQueue, ^{
- NSLog(@"我是串行任务");
- });
- 
- //    dispatch_async与dispatch_sync是指添加任务到队列中的方式，有同步跟异步，同步是指等添加进队列中的任务执行完再添加下一个任务，异步是无需等待，直接添加
  }
  此文章参考了：http://www.cocoachina.com/ios/20160201/15179.html
  
@@ -563,6 +445,7 @@ class Part: NSObject {
  
  
  
+ 5. 
  
  
  
@@ -606,8 +489,8 @@ class Part: NSObject {
      // 此法只加载一次图片，故引导图用之
      imageView.image = UIImage.init(contentsOfFile: path)
  
- 四。imageNamed:和imageWithContentsOfFile:的区别
-   项目完成以后，所有的图片资源会被一起打包成ipa文件发布到AppStore，拖入Assets.xcassets文件夹中的图片最后会被打包成一个Assets.car文件，我们不能根据路径读取图片。而拖入Supporting Files文件夹中的图片可以根据路径读取。另外，从某种程度上讲，拖入Assets.xcassets文件夹中的图片因为被打包成了Assets.car文件，可以得到一定程度上的保护，以防止盗图(之所以说是一定程度，是因为我们依然可以通过其他手段解压相关图片)。而拖入Supporting Files文件夹中的图片则直接暴露在外面。
+   四。imageNamed:和imageWithContentsOfFile:的区别
+     项目完成以后，所有的图片资源会被一起打包成ipa文件发布到AppStore，拖入Assets.xcassets文件夹中的图片最后会被打包成一个Assets.car文件，我们不能根据路径读取图片。而拖入Supporting Files文件夹中的图片可以根据路径读取。另外，从某种程度上讲，拖入Assets.xcassets文件夹中的图片因为被打包成了Assets.car文件，可以得到一定程度上的保护，以防止盗图(之所以说是一定程度，是因为我们依然可以通过其他手段解压相关图片)。而拖入Supporting Files文件夹中的图片则直接暴露在外面。
  
  6. @objc protocol QLGPVerityDelegate: NSObjectProtocol {
         optional func verityGLSuccessWithResults(results:AnyObject)
@@ -633,6 +516,17 @@ class Part: NSObject {
  2.2 只有在目标设备上，才会执行设备对应的指令集。
     如果在工程Build Setting的Architectures 中的“Build Active Architecture Only”选择为YES，则即使你设置成armv7 , armv7s同时支持，也只会编译对应指令集的包；若选择NO，则编译器会整合两个指令集到一起，此时的包比较大，但是能在iPhone5上使用armv7s的优化，同时也能适配老的设备。一般都是Debug时“Build Active Architecture Only”选择YES，用当前的架构看代码逻辑是否有问题；而在Release时选择NO，来适配不同的设备。
     此外，模拟器并不运行arm代码，软件会被编译成x86可以运行的指令。所以生成静态库时都是会先生成两个.a，一个是i386的用于在模拟器运行，另一个是在真实设备上运行的，然后再用命令将两个.a合并成一个。
+ 3. error: 'retain' is unavailable: not available in automatic reference counting。原因是 项目使用的是ARC，但是有非ARC代码。 项目中要混合使用ARC和非ARC。
+     
+     解决办法：  target -> Build Phases -> Compile Sources
+     双击报错的 *.m 文件
+     在窗口中输入-fno-objc-arc
+     如果使用的非 ARC ，则为 ARC 的代码加入 -fobjc-arc
+     如果使用的是 ARC ，则为非 ARC 代码加入 -fno-objc-arc
+    判断项目是否用的ARC，在bulidSetting 里输入automatic，看
+    
+
+ 
  
  8.  NSUserDefault不能存储用户自定义类型， 
   8.1 用setValue来存储Nsdate时，用   var dic = kUserDefaults.dictionaryRepresentation()
@@ -663,6 +557,10 @@ class Part: NSObject {
  六：  cocopods 的一些东西
    1.  执行pod search AFNetworking 时出现Creating search index for spec repo 'master'..，说明 此时由于缺失搜索文件而正在创建搜索文件。
  2. 执行pod search AFNetworking 时出现搜索不到的提示， 这是因为之前pod search的时候生成了缓存文件，search_index.json， 执行rm ~/Library/Caches/CocoaPods/search_index.json来删除该文件，然后再次输入pod search AFNetworking进行搜索， 这时会提示Creating search index for spec repo 'master'..， 等待一会将会出现搜索结果如下
+ 
+ 七：  
+ 
+ 
  
  */
 
