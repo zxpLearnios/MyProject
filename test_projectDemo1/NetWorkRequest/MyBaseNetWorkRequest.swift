@@ -9,6 +9,7 @@
 //  但Oauth认证接口除外，内容格式为Content-type: application/x-www-form-urlencoded; charset=UTF-8;
 //  2. 【Swift中异常处理的三种方式    2.1 try : 正常处理,必须用到do {} catch {} ；  2.2 try! : 告诉系统一定没有异常,也就是说不用do catch来处理,开发中不建议用.一旦有异常,程序崩溃； 2.3 try? : 告诉系统可能有异常,也可能没有异常.如果没有异常,系统会自动将结果包装成一个可选类型给你,如果有异常,系统会返回nil.如果使用try?可以不是同do catch进行处理】
 //  3. Alamofire 本质是基于`NSURLSession` ，使用GET类型请求的时候，参数会自动拼接在url后面；参数是放在在HTTP body里传递，url上看不到； 2，Alamofire的功能特性：
+
 // 【
 //（1）链式的请求/响应方法
 //（2）URL / JSON / plist参数编码
