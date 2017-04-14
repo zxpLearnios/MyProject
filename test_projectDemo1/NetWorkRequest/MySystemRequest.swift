@@ -127,8 +127,8 @@ class MySystemRequest: NSObject {
 
     var request:URLRequest!
     // 由此来配置URLSession
-    private let sessionConfiguration = URLSessionConfiguration.default
-    private let session = URLSession.init(configuration: sessionConfiguration)
+//    private let sessionConfig = URLSessionConfiguration.default
+    private let session = URLSession.init(configuration: URLSessionConfiguration.default)
     
     private var  currentTask:URLSessionDataTask!
     private let operationQueue = OperationQueue.init()
