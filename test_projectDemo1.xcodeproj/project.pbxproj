@@ -30,6 +30,8 @@
 		541CAFD01D41BAAB00A8EC88 /* MyVideoPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 541CAFCC1D41BAAB00A8EC88 /* MyVideoPlayerView.xib */; };
 		5435D2C11E5A90DD002A8F9B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5435D2C01E5A90DD002A8F9B /* MapKit.framework */; };
 		544E978A1D65C1CB00A8984E /* MyPresentMav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544E97891D65C1CB00A8984E /* MyPresentMav.swift */; };
+		544F46701ECAD3DB00B90532 /* RACViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F466E1ECAD3DB00B90532 /* RACViewController.swift */; };
+		544F46711ECAD3DB00B90532 /* RACViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 544F466F1ECAD3DB00B90532 /* RACViewController.xib */; };
 		5454FF1F1D5072AC00A0A58D /* Array+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5454FF1E1D5072AC00A0A58D /* Array+extension.swift */; };
 		5455730E1D9E0BDC001CC597 /* MySystemCamareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5455730D1D9E0BDC001CC597 /* MySystemCamareVC.swift */; };
 		5458A9091D6E87E3004A8418 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5458A9081D6E87E3004A8418 /* Config.swift */; };
@@ -94,6 +96,7 @@
 		5486F7A31D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */; };
 		54878C2F1D88F517006AF203 /* MySounder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54878C2E1D88F517006AF203 /* MySounder.swift */; };
 		54878C311D88FC04006AF203 /* scanQrCodeCompleteSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 54878C301D88FC04006AF203 /* scanQrCodeCompleteSound.wav */; };
+		5488119D1EBC4A0D0074CAA9 /* WeakAndStrong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5488119C1EBC4A0D0074CAA9 /* WeakAndStrong.swift */; };
 		548B80F51D791F7C00D3517F /* lantinghei.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 548B80F41D791F7C00D3517F /* lantinghei.TTF */; };
 		548B80F81D79201B00D3517F /* demo.html in Resources */ = {isa = PBXBuildFile; fileRef = 548B80F61D79201B00D3517F /* demo.html */; };
 		548B80F91D79201B00D3517F /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 548B80F71D79201B00D3517F /* iconfont.ttf */; };
@@ -173,6 +176,8 @@
 		5435D2C01E5A90DD002A8F9B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5435D2C21E5A95DC002A8F9B /* test_projectDemo1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = test_projectDemo1.entitlements; sourceTree = "<group>"; };
 		544E97891D65C1CB00A8984E /* MyPresentMav.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPresentMav.swift; sourceTree = "<group>"; };
+		544F466E1ECAD3DB00B90532 /* RACViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RACViewController.swift; sourceTree = "<group>"; };
+		544F466F1ECAD3DB00B90532 /* RACViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RACViewController.xib; sourceTree = "<group>"; };
 		5454FF1E1D5072AC00A0A58D /* Array+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
 		5455730D1D9E0BDC001CC597 /* MySystemCamareVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySystemCamareVC.swift; sourceTree = "<group>"; };
 		5458A9081D6E87E3004A8418 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -245,6 +250,7 @@
 		5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBaseNetWorkRequest.swift; sourceTree = "<group>"; };
 		54878C2E1D88F517006AF203 /* MySounder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySounder.swift; sourceTree = "<group>"; };
 		54878C301D88FC04006AF203 /* scanQrCodeCompleteSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = scanQrCodeCompleteSound.wav; sourceTree = "<group>"; };
+		5488119C1EBC4A0D0074CAA9 /* WeakAndStrong.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakAndStrong.swift; sourceTree = "<group>"; };
 		548B80F41D791F7C00D3517F /* lantinghei.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = lantinghei.TTF; sourceTree = "<group>"; };
 		548B80F61D79201B00D3517F /* demo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = demo.html; sourceTree = "<group>"; };
 		548B80F71D79201B00D3517F /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
@@ -372,6 +378,15 @@
 			path = "Voice&&vedio";
 			sourceTree = "<group>";
 		};
+		544F466D1ECAD3BF00B90532 /* ReactiveCocoa */ = {
+			isa = PBXGroup;
+			children = (
+				544F466E1ECAD3DB00B90532 /* RACViewController.swift */,
+				544F466F1ECAD3DB00B90532 /* RACViewController.xib */,
+			);
+			path = ReactiveCocoa;
+			sourceTree = "<group>";
+		};
 		545CE13B1D4065DA007A3DE0 /* GuideVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -494,6 +509,8 @@
 				542A51DD1D48B2840020D722 /* test_projectDemo1-Bridging-Header.h */,
 				5465D23D1CFBDBE20012A314 /* Assets.xcassets */,
 				545E33CB1D07B456006768C6 /* Images.xcassets */,
+				544F466D1ECAD3BF00B90532 /* ReactiveCocoa */,
+				5488119B1EBC49F60074CAA9 /* weak&strongOfSwift */,
 				54738EB71D92852E00C58AB4 /* Tools */,
 				545E2C571D810E0F001A046D /* PhotoBrowser */,
 				545CE15E1D4065FD007A3DE0 /* Knowledge&Log&const */,
@@ -627,6 +644,14 @@
 				549488811D61AC8100C1E3A8 /* MySystemRequest.swift */,
 			);
 			path = NetWorkRequest;
+			sourceTree = "<group>";
+		};
+		5488119B1EBC49F60074CAA9 /* weak&strongOfSwift */ = {
+			isa = PBXGroup;
+			children = (
+				5488119C1EBC4A0D0074CAA9 /* WeakAndStrong.swift */,
+			);
+			path = "weak&strongOfSwift";
 			sourceTree = "<group>";
 		};
 		548B80FA1D79206400D3517F /* IconfotLabel */ = {
@@ -850,6 +875,7 @@
 				5462F0D71DAF2AA900105B51 /* contenImg.png in Resources */,
 				5414305F1DAE3EAB00CBBAA2 /* guideImage2@2x.png in Resources */,
 				541CAFB71D41BA9A00A8EC88 /* MyCollectionView.xib in Resources */,
+				544F46711ECAD3DB00B90532 /* RACViewController.xib in Resources */,
 				54C7BB191CFD862500963002 /* LaunchVC.storyboard in Resources */,
 				5465D23E1CFBDBE20012A314 /* Assets.xcassets in Resources */,
 				548218FD1E8105DF00377FF3 /* MyBannerViewCell.xib in Resources */,
@@ -957,6 +983,7 @@
 				541CAFCD1D41BAAB00A8EC88 /* MyLoadProgressView.swift in Sources */,
 				54C7BB1A1CFD862500963002 /* LaunchVC.swift in Sources */,
 				54B9CE341D4225A5005D7EC2 /* MyAlbumDetailViewController.swift in Sources */,
+				5488119D1EBC4A0D0074CAA9 /* WeakAndStrong.swift in Sources */,
 				546F01C31D753804006F16AC /* MyPlusButton.swift in Sources */,
 				544E978A1D65C1CB00A8984E /* MyPresentMav.swift in Sources */,
 				546117521CFEC459008C48DB /* MyTopScrollView.swift in Sources */,
@@ -1001,6 +1028,7 @@
 				541CAFBA1D41BA9A00A8EC88 /* MyImagePickerController.swift in Sources */,
 				54D753C41E65674A00A88857 /* MyPhotoBrowserScrollView.swift in Sources */,
 				5455730E1D9E0BDC001CC597 /* MySystemCamareVC.swift in Sources */,
+				544F46701ECAD3DB00B90532 /* RACViewController.swift in Sources */,
 				541CAFCF1D41BAAB00A8EC88 /* MyVideoPlayerView.swift in Sources */,
 				541CAFB61D41BA9A00A8EC88 /* MyCollectionView.swift in Sources */,
 				54D0AA8C1D2D0F46002A97CD /* Date+Extension.swift in Sources */,
@@ -1165,6 +1193,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quark.zjn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "zjn DEBUG";
 				SWIFT_OBJC_BRIDGING_HEADER = "test_projectDemo1/test_projectDemo1-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;

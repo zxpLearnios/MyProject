@@ -144,12 +144,12 @@ func kCachesPath() -> String! {
 }
 
 
-/** 打印 */
+/** 自定义打印，输出 */
 func MyLog<T>(_ message: T, file: NSString = #file, method: String = #function, line: Int = #line)
 {
     //  DEBUG的使用
     #if DEBUG
-        debugPrint("\(method)[\(line)]: \(message)")
+        print("\(message)")
     #else
     
         

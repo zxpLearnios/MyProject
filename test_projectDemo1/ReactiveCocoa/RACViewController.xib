@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RACViewController" customModule="test_projectDemo1" customModuleProvider="target">
+            <connections>
+                <outlet property="accountField" destination="dNg-ft-MMD" id="I24-cy-s4R"/>
+                <outlet property="accountLab" destination="ZwI-pL-3IF" id="7QH-H8-Nr9"/>
+                <outlet property="loginBtn" destination="v7W-8G-97w" id="PWf-fv-TRz"/>
+                <outlet property="pwdField" destination="ma8-sd-2Ok" id="fFe-0o-qSO"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入用户名" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dNg-ft-MMD">
+                    <rect key="frame" x="106" y="77" width="181" height="30"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ma8-sd-2Ok">
+                    <rect key="frame" x="106" y="145" width="187" height="30"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v7W-8G-97w">
+                    <rect key="frame" x="158" y="226" width="31" height="30"/>
+                    <state key="normal" title="登录"/>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="用户名为：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ron-QJ-VvX">
+                    <rect key="frame" x="16" y="196" width="87" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="更改" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZwI-pL-3IF">
+                    <rect key="frame" x="106" y="196" width="70" height="23"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="23" id="Unj-zP-MUa"/>
+                        <constraint firstAttribute="width" constant="70" id="kqJ-6u-UqG"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="ma8-sd-2Ok" firstAttribute="leading" secondItem="ZwI-pL-3IF" secondAttribute="leading" id="04U-py-2GH"/>
+                <constraint firstAttribute="trailing" secondItem="dNg-ft-MMD" secondAttribute="trailing" constant="88" id="83J-u4-Gc5"/>
+                <constraint firstItem="ron-QJ-VvX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="BH0-lD-YTD"/>
+                <constraint firstItem="dNg-ft-MMD" firstAttribute="leading" secondItem="ma8-sd-2Ok" secondAttribute="leading" id="F2E-pk-Y2c"/>
+                <constraint firstItem="ZwI-pL-3IF" firstAttribute="leading" secondItem="ron-QJ-VvX" secondAttribute="trailing" constant="3" id="Fck-he-QNg"/>
+                <constraint firstItem="v7W-8G-97w" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="158" id="Jcd-eS-8IB"/>
+                <constraint firstItem="ZwI-pL-3IF" firstAttribute="top" secondItem="ma8-sd-2Ok" secondAttribute="bottom" constant="21" id="Txb-cw-nLY"/>
+                <constraint firstItem="ron-QJ-VvX" firstAttribute="firstBaseline" secondItem="ZwI-pL-3IF" secondAttribute="firstBaseline" id="YAY-Dc-bcU"/>
+                <constraint firstItem="v7W-8G-97w" firstAttribute="top" secondItem="ZwI-pL-3IF" secondAttribute="bottom" constant="7" id="b0z-dG-PnY"/>
+                <constraint firstItem="ma8-sd-2Ok" firstAttribute="top" secondItem="dNg-ft-MMD" secondAttribute="bottom" constant="38" id="bke-QG-vPt"/>
+                <constraint firstItem="dNg-ft-MMD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="77" id="dDB-U9-tcI"/>
+                <constraint firstAttribute="trailing" secondItem="ma8-sd-2Ok" secondAttribute="trailing" constant="82" id="nz9-FT-7k8"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="53.5"/>
+        </view>
+    </objects>
+</document>

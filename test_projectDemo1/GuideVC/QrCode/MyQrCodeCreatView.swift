@@ -37,7 +37,7 @@ import UIKit
 //import CoreGraphics
 
 
-// 闭包的三种写法
+// 闭包的写法
 //typealias colsure = (str:String) -> Void
 //var colsure1:((str:String) -> String) = {str in return str }
 //let colsure2:((str:String) -> String) = {str in return str + "你好"}

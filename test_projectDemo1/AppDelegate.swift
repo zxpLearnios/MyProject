@@ -23,9 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var locationManager:CLLocationManager!
     
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
        
-        MyLog("在APPdelegate里测试打印")
+//        MyLog("在APPdelegate里测试打印")
         
         window = UIWindow.init(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()

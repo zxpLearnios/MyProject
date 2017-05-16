@@ -12,12 +12,12 @@ class QLCreditCertificateVC: UITableViewController {
 
     
     var isForLow = false // 是否用于低风险
-    fileprivate let cellid = "QLCreditCertificateCell"
-    fileprivate let headCellid = "QLCreditCertificateHeadCell"
+    private let cellid = "QLCreditCertificateCell"
+    private let headCellid = "QLCreditCertificateHeadCell"
     
-    fileprivate let rows = [[2, 5], [2, 4, 2]]
-    fileprivate let isMustEdits = [[true, false], [true, true,false]]
-    fileprivate let fontTexts = [["\u{e60a}", "\u{e60b}"], ["\u{e60a}", "\u{e60a}", "\u{e60b}"]]
+    private let rows = [[2, 5], [2, 4, 2]]
+    private let isMustEdits = [[true, false], [true, true,false]]
+    private let fontTexts = [["\u{e60a}", "\u{e60b}"], ["\u{e60a}", "\u{e60a}", "\u{e60b}"]]
     
     
     override func viewDidLoad() {
@@ -36,7 +36,7 @@ class QLCreditCertificateVC: UITableViewController {
         
     }
     
-    fileprivate func setup(){
+    private func setup(){
 //        self.view.backgroundColor = kviewBgColor
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 150, 0)
         self.tableView.register(UINib.init(nibName: headCellid, bundle: nil), forCellReuseIdentifier: headCellid)

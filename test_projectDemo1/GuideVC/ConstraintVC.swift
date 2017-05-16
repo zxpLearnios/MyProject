@@ -13,8 +13,8 @@ import CoreText
 
 
 class ConstraintVC: UIViewController { //LTMorphingLabelDelegate
-    fileprivate let redView = UIView(), greenView = UIView(), blueView = UIView(), label = UILabel()//UILabel()
-//    fileprivate let muLabel = LTMorphingLabel
+    private let redView = UIView(), greenView = UIView(), blueView = UIView(), label = UILabel()//UILabel()
+//    private let muLabel = LTMorphingLabel
     
     let mTexts = ["计划", "函数几号的", "客户萨尔那块", "弄好塞飞洛", "看发货", "看红方", "告诉你的"]
     
@@ -61,7 +61,7 @@ class ConstraintVC: UIViewController { //LTMorphingLabelDelegate
         
     }
 
-    fileprivate func addConstranit1(){
+    private func addConstranit1(){
       
         // 所有属性必须 都在里面设置
         constrain(greenView, redView, blueView) { (g, r, b) in
@@ -124,7 +124,7 @@ class ConstraintVC: UIViewController { //LTMorphingLabelDelegate
     }
     
     
-    fileprivate func useCoreText(){
+    private func useCoreText(){
     
         var str = NSMutableAttributedString.init(string: "vdth而后人和他")
         

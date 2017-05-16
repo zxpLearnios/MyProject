@@ -14,7 +14,7 @@ import UIKit
     /*
      设置字体大小
      */
-    fileprivate var _fontSize : Int = 14
+    private var _fontSize : Int = 14
     @IBInspectable var fontSize : Int {
         get {
             return _fontSize
@@ -36,7 +36,7 @@ import UIKit
         }
     }
     
-    fileprivate func setFontForSelf(){
+    private func setFontForSelf(){
         self.textAlignment = .center
         let iconFont = UIFont(name: "iconfont", size: CGFloat(_fontSize))
         self.font = iconFont
