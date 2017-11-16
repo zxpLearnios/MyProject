@@ -43,7 +43,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     var request:MyBaseNetWorkRequest!
     var bannerView:MyBannerView!
     
-    
+    let kn = Khowledge()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -208,8 +208,13 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
 //        let weakStrong = WeakAndStrong()
 //        weakStrong.testRetainCount()
         
-        // 21.  reactiveCocoa rac
+        // 21. 
+        kn
+        
+        // 22.  reactiveCocoa rac
         addTestReactiveCocoa()
+        
+        
     }
     
     

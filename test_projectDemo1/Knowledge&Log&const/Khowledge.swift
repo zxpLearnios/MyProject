@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Jingnan Zhang. All rights reserved.
 //  swift的一些知识
 //   耗时操作不要直接放在init里，除非初始化后，后面不再用此对象，则是可以写在init里的。
-
+// Swift相比于Objective-C又一个重要的优点，它对函数式编程提供了很好的支持，Swift提供了map、filter、reduce这三个高阶函数作为对容器的支持。
 import UIKit
 
 final class Khowledge: NSObject {
@@ -17,34 +17,74 @@ final class Khowledge: NSObject {
      */
     
     fileprivate(set) var isKeyPresent = false // 对外部只读，对内可读写
+    
     override init() {
-        // 2. map 映射  filter
-        let numbers = [1,2,3,4]
+        super.init()
         
-        numbers.sorted()
-        let result = numbers.map { $0 + 2 }
-        debugPrint(result)  // [3,4,5,6]
+        // 2. swift高级函数：   map：映射  flatmap reduce  filter
+        let numbers = [1, 2, 3, 4]
+        let letters = ["a", "b"]
         
-        let stringResult = numbers.map { "No. \($0)" }
-        debugPrint(stringResult) // ["No. 1", "No. 2", "No. 3", "No. 4"]
+        let strS = ["a1", "b23"]
         
-        let result0 = numbers.filter { $0 >= 2} // 数组中>=2 的元素
+        
+//        numbers.sorted()
+//        let result = numbers.map { $0 + 2 }
+//        debugPrint(result)  // [3,4,5,6]
+        
+//        let stringResult = numbers.map { "No. \($0)" }
+//        debugPrint(stringResult) // ["No. 1", "No. 2", "No. 3", "No. 4"]
+//        
+//        let result0 = numbers.filter { $0 >= 2} // 数组中>=2 的元素
 
         // 3. flatMap
-        let result1 = numbers.flatMap { $0 + 2 }
-         debugPrint(result1) //  = [3,4,5,6]
+//        let result1 = numbers.flatMap { $0 + 2 }
+//         debugPrint(result1) //  = [3,4,5,6]
         
         // 4.  flatMap 与 map的区别
-        let numbersCompound = [[1,2,3],[4,5,6]];
-        let res = numbersCompound.map { $0.map{ $0 + 2 } }
-        debugPrint(res) // [[3, 4, 5], [6, 7, 8]]
+//        let numbersCompound = [[1,2,3],[4,5,6]];
+//        let res = numbersCompound.map { $0.map{ $0 + 2 } }  // map进行数组的合并
+//        debugPrint(res) // [[3, 4, 5], [6, 7, 8]]
+//        
+//        let flatRes = numbersCompound.flatMap { $0.map{ $0 + 2 } }
+//        debugPrint(flatRes)  // [3, 4, 5, 6, 7, 8]
         
-        let flatRes = numbersCompound.flatMap { $0.map{ $0 + 2 } }
-        debugPrint(flatRes)  // [3, 4, 5, 6, 7, 8]
+        // flatmap合并数组， count = 原数组count之积
+//        let flatRes1 = numbers.flatMap { count in
+//            letters.map ({ fruit in
+//                return fruit + "  \(count)"
+//            })   
+//        }
+//        debugPrint(flatRes1)  // ["a  1", "b  1", "a  2", "b  2", "a  3", "b  3", "a  4", "b  4"]
         
-        let optionalArray: [String?] = ["AA", nil, "BB", "CC"];
-        var optionalResult = optionalArray.flatMap{ $0 } // flatMap 调用后类型变成了[String], ["AA", "BB", "CC"]，flatMap 实现了过滤掉nil值
-        let mapOptionalRes = optionalArray.map{$0} // map 后 ，[Optional("AA"), nil, Optional("BB"), Optional("CC")]
+        // filter
+        let newNumbers = numbers.filter { (number) -> Bool in
+            return number <= 3
+        }
+        
+//        let newNumbers = numbers.filter(filterArray)
+        
+//        let newNumbers = numbers.filter{ return $0 <= 3 }
+//        debugPrint(newNumbers)
+        
+        // reduce
+//        let newStrS = strS.reduce("start") { (str1, str2) -> String in
+//            return str1 + str2
+//        }
+//        debugPrint(newStrS)
+
+//        let newLetters = letters.reduce("xx") { (str1, str2) -> String in
+//            return str1 + str2
+//        }
+        
+//        debugPrint(newLetters)
+        
+        
+        
+//        let optionalArray: [String?] = ["AA", nil, "BB", "CC"];
+//        var optionalResult = optionalArray.flatMap{ $0 } // flatMap 调用后类型变成了[String], ["AA", "BB", "CC"]，flatMap 实现了过滤掉nil值
+//        let mapOptionalRes = optionalArray.map{$0} // map 后 ，[Optional("AA"), nil, Optional("BB"), Optional("CC")]
+        
         
         
         // 5. 多线程 队列
@@ -75,6 +115,10 @@ final class Khowledge: NSObject {
         }
         
         debugPrint(a)
+    }
+    
+    func filterArray(number: Int) -> Bool{
+        return number <= 3
     }
     
 }
@@ -641,6 +685,17 @@ class Part: NSObject {
  
  24. 为了避免循环引用，不要将 Swift 代码导入到 Objective-C 头文件中. 但是你可以在 Objective-C 头文件中前向声明（forward declare）一个 Swift 类来使用它，然而，注意不能在 Objective-C 中继承一个 Swift 类。
  25 . 选项形式（as?）的操作执行转换并返回期望类型的一个选项值，如果转换成功则返回的选项包含有效值，否则选项值为 nil .   强制形式（as ）的操作执行一个实例到目的类型的强制转换，因此使用该形式可能触发一个运行时错误。
+ 
+ 
+ 
+ 26.   @1x  @2x  @3x  
+ 
+ @1x 为非retina屏的iphone。iphone4以前，不包含4的手机需要使用这个标示。
+ 
+ @2x 为retina屏的iphone准备。iphone4/4s/5/5c/5s/6 使用该标示，最常用
+ 
+ @3x 专为iphone6p准备。iphone6 plus使用该标示。比较常用
+ 
  
  */
 

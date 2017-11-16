@@ -28,6 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        
 //        MyLog("在APPdelegate里测试打印")
         
+         let strS = ["a1", "b23"]
+        let newStrS = strS.reduce("start") { (str1, str2) -> String in
+            return str1 + str2
+        }
+        debugPrint(newStrS)
+        
         window = UIWindow.init(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
@@ -37,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let  str = 1234567.980
 //        let newStr = str.formateDoubleToString(str)
         
-        var ary:[CGFloat] = [0, 3, 3, 2, 1.3]
+        var ary:[CGFloat] = [0, 3.1, 3.3, 2.22, 1.3]
         ary.quickSort(&ary, left: 0, right: 4, isAscending: false)
         
         // 1. 启动画面

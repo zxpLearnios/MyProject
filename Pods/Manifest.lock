@@ -10,7 +10,7 @@ PODS:
     - ReactiveSwift (~> 1.1)
   - ReactiveSwift (1.1.3):
     - Result (~> 3.2)
-  - Result (3.2.1)
+  - Result (3.2.2)
 
 DEPENDENCIES:
   - Alamofire
@@ -32,7 +32,7 @@ SPEC CHECKSUMS:
   PullToRefreshKit: 5ec15cd0c0828804bcac637c9db6df70c048c9ce
   ReactiveCocoa: 066a855f613fb72f68258771095805fdb10312d2
   ReactiveSwift: f54ba12c2e799003432930fa55495315ae44f32b
-  Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
+  Result: 4edd39003fdccf281d418ee1b006571f70123250
 
 PODFILE CHECKSUM: 69771bb4fdab3736c3d8d45996e3fb28b7e209c4
 

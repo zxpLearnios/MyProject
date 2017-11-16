@@ -39,11 +39,13 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+<!--   新增 ios9 http 网络请求 -->
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+    
 	<key>NSCameraUsageDescription</key>
 	<string>是否允许此App使用您的相机</string>
 	<key>NSContactsUsageDescription</key>

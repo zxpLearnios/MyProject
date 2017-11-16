@@ -13,7 +13,7 @@ import CoreText
 
 let appDisplayNameKey = "CFBundleDisplayName" // app名字
 let appNameKey = "CFBundleName"
-let  appVersionKey = "CFBundleShortVersionString" // app版本 全部版本号，比如：1.0.1
+let  appVersionKey = "CFBundleShortVersionString" // app版本 全部版本号，比如：1.12
 let appBundleVersionKey  = "CFBundleVersion" // app build版本 大的版本号，比如：12
 
 /**手机序列号*/
@@ -63,6 +63,8 @@ let kDevice = UIDevice.current
 //let kOrientation = UIDevice.currentDevice().orientation
 /** 屏幕状态栏方向 */
 let kStatusDirection = UIApplication.shared.statusBarOrientation
+
+let kButtonBgColor = UIColor.orange
 
 /** 旋转角度， 0--360 */
 func rotateRadius(_ radius:Double) -> Double {

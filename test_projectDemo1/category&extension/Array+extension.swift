@@ -47,6 +47,7 @@ extension Array {
     
     /**
      1. 快速排序, 传入起点位置、结束点位置, 里面可以有相等的数字
+     * 整型、浮点型皆可，但OC里，只能对整型数组进行排序，否则，无法实现效果的。OC数组里存的是NSNumber对象，在转为float是会出现精度偏差
      * 升序、 倒序
      */
     func quickSort(_ array:inout [CGFloat], left:Int, right:Int, isAscending:Bool){

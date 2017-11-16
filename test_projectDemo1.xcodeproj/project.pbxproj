@@ -90,9 +90,6 @@
 		547B08F31D66AF14000FFA08 /* pushByfirstVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547B08F11D66AF14000FFA08 /* pushByfirstVC.swift */; };
 		547B08F41D66AF14000FFA08 /* pushByfirstVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 547B08F21D66AF14000FFA08 /* pushByfirstVC.xib */; };
 		547D05E71D66A16700A5DE56 /* testVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547D05E61D66A16700A5DE56 /* testVC.swift */; };
-		548218F91E8101B600377FF3 /* MyBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548218F81E8101B600377FF3 /* MyBannerView.swift */; };
-		548218FC1E8105DF00377FF3 /* MyBannerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548218FA1E8105DF00377FF3 /* MyBannerViewCell.swift */; };
-		548218FD1E8105DF00377FF3 /* MyBannerViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 548218FB1E8105DF00377FF3 /* MyBannerViewCell.xib */; };
 		5486F7A31D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */; };
 		54878C2F1D88F517006AF203 /* MySounder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54878C2E1D88F517006AF203 /* MySounder.swift */; };
 		54878C311D88FC04006AF203 /* scanQrCodeCompleteSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 54878C301D88FC04006AF203 /* scanQrCodeCompleteSound.wav */; };
@@ -121,8 +118,15 @@
 		54D753C41E65674A00A88857 /* MyPhotoBrowserScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D753BF1E65674A00A88857 /* MyPhotoBrowserScrollView.swift */; };
 		54D753C51E65674A00A88857 /* MyPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D753C11E65674A00A88857 /* MyPhotoBrowser.swift */; };
 		54D7FA5C1D41C7310007631B /* MyCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D7FA5B1D41C7310007631B /* MyCollectionViewLayout.swift */; };
+		54DE758C1F62808F00B82F1F /* MyBannerFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DE75831F62808F00B82F1F /* MyBannerFlowLayout.swift */; };
+		54DE758D1F62808F00B82F1F /* MyBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DE75841F62808F00B82F1F /* MyBannerView.swift */; };
+		54DE758E1F62808F00B82F1F /* MyBannerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DE75851F62808F00B82F1F /* MyBannerViewCell.swift */; };
+		54DE758F1F62808F00B82F1F /* MyBannerViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54DE75861F62808F00B82F1F /* MyBannerViewCell.xib */; };
+		54DE75901F62808F00B82F1F /* QLBannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DE75881F62808F00B82F1F /* QLBannerCollectionViewCell.swift */; };
+		54DE75911F62808F00B82F1F /* QLBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DE75891F62808F00B82F1F /* QLBannerView.swift */; };
+		54DE75921F62808F00B82F1F /* QLProgressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DE758A1F62808F00B82F1F /* QLProgressButton.swift */; };
+		54DE75931F62808F00B82F1F /* QLProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DE758B1F62808F00B82F1F /* QLProgressView.swift */; };
 		54E6BE931D670E53007288F0 /* UIBarButtonItem+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E6BE921D670E53007288F0 /* UIBarButtonItem+extension.swift */; };
-		54EF636C1E836E1200F4BCA1 /* MyBannerFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EF636B1E836E1200F4BCA1 /* MyBannerFlowLayout.swift */; };
 		BF7203286A601B1248A026C0 /* Pods_test_projectDemo1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95902B481E12233B376D0EA /* Pods_test_projectDemo1.framework */; };
 /* End PBXBuildFile section */
 
@@ -244,9 +248,6 @@
 		547B08F11D66AF14000FFA08 /* pushByfirstVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pushByfirstVC.swift; sourceTree = "<group>"; };
 		547B08F21D66AF14000FFA08 /* pushByfirstVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = pushByfirstVC.xib; sourceTree = "<group>"; };
 		547D05E61D66A16700A5DE56 /* testVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testVC.swift; sourceTree = "<group>"; };
-		548218F81E8101B600377FF3 /* MyBannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBannerView.swift; sourceTree = "<group>"; };
-		548218FA1E8105DF00377FF3 /* MyBannerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBannerViewCell.swift; sourceTree = "<group>"; };
-		548218FB1E8105DF00377FF3 /* MyBannerViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyBannerViewCell.xib; sourceTree = "<group>"; };
 		5486F7A21D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBaseNetWorkRequest.swift; sourceTree = "<group>"; };
 		54878C2E1D88F517006AF203 /* MySounder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySounder.swift; sourceTree = "<group>"; };
 		54878C301D88FC04006AF203 /* scanQrCodeCompleteSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = scanQrCodeCompleteSound.wav; sourceTree = "<group>"; };
@@ -277,8 +278,15 @@
 		54D753BF1E65674A00A88857 /* MyPhotoBrowserScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPhotoBrowserScrollView.swift; sourceTree = "<group>"; };
 		54D753C11E65674A00A88857 /* MyPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPhotoBrowser.swift; sourceTree = "<group>"; };
 		54D7FA5B1D41C7310007631B /* MyCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCollectionViewLayout.swift; sourceTree = "<group>"; };
+		54DE75831F62808F00B82F1F /* MyBannerFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBannerFlowLayout.swift; sourceTree = "<group>"; };
+		54DE75841F62808F00B82F1F /* MyBannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBannerView.swift; sourceTree = "<group>"; };
+		54DE75851F62808F00B82F1F /* MyBannerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBannerViewCell.swift; sourceTree = "<group>"; };
+		54DE75861F62808F00B82F1F /* MyBannerViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyBannerViewCell.xib; sourceTree = "<group>"; };
+		54DE75881F62808F00B82F1F /* QLBannerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QLBannerCollectionViewCell.swift; sourceTree = "<group>"; };
+		54DE75891F62808F00B82F1F /* QLBannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QLBannerView.swift; sourceTree = "<group>"; };
+		54DE758A1F62808F00B82F1F /* QLProgressButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QLProgressButton.swift; sourceTree = "<group>"; };
+		54DE758B1F62808F00B82F1F /* QLProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QLProgressView.swift; sourceTree = "<group>"; };
 		54E6BE921D670E53007288F0 /* UIBarButtonItem+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+extension.swift"; sourceTree = "<group>"; };
-		54EF636B1E836E1200F4BCA1 /* MyBannerFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBannerFlowLayout.swift; sourceTree = "<group>"; };
 		5961C32E7DAFAD221F168102 /* Pods-test_projectDemo1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test_projectDemo1.debug.xcconfig"; path = "Pods/Target Support Files/Pods-test_projectDemo1/Pods-test_projectDemo1.debug.xcconfig"; sourceTree = "<group>"; };
 		5B69C2DA765F54BFE7124E41 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FE4FD1EFFF96503DF3E9868 /* Pods-test_projectDemo1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test_projectDemo1.release.xcconfig"; path = "Pods/Target Support Files/Pods-test_projectDemo1/Pods-test_projectDemo1.release.xcconfig"; sourceTree = "<group>"; };
@@ -620,21 +628,10 @@
 		54738EB71D92852E00C58AB4 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				54DE75811F62808F00B82F1F /* Banner */,
 				54738EB81D92853800C58AB4 /* MyBaseXibViewController.swift */,
-				548218F71E81018600377FF3 /* Banner */,
 			);
 			path = Tools;
-			sourceTree = "<group>";
-		};
-		548218F71E81018600377FF3 /* Banner */ = {
-			isa = PBXGroup;
-			children = (
-				548218F81E8101B600377FF3 /* MyBannerView.swift */,
-				54EF636B1E836E1200F4BCA1 /* MyBannerFlowLayout.swift */,
-				548218FA1E8105DF00377FF3 /* MyBannerViewCell.swift */,
-				548218FB1E8105DF00377FF3 /* MyBannerViewCell.xib */,
-			);
-			path = Banner;
 			sourceTree = "<group>";
 		};
 		5486F7A11D2A3D0200C0A68A /* NetWorkRequest */ = {
@@ -707,6 +704,37 @@
 				54D753C11E65674A00A88857 /* MyPhotoBrowser.swift */,
 			);
 			path = "简易的图片浏览器";
+			sourceTree = "<group>";
+		};
+		54DE75811F62808F00B82F1F /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				54DE75821F62808F00B82F1F /* 未设置图片加载 */,
+				54DE75871F62808F00B82F1F /* 设置了图片加载 */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		54DE75821F62808F00B82F1F /* 未设置图片加载 */ = {
+			isa = PBXGroup;
+			children = (
+				54DE75831F62808F00B82F1F /* MyBannerFlowLayout.swift */,
+				54DE75841F62808F00B82F1F /* MyBannerView.swift */,
+				54DE75851F62808F00B82F1F /* MyBannerViewCell.swift */,
+				54DE75861F62808F00B82F1F /* MyBannerViewCell.xib */,
+			);
+			path = "未设置图片加载";
+			sourceTree = "<group>";
+		};
+		54DE75871F62808F00B82F1F /* 设置了图片加载 */ = {
+			isa = PBXGroup;
+			children = (
+				54DE75881F62808F00B82F1F /* QLBannerCollectionViewCell.swift */,
+				54DE75891F62808F00B82F1F /* QLBannerView.swift */,
+				54DE758A1F62808F00B82F1F /* QLProgressButton.swift */,
+				54DE758B1F62808F00B82F1F /* QLProgressView.swift */,
+			);
+			path = "设置了图片加载";
 			sourceTree = "<group>";
 		};
 		D38878702E7974BF2BB7FA43 /* Frameworks */ = {
@@ -855,6 +883,7 @@
 				545CE14E1D4065DA007A3DE0 /* upload.png in Resources */,
 				541CAFC41D41BAA000A8EC88 /* MyQrCodeScanResultVC.xib in Resources */,
 				5465395F1D01213900BD2F87 /* MySuperVC.xib in Resources */,
+				54DE758F1F62808F00B82F1F /* MyBannerViewCell.xib in Resources */,
 				54B9CE2C1D41F655005D7EC2 /* MyImagePickerController.storyboard in Resources */,
 				548B80F51D791F7C00D3517F /* lantinghei.TTF in Resources */,
 				547B08F41D66AF14000FFA08 /* pushByfirstVC.xib in Resources */,
@@ -878,7 +907,6 @@
 				544F46711ECAD3DB00B90532 /* RACViewController.xib in Resources */,
 				54C7BB191CFD862500963002 /* LaunchVC.storyboard in Resources */,
 				5465D23E1CFBDBE20012A314 /* Assets.xcassets in Resources */,
-				548218FD1E8105DF00377FF3 /* MyBannerViewCell.xib in Resources */,
 				5460F1551D58921700F4E304 /* data.json in Resources */,
 				545CE1501D4065DA007A3DE0 /* 背叛情歌.mp3 in Resources */,
 				54B9CE321D42176F005D7EC2 /* MyAlbumTableViewCell.xib in Resources */,
@@ -961,15 +989,18 @@
 			files = (
 				541CAFCE1D41BAAB00A8EC88 /* MyMusicPlayer.swift in Sources */,
 				545CE1641D4065FD007A3DE0 /* MyLog.swift in Sources */,
+				54DE75901F62808F00B82F1F /* QLBannerCollectionViewCell.swift in Sources */,
 				54BA44DF1D377D3600F45807 /* UIView+extension.swift in Sources */,
 				541CAFB81D41BA9A00A8EC88 /* MyCollectionViewCell.swift in Sources */,
 				546F01C21D753804006F16AC /* MyCustomTabBarItem.swift in Sources */,
 				5460F13E1D58366200F4E304 /* UIImage+extension.swift in Sources */,
+				54DE75911F62808F00B82F1F /* QLBannerView.swift in Sources */,
 				5463E7F11D6407F40004555D /* UIDevice+extension.swift in Sources */,
 				54B9CE2E1D421731005D7EC2 /* MyAlbumViewController.swift in Sources */,
 				5465D27D1CFC24760012A314 /* MyCustomTVC.swift in Sources */,
 				54D753C31E65674A00A88857 /* MyPhotoBrowserController.swift in Sources */,
 				549911841D7431C5000ABDA2 /* ConstraintVC.swift in Sources */,
+				54DE758E1F62808F00B82F1F /* MyBannerViewCell.swift in Sources */,
 				54D753C21E65674A00A88857 /* MyPhotoBrowserCollectionViewController.swift in Sources */,
 				546BCEEC1CFD620300011035 /* ThirdChildVC.swift in Sources */,
 				5465D2371CFBDBE20012A314 /* AppDelegate.swift in Sources */,
@@ -977,7 +1008,7 @@
 				541CAFC51D41BAA000A8EC88 /* MyQrCodeScanVC.swift in Sources */,
 				546F7F471D51F9F200B9565C /* MyLabel.swift in Sources */,
 				548B80FC1D79206B00D3517F /* QLIconFontLabel.swift in Sources */,
-				54EF636C1E836E1200F4BCA1 /* MyBannerFlowLayout.swift in Sources */,
+				54DE758C1F62808F00B82F1F /* MyBannerFlowLayout.swift in Sources */,
 				54D753C51E65674A00A88857 /* MyPhotoBrowser.swift in Sources */,
 				5460F1381D582A8400F4E304 /* MyGifView.swift in Sources */,
 				541CAFCD1D41BAAB00A8EC88 /* MyLoadProgressView.swift in Sources */,
@@ -991,7 +1022,7 @@
 				545CE14D1D4065DA007A3DE0 /* GuideVC.swift in Sources */,
 				54B721241DE7EA5D002F2154 /* TESTStatic.m in Sources */,
 				5465395E1D01213900BD2F87 /* MySuperVC.swift in Sources */,
-				548218F91E8101B600377FF3 /* MyBannerView.swift in Sources */,
+				54DE758D1F62808F00B82F1F /* MyBannerView.swift in Sources */,
 				54A85D9E1DFA593B005428AC /* QRCodeImage.m in Sources */,
 				5460F1501D58855100F4E304 /* MyGifWebView.swift in Sources */,
 				547D05E71D66A16700A5DE56 /* testVC.swift in Sources */,
@@ -1007,6 +1038,7 @@
 				54738EB91D92853800C58AB4 /* MyBaseXibViewController.swift in Sources */,
 				546589721D87AF5200DA0C32 /* Double+extension.swift in Sources */,
 				546F7F491D51FA2100B9565C /* MyDefaultCameraVC.swift in Sources */,
+				54DE75921F62808F00B82F1F /* QLProgressButton.swift in Sources */,
 				5465D2701CFBDD730012A314 /* firstChildVC.swift in Sources */,
 				541CAFC21D41BAA000A8EC88 /* MyQrCodeCreatView.swift in Sources */,
 				546F01C41D753804006F16AC /* MyTabBar.swift in Sources */,
@@ -1017,11 +1049,11 @@
 				541CAFC31D41BAA000A8EC88 /* MyQrCodeScanResultVC.swift in Sources */,
 				5465D27C1CFC24760012A314 /* MyCustomNav.swift in Sources */,
 				549488801D61A52700C1E3A8 /* String+extension.swift in Sources */,
-				548218FC1E8105DF00377FF3 /* MyBannerViewCell.swift in Sources */,
 				5486F7A31D2A3D3F00C0A68A /* MyBaseNetWorkRequest.swift in Sources */,
 				5465D2711CFBDD730012A314 /* secondChildVC.swift in Sources */,
 				545CE1661D406790007A3DE0 /* MyHUD.swift in Sources */,
 				5458A9091D6E87E3004A8418 /* Config.swift in Sources */,
+				54DE75931F62808F00B82F1F /* QLProgressView.swift in Sources */,
 				5454FF1F1D5072AC00A0A58D /* Array+extension.swift in Sources */,
 				546F7F451D51F9F200B9565C /* MyCaptureCell.swift in Sources */,
 				5460F1401D58631F00F4E304 /* UIImageView+extension.swift in Sources */,

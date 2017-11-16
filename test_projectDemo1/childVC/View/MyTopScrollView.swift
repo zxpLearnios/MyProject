@@ -23,7 +23,7 @@ class MyTopScrollView: UIScrollView {
         // 1. 底部红view
         //            let titleF = (self.titles[0] as NSString).boundingRectWithSize(CGSizeMake(kwidth, kheight), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(self.fontSize)], context: nil)
         
-        self.redView.backgroundColor = UIColor.red
+//        self.redView.backgroundColor = UIColor.red
         self.addSubview(self.redView)
         
         // 2. 按钮
@@ -32,6 +32,7 @@ class MyTopScrollView: UIScrollView {
             let btnX = CGFloat(i) * btnW
             
             let btn = MyTopicButton.init(frame: CGRect(x: btnX, y: 0, width: btnW, height: btnH))
+            
             btn.setTitle(self.titles[i], for: UIControlState())
             
             btn.tag = i
@@ -114,8 +115,9 @@ class MyTopScrollView: UIScrollView {
             
         }
         // 1. 移动红view
-        let lastLabF =  self.changeFrame((selectBtn!.titleLabel?.frame)!, toView: self)
-        let x = lastLabF.origin.x + selectBtn!.frame.origin.x
+        addSubview(redView)
+        let lastLabF =  self.changeFrame(selectBtn!.frame, toView: self)
+        let x = lastLabF.origin.x // + selectBtn!.frame.origin.x
          let newWidth = lastLabF.width
         
         UIView.animate(withDuration: 0.25, animations: {

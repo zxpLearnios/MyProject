@@ -26,6 +26,12 @@ class MyTopicButton: UIButton {
     var scrollDirection = 0 // 0 用户左滑
     /** 0---1 */
     
+    override var tag: Int{
+        didSet{
+//            backgroundColor =  (tag % 2 == 0) ? UIColor.white : UIColor.gray
+        }
+    }
+    
     fileprivate var _colorProgress:CGFloat = 0.0
     var colorProgress:CGFloat {
         get{
@@ -53,7 +59,8 @@ class MyTopicButton: UIButton {
         set{
             _scale = newValue
             
-             self.transform = CGAffineTransform(scaleX: 1 + scale , y: 1 + scale) // [1  2]
+//             self.transform = CGAffineTransform(scaleX: 1 + scale , y: 1 + scale) // [1  2]
+//            self.titleLabel!.layer.transform = CATransform3DMakeScale(1 + scale , 1 + scale, 0)
         }
     }
     // 即可是高亮是的字体，图片状态不变
@@ -78,7 +85,7 @@ class MyTopicButton: UIButton {
             
             self.setNeedsDisplay()
             if isSelected {
-                    self.transform = CGAffineTransform(scaleX: 2, y: 2)
+                    self.transform = CGAffineTransform(scaleX: 1, y: 1)
             }else{
                 self.transform = CGAffineTransform.identity
             }
@@ -100,6 +107,7 @@ class MyTopicButton: UIButton {
     }
     
     fileprivate func doInit(){
+        self.layer.anchorPoint = CGPoint.init(x: 0.5, y: 0.5)
         self.adjustsImageWhenDisabled = false
         self.titleLabel?.textAlignment = .center
         self.setTitleColor(normalColor, for: UIControlState())
