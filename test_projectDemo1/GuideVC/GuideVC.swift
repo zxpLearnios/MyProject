@@ -41,7 +41,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
       var  cameraView:MySystemAlbumVC!  // MyCameraView MyDefaultCameraVC  MySystemAlbumVC
     
     var request:MyBaseNetWorkRequest!
-    var bannerView:MyBannerView!
+    var bannerView: QLBannerView! // MyBannerView!
     
     let kn = Khowledge()
     
@@ -201,18 +201,21 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
 //        addPopKeyboardByClickButton()
         
         // 19. 测试bannerView
-//        bannerView = MyBannerView.init(frame: CGRect.init(x: 0, y: 100, width: kwidth, height: 170))
-//        view.addSubview(bannerView)
+        bannerView = QLBannerView.init(frame: CGRect.init(x: 0, y: 100, width: kwidth, height: 170)) // MyBannerView
+        view.addSubview(bannerView)
+        let images = [ #imageLiteral(resourceName: "guide_bg0") , #imageLiteral(resourceName: "guide_bg1"), #imageLiteral(resourceName: "guide_bg2")]
+        bannerView.localImages = images
+        bannerView.timeInterval = 2
         
         // 20. 测试引用计数
 //        let weakStrong = WeakAndStrong()
 //        weakStrong.testRetainCount()
         
         // 21. 
-        kn
+//        kn
         
         // 22.  reactiveCocoa rac
-        addTestReactiveCocoa()
+//        addTestReactiveCocoa()
         
         
     }
@@ -450,7 +453,7 @@ class GuideVC: UIViewController,UIScrollViewDelegate, UIAlertViewDelegate {
     }
     
     @objc private func racButtonAction(){
-        let vc = RACViewController()
+        let vc = MyCustomTVC()  // RACViewController()
         self.navigationController?.pushViewController(vc, animated: true)
         
     }

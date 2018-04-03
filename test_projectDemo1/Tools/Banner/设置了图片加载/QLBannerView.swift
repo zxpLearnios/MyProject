@@ -4,7 +4,9 @@
 //
 //  Created by Jingnan Zhang on 16/9/30.
 //  Copyright © 2016年 Jingnan Zhang. All rights reserved.
+//   分页显示样式
 //  1. 外部注意设置此view的frame时，防止由xib导致的frame不正确问题  2. 初始化后，先设置图片数组，再设置其他的！3. 设置图片数组和样式后，过一段时间再次改变原来设置的数组和样式依然正确 4. 外部xib使用之时，特别注意 设置控制器的self.automaticallyAdjustsScrollViewInsets = false  5. 外部使用时，不能也无须对图片数组做限制，即传过来数组为0个也可以
+// Runloop.current 获取当前线程的runloop；Runloop.main 获取主线程的runloop
 
 import UIKit
 import Kingfisher
@@ -385,7 +387,7 @@ class QLBannerView: UIView, UIScrollViewDelegate, UICollectionViewDataSource, UI
             DispatchQueue.main.async(execute: {
                 self.timer = Timer.scheduledTimer(timeInterval: self.timeInterval, target: self, selector: #selector(self.changePage), userInfo: nil, repeats: true)
                  // 要此句，会导致，进入其他页面在进入含banner页时，有点小bug
-//                NSRunLoop.mainRunLoop().addTimer(self.timer, forMode: NSRunLoopCommonModes)
+                RunLoop.main.add(self.timer, forMode: .commonModes)
             })
         }
         

@@ -161,7 +161,7 @@ class MyBannerFlowLayout: UICollectionViewFlowLayout {
             
             // 差距越小, 缩放比例越大
             // 根据跟屏幕最中间的距离计算缩放比例
-            let  scale = 1 + scaleFactor * (1 - (abs(itemCenterX - centerX) / activeDistance))
+//            let  scale = 1 + scaleFactor * (1 - (abs(itemCenterX - centerX) / activeDistance))
 //            attrs.transform = CGAffineTransform.init(scaleX: scale, y: scale)
         }
         

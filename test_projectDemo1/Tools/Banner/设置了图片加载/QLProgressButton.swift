@@ -43,12 +43,14 @@ class QLProgressButton: UIButton, CAAnimationDelegate {
         set{
             self._selected = newValue
             if self.isSelected {
-                    DispatchQueue.main.async(execute: {
-                        self.doSelectedAnimate()
-                    })
+                
+                DispatchQueue.main.async(execute: { [weak self] in
+                    self?.doSelectedAnimate()
+                })
+                
                 }else{
-                    DispatchQueue.main.async(execute: {
-                        self.doCancleSelectedAnimate()
+                    DispatchQueue.main.async(execute: { [weak self] in
+                        self?.doCancleSelectedAnimate()
                     })
                 }
           
@@ -61,7 +63,8 @@ class QLProgressButton: UIButton, CAAnimationDelegate {
         self.layer.borderWidth = self.frame.width/6
 
         // 串行队列
-        queue = DispatchQueue(label: "my_queue_name", attributes: [])
+        queue = DispatchQueue.global()
+//            DispatchQueue(label: "my_queue_name", attributes: [])
         
         
 //        self.setImage(UIImage(named: "gesture_pre_normal"), forState: .Normal)
